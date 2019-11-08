@@ -1,0 +1,44 @@
+version: '3.4'
+services:
+  app:
+    image: 'rasa/rasa-sdk:1.2.0'
+#    image: 'rasa/rasa-sdk:latest'
+#    image: 'action'
+    volumes:
+      - "./actions:/app/actions"
+      - "./data/id_matrix.csv:/data/id_matrix.csv"
+    expose:
+      - "5055"
+    depends_on:
+      - rasa-production
+  wiki:
+    image: '603521926587.dkr.ecr.us-east-1.amazonaws.com/kyc-wiki:latest'
+    container_name: "wiki"
+    expose:
+      - "81"
+    environment:
+      PORT: 81
+    #  WIKI_ADMIN_EMAIL: greg.stephens@pwc.com
+    #  PORT: 8081
+    volumes:
+      - ./docs/wiki/content/:/data/content/
+      - ./docs/wiki/config.default.js:/opt/raneto/example/config.default.js
+      - ./docs/wiki/themes/default/templates:/opt/raneto/themes/default/templates
+      - ./docs/wiki/themes/default/public/images:/opt/raneto/themes/default/public/images
+      - ./docs/wiki/themes/default/public/styles:/opt/raneto/themes/default/public/styles
+  nginx:
+    restart: always
+    image: "rasa/nginx:${RASA_X_VERSION}"
+    ports:
+      - "80:8081"
+      - "5005:8080"
+      - "443:8443"
+    volumes:
+      - ./certs:/opt/bitnami/certs
+      - ./terms:/opt/bitnami/nginx/conf/bitnami/terms
+      - ./nginx.conf:/opt/bitnami/nginx/conf/conf.d/rasax.nginx
+    depends_on:
+      - rasa-x
+      - rasa-production
+      - app
+

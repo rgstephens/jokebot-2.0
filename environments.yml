@@ -1,0 +1,7 @@
+rasa:
+  production:
+    url: ${RASA_PRODUCTION_HOST}
+    token: ${RASA_TOKEN}
+  worker:
+    url: ${RASA_WORKER_HOST}
+    token: ${RASA_TOKEN}

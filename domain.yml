@@ -1,0 +1,104 @@
+intents:
+- debug
+- f1_score
+- stop
+- feedback
+- chuck_joke
+- ron_joke
+- breaking_bad_joke
+- corny_joke
+- inspiring_quote
+- geek_quote
+- trump_quote
+- survey
+- greet
+- goodbye
+- clear
+- version
+- thanks
+- deny
+- chitchat
+- affirm
+entities:
+- feedback
+- debug
+- survey
+slots:
+  debug:
+    type: bool
+  dynamic_slot:
+    type: unfeaturized
+    auto_fill: false
+  feedback:
+    type: unfeaturized
+    auto_fill: false
+  requested_slot:
+    type: unfeaturized
+  survey:
+    type: bool
+templates:
+  utter_version:
+  - text: "Model 0.8.0 - May 16, 2019  \nBot   0.8.0 - May 16, 2019  "
+  utter_greet:
+  - text: Welcome to the Jokebot, you can ask for Geek jokes, Corny jokes, Ron Swanson or Breaking Bad jokes. Also, Inspiring or Trump quotes.
+  - text: Ask me for Geek jokes, Corny jokes, Ron Swanson or Breaking Bad jokes or quotes that are Inspiring or Trump quotes.
+  utter_ask_continue:
+  - text: Do you want to continue?
+  utter_ask_feedback:
+  - buttons:
+    - payload: /feedback{"feedback":"positive"}
+      title: Yes
+    - payload: /feedback{"feedback":"mostly"}
+      title: Mostly
+    - payload: /feedback{"feedback":"partly"}
+      title: Partly
+    - payload: /feedback{"feedback":"negative"}
+      title: No
+    text: Was your question answered?
+  utter_feedback_thanks:
+  - text: Thanks for your feedback!
+  utter_chitchat:
+  - text: Sorry, I don't recognize that question, want to try again?
+  utter_default:
+  - text: Sorry, I can't answer that
+  - text: Sorry, I don't recognize that question, want to try again?
+  utter_doc_slots:
+  - text: "customer doc slots:\n - customer: {customer}\n - domicile: {domicile}"
+  utter_slots:
+  - text: "- debug: {debug}\n- survey: {survey}"
+  utter_goodbye:
+  - text: Talk to you later!
+  - text: Bye!
+  utter_clear:
+  - text: History cleared
+  utter_submit:
+  - text: done!
+  utter_thanks:
+  - text: My pleasure.
+  utter_not_sure:
+  - text: I'm not sure
+  - text: I don't know that one
+actions:
+- action_f1_score
+- action_feedback
+- utter_slots
+- utter_thanks
+- utter_ask_continue
+- utter_version
+- action_chuck_joke
+- action_ron_joke
+- action_breaking_bad_joke
+- action_corny_joke
+- action_inspiring_quote
+- action_geek_quote
+- action_trump_quote
+- utter_goodbye
+- utter_clear
+- utter_greet
+- utter_chitchat
+- utter_not_sure
+- utter_submit
+- utter_default
+- utter_ask_feedback
+- utter_doc_slots
+- utter_feedback_thanks
