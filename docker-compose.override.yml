@@ -10,19 +10,6 @@ services:
       - "5055"
     depends_on:
       - rasa-production
-  wiki:
-    image: '603521926587.dkr.ecr.us-east-1.amazonaws.com/kyc-wiki:latest'
-    container_name: "wiki"
-    expose:
-      - "81"
-    environment:
-      PORT: 81
-    volumes:
-      - ./docs/wiki/content/:/data/content/
-      - ./docs/wiki/config.default.js:/opt/raneto/example/config.default.js
-      - ./docs/wiki/themes/default/templates:/opt/raneto/themes/default/templates
-      - ./docs/wiki/themes/default/public/images:/opt/raneto/themes/default/public/images
-      - ./docs/wiki/themes/default/public/styles:/opt/raneto/themes/default/public/styles
   nginx:
     restart: always
     image: "rasa/nginx:${RASA_X_VERSION}"
