@@ -7,7 +7,7 @@ The bot can be run under the lighterweight local Rasa X install or the full Rasa
 You can run your own copy of the bot using these steps:
 
 ```
-git clone
+git clone https://github.com/rgstephens/jokebot.git
 export RASA_X_VERSION=0.22.1
 export RASA_SDK_VERSION=1.4.0
 docker build --build-arg vers=${RASA_X_VERSION} -t rasax:${RASA_X_VERSION} .
@@ -37,3 +37,9 @@ The project includes the following scripts:
 | 0.20.5 | 1.2.11 |  1.2.0   |
 | 0.20.0 | 1.2.5  |  1.2.0   |
 
+## ToDo
+
+* Ask for general joke and prompt for joke type`
+* Random Joke intent
+* Random Quote intent
+* https://api.kanye.rest/?format=text`

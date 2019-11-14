@@ -1,0 +1,21 @@
+auth/
+certs/
+credentials/
+db/
+logs/
+scripts/
+terms/
+*.tar
+rasa_x_commands.py
+.history/
+.cache/
+.DS_Store
+# Python related
+__pycache__/
+*.py[cod]
+*$py.class
+events.d*
+rasa.d*
+events.db
+rasa.db
+.env

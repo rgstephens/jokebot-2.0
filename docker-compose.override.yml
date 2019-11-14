@@ -6,7 +6,6 @@ services:
 #    image: 'action'
     volumes:
       - "./actions:/app/actions"
-      - "./data/id_matrix.csv:/data/id_matrix.csv"
     expose:
       - "5055"
     depends_on:
@@ -18,8 +17,6 @@ services:
       - "81"
     environment:
       PORT: 81
-    #  WIKI_ADMIN_EMAIL: greg.stephens@pwc.com
-    #  PORT: 8081
     volumes:
       - ./docs/wiki/content/:/data/content/
       - ./docs/wiki/config.default.js:/opt/raneto/example/config.default.js
