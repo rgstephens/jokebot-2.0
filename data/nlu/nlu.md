@@ -74,70 +74,85 @@
 - This is non sense
 - Here's a garbage sentence
 
-## intent:chuck_joke
-- tell me a chuck norris joke
-- chuck joke
-- chuck norris joke
-- something from chuck norris
-- i want a chuck norris joke
-- norris joke
-- norris quote
+## intent:quote
+- give me a quote
+- quote
+- tell me a quote
+- got a quote
+- quotes are us
+- tell me a [ron swanson](quote_type:ron) joke
+- [Ron](quote_type:ron) joke
+- [ron swanson](quote_type:ron) joke
+- parks and recreation quote from [ron swanson](quote_type:ron)
+- [Ron Swanson](quote_type:ron) parks and rec quote
+- [parks and recreation](quote_type:ron) joke
+- joke from [parks and rec](quote_type:ron)
+- [ron swanson](quote_type:ron)
+- [swanson](quote_type:ron)
+- [ron](quote_type:ron)
+- tell me a [breaking bad](quote_type:breaking) joke
+- [breaking bad](quote_type:breaking) joke
+- [breaking bad](quote_type:breaking) quote
+- [breaking](quote_type:breaking) quote
+- [breaking](quote_type:breaking) joke
+- [breaking bad](quote_type:breaking)
+- [breaking](quote_type:breaking)
+- [heisenberg](quote_type:breaking)
+- [walter](quote_type:breaking)
+- [walter white](quote_type:breaking)
+- tell me a [inspiring](quote_type:inspiring) quote
+- [inspiring](quote_type:inspiring) quote
+- give me an [inspiring](quote_type:inspiring) quote
+- give me an [inspriational](quote_type:inspiring) quote
+- let's hear something [inspiring](quote_type:inspiring)
+- let's hear something [inspriational](quote_type:inspiring)
+- something [inspiring](quote_type:inspiring)
+- something [inspriational](quote_type:inspiring)
+- [inspirational](quote_type:inspiring) quote
+- [inspriational](quote_type:inspiring)
+- [inspire](quote_type:inspiring) me
+- [inspire](quote_type:inspiring) quote
+- tell me a [trump](quote_type:trump) quote
+- [trump](quote_type:trump) quote
+- [donald trump](quote_type:trump) quote
+- how about a [donald](quote_type:trump) quote
+- [trump](quote_type:trump) quote
+- let's hear a [trump](quote_type:trump) quote
+- how about a [trumpism](quote_type:trump)
+- [trumpism](quote_type:trump)
+- president [trump](quote_type:trump) quote
+- [trump](quote_type:trump)
 
-## intent:ron_joke
-- tell me a ron swanson joke
-- ron joke
-- ron swanson joke
-- parks and recreation quote from ron swanson
-- ron swanson parks and rec quote
-- parks and recreation
-- parks and rec
-
-## intent:breaking_bad_joke
-- tell me a breaking bad joke
-- breaking bad joke
-- breaking bad
-- breaking bad quote
-- breaking quote
-- breaking joke
-
-## intent:corny_joke
-- tell me a corny joke
-- corny joke
-- corny joke
-- corny quote
-- let's hear a corny quote
-
-## intent:inspiring_quote
-- tell me a inspiring quote
-- inspiring quote
-- give me an inspiring quote
-- give me an inspriational quote
-- let's hear something inspiring
-- let's hear something inspriational
-- something inspiring
-- something inspriational
-- inspirational quote
-- inspriational
-- inspire me
-- inspire
-- inspire quote
-
-## intent:geek_quote
-- tell me a geek joke
-- geek joke
-- geek joke
-- geeky
-- geeky joke
-
-## intent:trump_quote
-- tell me a trump quote
-- trump quote
-- donald trump quote
-- trump quote
-- let's hear a trump quote
-- how about a trumpism
-- trumpism
-- president trump quote
+## intent:joke
+- tell me a joke
+- how about a joke
+- jokes are us
+- me gotta really good joke
+- you got joke for me
+- tell me a [Chuck](joke_type:chuck) joke
+- tell me a [Chuck Norris](joke_type:chuck) joke
+- tell me a [chuck norris](joke_type:chuck) joke
+- [chuck](joke_type:chuck) joke
+- [chuck norris](joke_type:chuck) joke
+- something from [chuck norris](joke_type:chuck)
+- i want a [chuck norris](joke_type:chuck) joke
+- how about a [chuck](joke_type:chuck) quote
+- [norris](joke_type:chuck) joke
+- [Norris](joke_type:chuck) joke
+- tell me a [corny](joke_type:corny) joke
+- [chuck](joke_type:chuck)
+- [norris](joke_type:chuck)
+- [chuck norris](joke_type:chuck)
+- [corny](joke_type:corny) joke
+- [Corny](joke_type:corny) joke
+- [corny](joke_type:corny) quote
+- let's hear a [corny](joke_type:corny) quote
+- tell me a [geek](joke_type:geek) joke
+- [geek](joke_type:geek) joke
+- [geek](joke_type:geek) joke
+- [geeky](joke_type:geek) joke
+- [geeky](joke_type:geek)
+- [geek](joke_type:geek)
 
 ## intent:feedback
 - The answer the chatbot gave me was [positive](feedback)
@@ -163,7 +178,7 @@
 - set debug [on](debug)
 - debug status
 
-## intent:f1_score
+## intent:f1_score  
 - show last intent
 - debug last intent
 - debug intent info
@@ -185,6 +200,12 @@
 - reset
 - reset slots
 - clear slots
+
+## intent:slots
+- slots
+- show slots
+- view slots
+- let's see the slots
 
 ## intent:greet
 - Hi
@@ -252,7 +273,7 @@
 - stop
 - stop go back
 - do you get anything?
-- and you call yourself bot company? pff
+- and you call yourself bot company?
 - and that's it?
 - nothing else?
 - 

@@ -118,22 +118,22 @@ def log_slots(tracker):
     feedback_answer = tracker.get_slot("feedback")
     logger.debug("feedback: {}".format(feedback_answer))
 
-class ActionChuckJoke(Action):
+class ActionChuck(Action):
     def name(self):
         # define the name of the action which can then be included in training stories
-        return "action_chuck_joke"
+        return "action_chuck"
 
     def run(self, dispatcher, tracker, domain):
         # what your action should do
         request = json.loads(requests.get('https://api.chucknorris.io/jokes/random').text) #make an apie call
         joke = request['value'] #extract a joke from returned json response
         dispatcher.utter_message(joke) #send the message back to the user
-        return []
+        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
 
-class ActionRonJoke(Action):
+class ActionRon(Action):
     def name(self):
         # define the name of the action which can then be included in training stories
-        return "action_ron_joke"
+        return "action_ron"
 
     def run(self, dispatcher, tracker, domain):
         # what your action should do
@@ -142,12 +142,12 @@ class ActionRonJoke(Action):
         joke = request[0]   + ' - Ron Swanson'
         logger.debug("joke: {}".format(joke))
         dispatcher.utter_message(joke) #send the message back to the user
-        return []
+        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
 
-class ActionBreakingBadJoke(Action):
+class ActionBreakingBad(Action):
     def name(self):
         # define the name of the action which can then be included in training stories
-        return "action_breaking_bad_joke"
+        return "action_breaking"
 
     def run(self, dispatcher, tracker, domain):
         # what your action should do
@@ -157,12 +157,12 @@ class ActionBreakingBadJoke(Action):
         message = quote + ' - ' + author
         #message = quote + ' - [' + author + '] (' + permalink + ')'
         dispatcher.utter_message(message) #send the message back to the user
-        return []
+        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
 
-class ActionCornyJoke(Action):
+class ActionCorny(Action):
     def name(self):
         # define the name of the action which can then be included in training stories
-        return "action_corny_joke"
+        return "action_corny"
 
     def run(self, dispatcher, tracker, domain):
         # what your action should do
@@ -172,12 +172,12 @@ class ActionCornyJoke(Action):
         message = quote + ' - ' + author
         #message = quote + ' - [' + author + '] (' + permalink + ')'
         dispatcher.utter_message(message) #send the message back to the user
-        return []
+        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
 
-class ActionInspiringQuote(Action):
+class ActionInspiring(Action):
     def name(self):
         # define the name of the action which can then be included in training stories
-        return "action_inspiring_quote"
+        return "action_inspiring"
 
     def run(self, dispatcher, tracker, domain):
         # what your action should do
@@ -194,12 +194,12 @@ class ActionInspiringQuote(Action):
             message = 'quote service error (exceeded max free quotes?), error: ' + request.status_code
         #dispatcher.utter_message(message) #send the message back to the user
         dispatcher.utter_message(message) #send the message back to the user
-        return []
+        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
 
-class ActionGeekQuote(Action):
+class ActionGeek(Action):
     def name(self):
         # define the name of the action which can then be included in training stories
-        return "action_geek_quote"
+        return "action_geek"
 
     def run(self, dispatcher, tracker, domain):
         # what your action should do
@@ -210,19 +210,19 @@ class ActionGeekQuote(Action):
         # message = quote + ' - ' + author + ' ' + permalink
         message = quote + ' - [' + author + '] (' + permalink + ')'
         dispatcher.utter_message(message) #send the message back to the user
-        return []
+        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
 
-class ActionTrumpQuote(Action):
+class ActionTrump(Action):
     def name(self):
         # define the name of the action which can then be included in training stories
-        return "action_trump_quote"
+        return "action_trump"
 
     def run(self, dispatcher, tracker, domain):
         # what your action should do
         request = json.loads(requests.get('https://api.whatdoestrumpthink.com/api/v1/quotes/random').text) #make an apie call
         joke = request['message']  + ' - Donald Trump'
         dispatcher.utter_message(joke) #send the message back to the user
-        return []
+        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
 
 class ActionVersion(Action):
     def name(self):
@@ -782,6 +782,100 @@ class ActionOtherInfoForm(FormAction):
 
         return [SlotSet("gender", None), SlotSet("birthdate", None), SlotSet("age", None), SlotSet("ssn", None)]
         #return [AllSlotsReset()]
+
+class JokeForm(FormAction):
+    def name(self):
+        return "joke_form"
+
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        return ["joke_type"]
+
+    def slot_mappings(self):
+        return {"joke_type": self.from_entity(entity="joke_type")}
+
+
+    def validate(self,
+                 dispatcher: CollectingDispatcher,
+                 tracker: Tracker,
+                 domain: Dict[Text, Any]) -> List[Dict]:
+        """Validate extracted requested slot
+            else reject the execution of the form action
+        """
+        # extract other slots that were not requested
+        # but set by corresponding entity
+        slot_values = self.extract_other_slots(dispatcher, tracker, domain)
+        logger.info("validate, slot_values: {}".format(slot_values))
+
+        # extract requested slot
+        slot_to_fill = tracker.get_slot(REQUESTED_SLOT)
+        logger.info("validate, slot_to_fill: {}".format(slot_to_fill))
+        if slot_to_fill:
+            slot_values.update(self.extract_requested_slot(dispatcher, tracker, domain))
+            if not slot_values:
+                dispatcher.utter_message(
+                    "Sorry, I could not understand your response.")
+
+        return [SlotSet(slot, value) for slot, value in slot_values.items()]
+
+    def submit(self,
+               dispatcher: CollectingDispatcher,
+               tracker: Tracker,
+               domain: Dict[Text, Any]) -> List[Dict]:
+        # utter submit template
+        joke_type = tracker.get_slot('joke_type')
+
+        logger.info("dispatch template, joke_type: {}".format(joke_type))
+
+        #return [SlotSet("joke_type", None)]
+        return []
+
+class QuoteForm(FormAction):
+    def name(self):
+        return "quote_form"
+
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        return ["quote_type"]
+
+    def slot_mappings(self):
+        return {"quote_type": self.from_entity(entity="quote_type")}
+
+
+    def validate(self,
+                 dispatcher: CollectingDispatcher,
+                 tracker: Tracker,
+                 domain: Dict[Text, Any]) -> List[Dict]:
+        """Validate extracted requested slot
+            else reject the execution of the form action
+        """
+        # extract other slots that were not requested
+        # but set by corresponding entity
+        slot_values = self.extract_other_slots(dispatcher, tracker, domain)
+        logger.info("validate, slot_values: {}".format(slot_values))
+
+        # extract requested slot
+        slot_to_fill = tracker.get_slot(REQUESTED_SLOT)
+        logger.info("validate, slot_to_fill: {}".format(slot_to_fill))
+        if slot_to_fill:
+            slot_values.update(self.extract_requested_slot(dispatcher, tracker, domain))
+            if not slot_values:
+                dispatcher.utter_message(
+                    "Sorry, I could not understand your response.")
+
+        return [SlotSet(slot, value) for slot, value in slot_values.items()]
+
+    def submit(self,
+               dispatcher: CollectingDispatcher,
+               tracker: Tracker,
+               domain: Dict[Text, Any]) -> List[Dict]:
+        # utter submit template
+        quote_type = tracker.get_slot('quote_type')
+
+        logger.info("dispatch template, quote_type: {}".format(quote_type))
+
+        #return [SlotSet("quote_type ", None)]
+        return []
 
 def intentHistoryStr(tracker, skip, past):
     msg = ""

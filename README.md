@@ -15,6 +15,49 @@ docker-compose -f docker-compose-local.yml up -d
 docker-compose -f docker-compose-local.yml logs rasa-x | grep password
 ```
 
+# Full Server Setup
+
+* Follow [Deploy to Server](https://rasa.com/docs/rasa-x/deploy/) instructions to setup new Rasa X
+
+# Training
+
+Local training using your local python environment (or conda/venv)
+
+```sh
+rasa train
+```
+
+To train with Docker:
+
+```sh
+export RASA_VERS=1.4.3-full
+docker run -v $(pwd):/app rasa/rasa:${RASA_VERS} train --config /app/config.yml --out /app/models --domain /app/domain.yml --data /app/data/training /app/data/stories -vv
+```
+
+# Testing
+
+After training the model, run the command:
+
+```sh
+rasa test nlu -u test/test_data.md --model models/$(ls models)
+rasa test core --stories test/test_stories.md
+```
+
+# Rasa Interactive Shell
+
+```sh
+rasa run actions --actions actions.actions
+rasa shell --debug
+```
+
+With Docker:
+
+```sh
+export RASA_VERS=1.4.3-full
+export RASA_MODEL_SERVER="https://localhost:5002"
+docker run -v $(pwd):/app rasa/rasa:${RASA_VERS} shell --model /app/models/$(ls models)
+```
+
 # Scripts
 
 The project includes the following scripts:
@@ -39,7 +82,13 @@ The project includes the following scripts:
 
 ## ToDo
 
-* Ask for general joke and prompt for joke type`
-* Random Joke intent
-* Random Quote intent
-* https://api.kanye.rest/?format=text`
+* Use featurized slots
+* Ask for joke and prompt for joke type
+* Ask for quote and prompt for joke type
+* Kanye quote, `https://api.kanye.rest/?format=text`
+* Random joke endpoint, `http://api.icndb.com/jokes/random`
+* Google Assistant integration
+* Android access via [Aimybox](https://blog.rasa.com/how-to-build-a-mobile-voice-assistant-with-open-source-rasa-and-aimybox/ )
+* NLU test data
+* Core test data
+* rasa validate

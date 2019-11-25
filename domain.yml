@@ -3,13 +3,8 @@ intents:
 - f1_score
 - stop
 - feedback
-- chuck_joke
-- ron_joke
-- breaking_bad_joke
-- corny_joke
-- inspiring_quote
-- geek_quote
-- trump_quote
+- joke
+- quote
 - survey
 - greet
 - goodbye
@@ -23,6 +18,8 @@ entities:
 - feedback
 - debug
 - survey
+- joke_type
+- quote_type
 slots:
   debug:
     type: bool
@@ -34,16 +31,48 @@ slots:
     auto_fill: false
   requested_slot:
     type: unfeaturized
+  joke_type:
+    type: categorical
+    values:
+    - chuck
+    - corny
+    - geek
+  quote_type:
+    type: categorical
+    values:
+    - breaking
+    - ron
+    - inspiring
+    - trump
+    - kanye
   survey:
     type: bool
 templates:
   utter_version:
-  - text: "Model 0.8.0 - May 16, 2019  \nBot   0.8.0 - May 16, 2019  "
+  - text: "Model 0.9.0 - Nov 24, 2019  \nBot   0.8.0 - Nov 23, 2019  "
   utter_greet:
   - text: Welcome to the Jokebot, you can ask for Geek jokes, Corny jokes, Ron Swanson or Breaking Bad jokes. Also, Inspiring or Trump quotes.
   - text: Ask me for Geek jokes, Corny jokes, Ron Swanson or Breaking Bad jokes or quotes that are Inspiring or Trump quotes.
   utter_ask_continue:
   - text: Do you want to continue?
+  utter_ask_joke_type:
+  - buttons:
+    - payload: /joke{"joke_type":"geek"}
+      title: Geek
+    - payload: /v{"joke_type":"corny"}
+      title: Corny
+    text: What type of joke would you like?
+  utter_ask_quote_type:
+  - buttons:
+    - payload: /quote{"quote_type":"inspiring"}
+      title: Inspiring
+    - payload: /quote{"quote_type":"breaking"}
+      title: Breaking Bad
+    - payload: /quote{"quote_type":"ron"}
+      title: Ron Swanson
+    - payload: /quote{"quote_type":"trump"}
+      title: Trump
+    text: What type of quote would you like?
   utter_ask_feedback:
   - buttons:
     - payload: /feedback{"feedback":"positive"}
@@ -65,7 +94,7 @@ templates:
   utter_doc_slots:
   - text: "customer doc slots:\n - customer: {customer}\n - domicile: {domicile}"
   utter_slots:
-  - text: "- debug: {debug}\n- survey: {survey}"
+  - text: "- joke_type: {joke_type}\n- quote_type: {quote_type}"
   utter_goodbye:
   - text: Talk to you later!
   - text: Bye!
@@ -80,18 +109,19 @@ templates:
   - text: I don't know that one
 actions:
 - action_f1_score
+- action_version
 - action_feedback
 - utter_slots
 - utter_thanks
 - utter_ask_continue
 - utter_version
-- action_chuck_joke
-- action_ron_joke
-- action_breaking_bad_joke
-- action_corny_joke
-- action_inspiring_quote
-- action_geek_quote
-- action_trump_quote
+- action_chuck
+- action_ron
+- action_breaking
+- action_corny
+- action_inspiring
+- action_geek
+- action_trump
 - utter_goodbye
 - utter_clear
 - utter_greet
@@ -102,3 +132,5 @@ actions:
 - utter_ask_feedback
 - utter_doc_slots
 - utter_feedback_thanks
+- utter_ask_quote_type
+- utter_ask_joke_type
