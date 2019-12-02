@@ -69,7 +69,7 @@
 
 ## ron_joke prompt
 * joke
-  - utter_ask_quote_type
+  - utter_ask_joke_type
 * quote{"quote_type":"ron"}
   - action_ron
 
@@ -81,15 +81,8 @@
 * joke{"joke_type":"geek"}
   - action_geek
 
-## breaking joke
+## breaking
 * quote{"quote_type":"breaking"}
-  - action_breaking
-
-## breaking_bad_joke
-* joke
-  - utter_ask_quote_type
-* quote{"quote_type":"breaking"}
-  - slot{"quote_type":"breaking"}
   - action_breaking
 
 ## corny_joke greet

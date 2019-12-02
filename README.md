@@ -8,8 +8,9 @@ You can run your own copy of the bot using these steps:
 
 ```
 git clone https://github.com/rgstephens/jokebot.git
-export RASA_X_VERSION=0.22.1
-export RASA_SDK_VERSION=1.4.0
+export RASA_X_VERSION=0.23.1
+export RASA_VERSION=1.5.1-full
+export RASA_SDK_VERSION=1.5.1
 docker build --build-arg vers=${RASA_X_VERSION} -t rasax:${RASA_X_VERSION} .
 docker-compose -f docker-compose-local.yml up -d
 docker-compose -f docker-compose-local.yml logs rasa-x | grep password
@@ -18,6 +19,22 @@ docker-compose -f docker-compose-local.yml logs rasa-x | grep password
 # Full Server Setup
 
 * Follow [Deploy to Server](https://rasa.com/docs/rasa-x/deploy/) instructions to setup new Rasa X
+
+# Update Server
+
+To update the server:
+
+```sh
+sudo docker-compose down
+git pull
+export RASA_X_VERSION=1.5.1-full
+export RASA_SDK_VERSION=1.5.1
+sudo docker build --build-arg vers=${RASA_X_VERSION} -t rasax:${RASA_X_VERSION} .
+docker pull rasa/rasa:${RASA_VERSION}
+docker run -v $(pwd):/app rasa/rasa:${RASA_VERSION} train --config /app/config.yml --out /app/models --domain /app/domain.yml --data /app/data/training /app/data/stories -vv
+docker-compose -f docker-compose-local.yml up -d
+docker-compose -f docker-compose-local.yml logs rasa-x | grep password
+```
 
 # Training
 
@@ -30,8 +47,8 @@ rasa train
 To train with Docker:
 
 ```sh
-export RASA_VERS=1.4.3-full
-docker run -v $(pwd):/app rasa/rasa:${RASA_VERS} train --config /app/config.yml --out /app/models --domain /app/domain.yml --data /app/data/training /app/data/stories -vv
+export RASA_X_VERSION=1.5.1-full
+docker run -v $(pwd):/app rasa/rasa:${RASA_X_VERSION} train --config /app/config.yml --out /app/models --domain /app/domain.yml --data /app/data/training /app/data/stories -vv
 ```
 
 # Testing
@@ -39,23 +56,24 @@ docker run -v $(pwd):/app rasa/rasa:${RASA_VERS} train --config /app/config.yml 
 After training the model, run the command:
 
 ```sh
-rasa test nlu -u test/test_data.md --model models/$(ls models)
-rasa test core --stories test/test_stories.md
+docker run -v $(pwd):/app rasa/rasa:${RASA_VERSION} test nlu -u test/test_data.md --model models/$(ls models)
+docker run -v $(pwd):/app rasa/rasa:${RASA_VERSION} test core --stories test/test_stories.md
 ```
 
 # Rasa Interactive Shell
 
 ```sh
-rasa run actions --actions actions.actions
-rasa shell --debug
+docker run -v $(pwd):/app rasa/rasa:${RASA_VERSION} run actions --actions actions.actions
+docker-compose up app -d
+docker run -it -v $(pwd):/app rasa/rasa:${RASA_VERSION} shell --debug
 ```
 
 With Docker:
 
 ```sh
-export RASA_VERS=1.4.3-full
+export RASA_X_VERSION=1.5.1-full
 export RASA_MODEL_SERVER="https://localhost:5002"
-docker run -v $(pwd):/app rasa/rasa:${RASA_VERS} shell --model /app/models/$(ls models)
+docker run --it --rm --network=$(basename `pwd`)_default -v $(pwd):/app rasa/rasa:${RASA_X_VERSION} shell --model /app/models/$(ls models) --endpoints endpoints_local.yml
 ```
 
 # Scripts
@@ -64,8 +82,6 @@ The project includes the following scripts:
 
 | Script              | Usage                              |
 | ------------------- | ---------------------------------- |
-| build.sh            | Build Rasa Docker container        |
-| train.sh            | Train the model                    |
 | entrypoint.sh       | Docker entrypoint for full Rasa X  |
 | entrypoint_local.sh | Docker entrypoint for local Rasa X |
 
@@ -73,6 +89,7 @@ The project includes the following scripts:
 
 | Rasa X |  Rasa  | Rasa SDK |
 | :----: | :----: | :------: |
+| 0.23.1 | 1.5.1  |  1.5.0   |
 | 0.22.1 | 1.4.3  |  1.4.0   |
 | 0.21.5 | 1.3.9  |  1.3.3   |
 | 0.21.4 | 1.3.9  |  1.3.3   |

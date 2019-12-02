@@ -80,21 +80,13 @@
 - tell me a quote
 - got a quote
 - quotes are us
-- tell me a [ron swanson](quote_type:ron) joke
-- [Ron](quote_type:ron) joke
-- [ron swanson](quote_type:ron) joke
 - parks and recreation quote from [ron swanson](quote_type:ron)
 - [Ron Swanson](quote_type:ron) parks and rec quote
-- [parks and recreation](quote_type:ron) joke
-- joke from [parks and rec](quote_type:ron)
 - [ron swanson](quote_type:ron)
 - [swanson](quote_type:ron)
 - [ron](quote_type:ron)
-- tell me a [breaking bad](quote_type:breaking) joke
-- [breaking bad](quote_type:breaking) joke
 - [breaking bad](quote_type:breaking) quote
 - [breaking](quote_type:breaking) quote
-- [breaking](quote_type:breaking) joke
 - [breaking bad](quote_type:breaking)
 - [breaking](quote_type:breaking)
 - [heisenberg](quote_type:breaking)
@@ -153,6 +145,14 @@
 - [geeky](joke_type:geek) joke
 - [geeky](joke_type:geek)
 - [geek](joke_type:geek)
+- tell me a [ron swanson](quote_type:ron) joke
+- [Ron](quote_type:ron) joke
+- [ron swanson](quote_type:ron) joke
+- [parks and recreation](quote_type:ron) joke
+- joke from [parks and rec](quote_type:ron)
+- tell me a [breaking bad](quote_type:breaking) joke
+- [breaking bad](quote_type:breaking) joke
+- [breaking](quote_type:breaking) joke
 
 ## intent:feedback
 - The answer the chatbot gave me was [positive](feedback)

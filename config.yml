@@ -8,6 +8,7 @@ policies:
 #  max_history: 1
 #- name: FallbackPolicy
 #  nlu_threshold: 0.63
+- name: AugmentedMemoizationPolicy
 - name: EmbeddingPolicy
   max_history: 2
   batch_strategy: "sequence"

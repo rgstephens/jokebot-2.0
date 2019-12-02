@@ -49,7 +49,8 @@ slots:
     type: bool
 templates:
   utter_version:
-  - text: "Model 0.9.0 - Nov 24, 2019  \nBot   0.8.0 - Nov 23, 2019  "
+  - text: "Model 0.9.1 - Dec 1, 2019  
+      Bot   0.8.0 - Nov 23, 2019  "
   utter_greet:
   - text: Welcome to the Jokebot, you can ask for Geek jokes, Corny jokes, Ron Swanson or Breaking Bad jokes. Also, Inspiring or Trump quotes.
   - text: Ask me for Geek jokes, Corny jokes, Ron Swanson or Breaking Bad jokes or quotes that are Inspiring or Trump quotes.
