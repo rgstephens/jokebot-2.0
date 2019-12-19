@@ -1,4 +1,7 @@
-FROM python:3.6-slim
+# Dockerfile from https://hub.docker.com/r/rasa/rasa-sdk/dockerfile
+# Git Repo from https://github.com/RasaHQ/rasa-sdk
+#FROM python:3.6-slim
+FROM rasa/rasa-sdk:${RASA_SDK_VERSION}
 
 SHELL ["/bin/bash", "-c"]
 

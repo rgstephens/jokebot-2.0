@@ -4,36 +4,27 @@ This is a Rasa X demo bot. You can try the bot out at [http://gstephens.org/joke
 
 The bot can be run under the lighterweight local Rasa X install or the full Rasa X docker stack. These instructions run the lightweight Rasa X in a Docker container.
 
+Review the version numbers in the `.env` and update.
+
 You can run your own copy of the bot using these steps:
 
-```
+```sh
 git clone https://github.com/rgstephens/jokebot.git
-export RASA_X_VERSION=0.23.1
-export RASA_VERSION=1.5.1-full
-export RASA_SDK_VERSION=1.5.1
-docker build --build-arg vers=${RASA_X_VERSION} -t rasax:${RASA_X_VERSION} .
-docker-compose -f docker-compose-local.yml up -d
-docker-compose -f docker-compose-local.yml logs rasa-x | grep password
+cd jokebot
+docker-compose run rasa-x rasa train
+docker-compose up -d
+docker-compose logs rasa-x | grep password
 ```
-
-# Full Server Setup
-
-* Follow [Deploy to Server](https://rasa.com/docs/rasa-x/deploy/) instructions to setup new Rasa X
 
 # Update Server
 
-To update the server:
+To update the server, update the version numbers in the `.env` and enter the following commands
 
 ```sh
 sudo docker-compose down
-git pull
-export RASA_X_VERSION=1.5.1-full
-export RASA_SDK_VERSION=1.5.1
-sudo docker build --build-arg vers=${RASA_X_VERSION} -t rasax:${RASA_X_VERSION} .
-docker pull rasa/rasa:${RASA_VERSION}
+docker-compose up -d
+docker-compose logs rasa-x | grep password
 docker run -v $(pwd):/app rasa/rasa:${RASA_VERSION} train --config /app/config.yml --out /app/models --domain /app/domain.yml --data /app/data/training /app/data/stories -vv
-docker-compose -f docker-compose-local.yml up -d
-docker-compose -f docker-compose-local.yml logs rasa-x | grep password
 ```
 
 # Training
@@ -41,14 +32,7 @@ docker-compose -f docker-compose-local.yml logs rasa-x | grep password
 Local training using your local python environment (or conda/venv)
 
 ```sh
-rasa train
-```
-
-To train with Docker:
-
-```sh
-export RASA_X_VERSION=1.5.1-full
-docker run -v $(pwd):/app rasa/rasa:${RASA_X_VERSION} train --config /app/config.yml --out /app/models --domain /app/domain.yml --data /app/data/training /app/data/stories -vv
+docker-compose run rasa-x rasa train
 ```
 
 # Testing
@@ -89,7 +73,7 @@ The project includes the following scripts:
 
 | Rasa X |  Rasa  | Rasa SDK |
 | :----: | :----: | :------: |
-| 0.23.1 | 1.5.1  |  1.5.0   |
+| 0.23.3 | 1.5.1  |  1.5.0   |
 | 0.22.1 | 1.4.3  |  1.4.0   |
 | 0.21.5 | 1.3.9  |  1.3.3   |
 | 0.21.4 | 1.3.9  |  1.3.3   |
@@ -105,7 +89,7 @@ The project includes the following scripts:
 * Kanye quote, `https://api.kanye.rest/?format=text`
 * Random joke endpoint, `http://api.icndb.com/jokes/random`
 * Google Assistant integration
-* Android access via [Aimybox](https://blog.rasa.com/how-to-build-a-mobile-voice-assistant-with-open-source-rasa-and-aimybox/ )
 * NLU test data
 * Core test data
 * rasa validate
+* Support [multi-intents](https://blog.rasa.com/how-to-handle-multiple-intents-per-input-using-rasa-nlu-tensorflow-pipeline/?_ga=2.50044902.1771157212.1575170721-2034915719.1563294018)
