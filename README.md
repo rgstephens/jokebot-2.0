@@ -24,7 +24,6 @@ To update the server, update the version numbers in the `.env` and enter the fol
 sudo docker-compose down
 docker-compose up -d
 docker-compose logs rasa-x | grep password
-docker run -v $(pwd):/app rasa/rasa:${RASA_VERSION} train --config /app/config.yml --out /app/models --domain /app/domain.yml --data /app/data/training /app/data/stories -vv
 ```
 
 # Training
@@ -40,8 +39,8 @@ docker-compose run rasa-x rasa train
 After training the model, run the command:
 
 ```sh
-docker run -v $(pwd):/app rasa/rasa:${RASA_VERSION} test nlu -u test/test_data.md --model models/$(ls models)
-docker run -v $(pwd):/app rasa/rasa:${RASA_VERSION} test core --stories test/test_stories.md
+docker-compose run rasa-x rasa test nlu -u test/test_data.md --model models/$(ls models)
+docker-compose run rasa-x rasa test core --stories test/test_stories.md
 ```
 
 # Rasa Interactive Shell
@@ -73,6 +72,7 @@ The project includes the following scripts:
 
 | Rasa X |  Rasa  | Rasa SDK |
 | :----: | :----: | :------: |
+| 0.23.5 | 1.5.3  |  1.5.2   |
 | 0.23.3 | 1.5.1  |  1.5.0   |
 | 0.22.1 | 1.4.3  |  1.4.0   |
 | 0.21.5 | 1.3.9  |  1.3.3   |
@@ -84,8 +84,6 @@ The project includes the following scripts:
 ## ToDo
 
 * Use featurized slots
-* Ask for joke and prompt for joke type
-* Ask for quote and prompt for joke type
 * Kanye quote, `https://api.kanye.rest/?format=text`
 * Random joke endpoint, `http://api.icndb.com/jokes/random`
 * Google Assistant integration
