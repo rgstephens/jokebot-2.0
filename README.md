@@ -2,7 +2,7 @@
 
 This is a Rasa X demo bot. You can try the bot out at [http://gstephens.org/jokebot](http://gstephens.org/jokebot).
 
-The bot can be run under the lighterweight local Rasa X install or the full Rasa X docker stack. These instructions run the lightweight Rasa X in a Docker container.
+The chatbot is setup to run under the lighterweight local Rasa X install in a Docker container with `docker-compose`.
 
 Review the version numbers in the `.env` and update.
 
@@ -11,10 +11,17 @@ You can run your own copy of the bot using these steps:
 ```sh
 git clone https://github.com/rgstephens/jokebot.git
 cd jokebot
-docker-compose run rasa-x rasa train
+docker-compose run rasa-x rasa train  # optional
 docker-compose up -d
 docker-compose logs rasa-x | grep password
 ```
+
+## Ports
+
+The `docker-compose.yml` uses the default ports which can be over-ridden. This is partcularly useful if you want to run multiple chatbots on the same host.
+
+* `5005` - Rasa port (point your client here)
+* `5002` - Rasa X UI
 
 # Update Server
 
