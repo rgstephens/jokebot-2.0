@@ -4,7 +4,13 @@ This is a Rasa X demo bot. You can try the bot out at [http://gstephens.org/joke
 
 The chatbot is setup to run under the lighterweight local Rasa X install in a Docker container with `docker-compose`.
 
-Review the version numbers in the `.env` and update.
+Update the version numbers in the `.env` file. You can find the version info in the tags for the [Docker Hub Images](https://hub.docker.com/u/rasa).
+
+```
+RASA_X_VERSION=0.23.5
+RASA_VERSION=1.5.3
+RASA_SDK_VERSION=1.5.2
+```
 
 You can run your own copy of the bot using these steps:
 
@@ -98,3 +104,18 @@ The project includes the following scripts:
 * Core test data
 * rasa validate
 * Support [multi-intents](https://blog.rasa.com/how-to-handle-multiple-intents-per-input-using-rasa-nlu-tensorflow-pipeline/?_ga=2.50044902.1771157212.1575170721-2034915719.1563294018)
+* travis testing with carbon bot style test results table
+
+### Creed Quotes
+
+- I wanna do a cartwheel. But real casual like. Not enough to make a big deal out of it, but I know everyone saw it. One stunning, gorgeous cartwheel.
+- I’ve been involved in a number of cults, both a leader and a follower. You have more fun as a follower, but you make more money as a leader.
+- Just pretend like we're talking until the cops leave.
+- I already won the lottery. I was born in the US of A baby. And as backup I have a Swiss passport.
+- The Taliban in the worst. Great heroin though.
+- I run a small fake-ID company from my car with a laminating machine that I swiped from the Sheriff’s station.
+- 
+- Ryan, you told Toby that Creed has a distinct old man smell
+- Creed quotes - I know exactly what he's talking about, I sprout mung beans on a damp paper towel in my desk drawer, very nutritious but they smell like death
+
+https://www.theodysseyonline.com/best-creed-bratton-quotes-the-office

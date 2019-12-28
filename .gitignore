@@ -124,3 +124,5 @@ train_test_split
 results
 rasa.*
 events.*
+
+temp*

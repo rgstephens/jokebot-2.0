@@ -236,7 +236,7 @@ class ActionVersion(Action):
         request = json.loads(requests.get('http://rasa-x:5002/api/version').text)
         logger.info(">> rasa x version response: {}".format(request['rasa-x']))
         logger.info(">> rasa version response: {}".format(request['rasa']['production']))
-        dispatcher.utter_message("Rasa X: {}\nRasa:  {}".format(request['rasa-x'], request['rasa']['production']))
+        dispatcher.utter_message(f"Rasa X: {request['rasa-x']}\nRasa:  {request['rasa']['production']}")
         return []
 
 class ActionFeedback(Action):
