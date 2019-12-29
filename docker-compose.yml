@@ -7,7 +7,7 @@ version: "3.4"
 
 services:
   rasa-x:
-    #image: rasax:${RASA_X_VERSION}
+    image: rasax:${RASA_X_VERSION}
     build:
       context: ./
       dockerfile: Dockerfile
