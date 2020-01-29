@@ -7,9 +7,9 @@ The chatbot is setup to run under the lighterweight local Rasa X install in a Do
 Update the version numbers in the `.env` file. You can find the version info in the tags for the [Docker Hub Images](https://hub.docker.com/u/rasa).
 
 ```
-RASA_X_VERSION=0.23.5
-RASA_VERSION=1.5.3
-RASA_SDK_VERSION=1.5.2
+RASA_X_VERSION=0.24.6
+RASA_VERSION=1.6.1
+RASA_SDK_VERSION=1.6.1
 ```
 
 You can run your own copy of the bot using these steps:
@@ -17,6 +17,7 @@ You can run your own copy of the bot using these steps:
 ```sh
 git clone https://github.com/rgstephens/jokebot.git
 cd jokebot
+docker-compose build
 docker-compose run rasa-x rasa train  # optional
 docker-compose up -d
 docker-compose logs rasa-x | grep password
@@ -85,6 +86,7 @@ The project includes the following scripts:
 
 | Rasa X |  Rasa  | Rasa SDK |
 | :----: | :----: | :------: |
+| 0.24.6 | 1.6.1  |  1.6.1   |
 | 0.23.5 | 1.5.3  |  1.5.2   |
 | 0.23.3 | 1.5.1  |  1.5.0   |
 | 0.22.1 | 1.4.3  |  1.4.0   |

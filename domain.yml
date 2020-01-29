@@ -1,3 +1,6 @@
+session_config:
+  session_expiration_time: 0.0
+  carry_over_slots_to_new_session: true
 intents:
 - debug
 - f1_score

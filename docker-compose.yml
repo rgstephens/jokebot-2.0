@@ -13,7 +13,7 @@ services:
       dockerfile: Dockerfile
       args:
         - RASA_X_VERSION
-        - RASA_X_PASSWORD=xyzzy`
+        - RASA_X_PASSWORD=xyzzy
     environment:
       - RASA_HOME=/app
     ports:
