@@ -9,6 +9,10 @@
   - utter_goodbye
   - action_restart
 
+## inform email
+* inform
+  - utter_slots
+
 ## story_goodbye
 * goodbye
   - utter_goodbye

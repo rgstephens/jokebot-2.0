@@ -145,6 +145,10 @@
 - [geeky](joke_type:geek) joke
 - [geeky](joke_type:geek)
 - [geek](joke_type:geek)
+- [technology](joke_type:geek)
+- how about a [technology](joke_type:geek)
+- [tech](joke_type:geek)
+- how about a [tech](joke_type:geek)
 - tell me a [ron swanson](quote_type:ron) joke
 - [Ron](quote_type:ron) joke
 - [ron swanson](quote_type:ron) joke
@@ -206,6 +210,16 @@
 - show slots
 - view slots
 - let's see the slots
+
+## intent:inform
+- my email is [mhaneef@provenconsult.com](email_addr)
+- email [tsheikh@provenconsult.com](email_addr)
+- email is [greg@mtv.com](email_addr)
+- my email [lverma@provenconsult.com](email_addr)
+- email [greg@udon.org](email_addr)
+- emails are [ssheikh@provenconsult.com](email_addr),[msuaib@provenconsult.com](email_addr),[ysai@provenconsult.com](email_addr) and [uatre@provenconsult.com](email_addr)
+- emails are [ssheikh@provenconsult.com](email_addr) [msuaib@provenconsult.com](email_addr) [ysai@provenconsult.com](email_addr) [uatre@provenconsult.com](email_addr)
+- emails are [ssheikh@provenconsult.com](email_addr), [msuaib@provenconsult.com](email_addr), [ysai@provenconsult.com](email_addr) and [uatre@provenconsult.com](email_addr)
 
 ## intent:greet
 - Hi
@@ -276,7 +290,7 @@
 - and you call yourself bot company?
 - and that's it?
 - nothing else?
-- 
+
 ## intent:version
 - version
 - show version

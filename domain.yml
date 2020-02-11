@@ -18,7 +18,9 @@ intents:
 - chitchat
 - affirm
 - slots
+- inform
 entities:
+- email_addr
 - feedback
 - debug
 - survey
@@ -30,6 +32,8 @@ slots:
   dynamic_slot:
     type: unfeaturized
     auto_fill: false
+  email_addr:
+    type: list
   feedback:
     type: unfeaturized
     auto_fill: false
@@ -51,7 +55,7 @@ slots:
     type: unfeaturized
   survey:
     type: bool
-templates:
+responses:
   utter_version:
   - text: "Model 0.9.2 - Dec 18, 2019\n Bot 0.9.0 - Dec 18, 2019"
   utter_greet:
@@ -100,7 +104,7 @@ templates:
   utter_doc_slots:
   - text: "customer doc slots:\n - customer: {customer}\n - domicile: {domicile}"
   utter_slots:
-  - text: "- joke_type: {joke_type}\n - quote_type: {quote_type}"
+  - text: "- joke_type: {joke_type}\n - quote_type: {quote_type}\n - email_addr: {email_addr}"
   utter_goodbye:
   - text: Talk to you later!
   - text: Bye!

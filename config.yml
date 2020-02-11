@@ -1,5 +1,22 @@
 language: en
-pipeline: supervised_embeddings
+
+pipeline:
+- name: "WhitespaceTokenizer"
+- name: "RegexFeaturizer"
+- name: "CRFEntityExtractor"
+- name: "EntitySynonymMapper"
+#- name: "CountVectorsFeaturizer"
+- name: "CountVectorsFeaturizer"
+  analyzer: "char_wb"
+  min_ngram: 1
+  max_ngram: 4
+- name: "EmbeddingIntentClassifier"
+- name: DucklingHTTPExtractor
+  url: http://duckling:8000
+  dimensions:
+  - email
+  - email_addr
+
 policies:
 - name: AugmentedMemoizationPolicy
 - name: EmbeddingPolicy
