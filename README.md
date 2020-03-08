@@ -18,7 +18,7 @@ You can run your own copy of the bot using these steps:
 git clone https://github.com/rgstephens/jokebot.git
 cd jokebot
 docker-compose build --no-cache
-docker-compose run rasa-x rasa train  # optional
+docker-compose run rasa-x rasa train
 docker-compose up -d
 docker-compose logs rasa-x | grep password
 ```
@@ -96,6 +96,13 @@ The project includes the following scripts:
 | 0.21.3 | 1.3.9  |  1.3.3   |
 | 0.20.5 | 1.2.11 |  1.2.0   |
 | 0.20.0 | 1.2.5  |  1.2.0   |
+
+## Training Times
+
+| Rasa Version | Pipeline | Time |
+|:---:|---|:---:|
+| 1.8 | EmbeddingIntentClassifier | 1:07 |
+| 1.8 | DIETClassifier | 2:10 |
 
 ## ToDo
 

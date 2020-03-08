@@ -300,3 +300,17 @@
 - what is your build date
 - what's your build
 - show model version
+
+## intent:time_range
+- show from yesterday to today
+- show yesterday
+- try duckling last week
+- next day
+- next hour
+- move forward one week
+- duckling tomorrow
+- test ducking last hour
+- last month duckling
+- past 7 days
+- past hour
+- from last monday to last saturday

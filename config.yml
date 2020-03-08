@@ -16,7 +16,8 @@ pipeline:
   dimensions:
   - email
   - email_addr
-
+  - duration
+  - time
 policies:
 - name: AugmentedMemoizationPolicy
 - name: EmbeddingPolicy

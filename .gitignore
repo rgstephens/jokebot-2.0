@@ -117,7 +117,7 @@ venv.bak/
 .mypy_cache/
 
 # Rasa stuff
-#models/
+models/
 *.db*
 *.dot
 train_test_split

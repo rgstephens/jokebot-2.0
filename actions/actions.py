@@ -13,7 +13,7 @@ import json
 import csv
 
 from rasa_sdk import Action, Tracker
-from rasa_sdk.events import SlotSet, AllSlotsReset
+from rasa_sdk.events import SlotSet, AllSlotsReset, EventType
 from rasa_sdk.forms import FormAction, REQUESTED_SLOT
 from rasa_sdk.executor import CollectingDispatcher
 
@@ -22,7 +22,7 @@ from rasa_sdk.executor import CollectingDispatcher
 #    EventVerbosity)
 #from rasa_core.policies.fallback import FallbackPolicy
 #from rasa_core.domain import Domain
-from datetime import datetime, date, time
+from datetime import datetime, date, time, timedelta
 #from rasa_core.utils import AvailableEndpoints
 #from rasa_core.tracker_store import TrackerStore
 
@@ -942,3 +942,113 @@ class DynamicForm(FormAction):
         # - action_feedback
 
         return []
+
+class TimeForm(FormAction):
+    """Collects sales information and adds it to the spreadsheet"""
+
+    def name(self) -> Text:
+        return "time_form"
+
+    @staticmethod
+    def required_slots(tracker) -> List[Text]:
+        return [
+            "time",
+        ]
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        logger.info("slot_mappings")
+        logger.info(f"time: {self.from_entity(entity='time')}")
+        logger.info(f"from_time: {self.from_entity(entity='from_time')}")
+        logger.info(f"to_time: {self.from_entity(entity='to_time')}")
+        return {
+            "from": [
+                self.from_entity(entity="time"),
+            ],
+            "to_time": [
+                self.from_entity(entity="time"),
+            ],
+        }
+
+    def submit(self,
+               dispatcher: CollectingDispatcher,
+               tracker: Tracker,
+               domain: Dict[Text, Any]) -> List[Dict]:
+
+        import datetime
+
+        if tracker.active_form:
+            logger.info(f"tracker.active_form: {tracker.active_form}")
+        else:
+            intent_name = tracker.latest_message["intent"].get("name")
+            logger.info(f"intent_name: {intent_name}")
+            #logger.info(f"tracker.latest_message['intent']: {tracker.latest_message['intent']}
+
+        entities = tracker.latest_message.get("entities", [])
+        entities = {e["entity"]: e["value"] for e in entities}
+        logger.info(f"entities: {entities}")
+        entities_json = json.dumps(entities)
+        #date = datetime.datetime.now().strftime("%d/%m/%Y")
+        dispatcher.utter_message(text=entities_json)
+
+        return []
+
+
+class ActionDuckingTimeRange(Action):
+    """Greets the user with/without privacy policy"""
+
+    def name(self) -> Text:
+        return "action_time_range"
+
+    #def _filterDateRange(self, from, to):
+    #    return {from, to}
+
+    def _extractRange(self, duckling_time, grain):
+        import re
+
+        range = dict();
+        range['from'] = duckling_time
+        range['to'] = duckling_time
+        if grain == 'day':
+            # strip timezone because of strptime limitation - https://bugs.python.org/issue22377
+            # 2020-02-06T00:00:00.000-08:00
+            #duckling_time = re.sub(r'\.000', r' ', duckling_time)
+            #duckling_time = duckling_time[:19]
+            logger.info(f"time w/o ms: {duckling_time}")
+            duckling_dt = datetime.strptime(duckling_time, '%Y-%m-%dT%H:%M:%S')
+            #dt = datetime.strptime("2020-03-07T00:00:00 -07:00", "%Y-%m-%dT%H:%M:%S %z")
+            logger.info(f"duckling_dt: {duckling_dt}")
+            dt_delta = duckling_dt + timedelta(hours=24)
+            range['to'] = dt_delta.strftime('%Y-%m-%dT%H:%M:%S%z')
+
+        return range
+
+    def run(self, dispatcher, tracker, domain) -> List[EventType]:
+
+        # existing slot values
+        from_time = tracker.get_slot("from_time")
+        to_time = tracker.get_slot("to_time")
+
+        # duckling value
+        duckling_time = tracker.get_slot("time")
+
+        logger.info(f"duckling_time: {type(duckling_time)}, value: {duckling_time}")
+        # do we have a range
+        if type(duckling_time) is dict:
+            from_time = tracker.get_slot("time")['from'][:19]
+            to_time = tracker.get_slot("time")['to'][:19]
+        else:
+            additional_info = tracker.latest_message.get("entities", [])[0]['additional_info']
+            logger.info(f"grain: {additional_info['grain']}")
+            range = self._extractRange(duckling_time[:19], additional_info['grain'])
+            from_time = range['from']
+            to_time = range['to']
+
+        #entities = {e["entity"]: e["value"] for e in entities}
+        #logger.info(f"entities 2: {entities}")
+        #entities_json = json.dumps(entities)
+
+        #date = datetime.datetime.now().strftime("%d/%m/%Y")
+        #dispatcher.utter_message(text=entities_json)
+        dispatcher.utter_message(text=f"from: {from_time}\n  to: {to_time}")
+
+        return [ SlotSet("from_time", from_time), SlotSet("to_time", to_time)]
