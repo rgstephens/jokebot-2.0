@@ -314,3 +314,15 @@
 - past 7 days
 - past hour
 - from last monday to last saturday
+- january 3rd
+- february 2nd
+- march 30
+- april 12th
+- may 3
+- june 8 thru 9
+- from july 9 to the 12th
+- start on august 3rd to november 3
+- going from september 8th to 12th
+- last october through today
+- from november 3 through january 8
+- january 1st to february 28th
