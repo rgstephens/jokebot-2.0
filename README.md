@@ -7,9 +7,9 @@ The chatbot is setup to run under the lighterweight local Rasa X install in a Do
 Update the version numbers in the `.env` file. You can find the version info in the tags for the [Docker Hub Images](https://hub.docker.com/u/rasa).
 
 ```
-RASA_X_VERSION=0.25.1
-RASA_VERSION=1.7.0
-RASA_SDK_VERSION=1.7.0
+RASA_X_VERSION=0.26.3
+RASA_VERSION=1.8.2
+RASA_SDK_VERSION=1.8.1
 ```
 
 You can run your own copy of the bot using these steps:
@@ -84,10 +84,16 @@ The project includes the following scripts:
 
 # Rasa X & Rasa Version Combinations
 
+- [rasa tags](https://hub.docker.com/r/rasa/rasa/tags)
+- [rasa-x tags](https://hub.docker.com/r/rasa/rasa-x/tags)
+- [rasa-sdk tags](https://hub.docker.com/r/rasa/rasa-sdk/tags)
+
 | Rasa X |  Rasa  | Rasa SDK |
 | :----: | :----: | :------: |
+| 0.27.0 | 1.9.2  |  1.9.0   |
+| 0.26.3 | 1.8.2  |  1.8.1   |
 | 0.25.1 | 1.7.0  |  1.7.0   |
-| 0.24.6 | 1.6.1  |  1.6.1   |
+| 0.24.6 | 1.6.4  |  1.6.1   |
 | 0.23.5 | 1.5.3  |  1.5.2   |
 | 0.23.3 | 1.5.1  |  1.5.0   |
 | 0.22.1 | 1.4.3  |  1.4.0   |
@@ -99,10 +105,10 @@ The project includes the following scripts:
 
 ## Training Times
 
-| Rasa Version | Pipeline | Time |
-|:---:|---|:---:|
-| 1.8 | EmbeddingIntentClassifier | 1:07 |
-| 1.8 | DIETClassifier | 2:10 |
+| Rasa Version | Pipeline                  | Time |
+| :----------: | ------------------------- | :--: |
+|     1.8      | EmbeddingIntentClassifier | 1:07 |
+|     1.8      | DIETClassifier            | 2:10 |
 
 ## ToDo
 
@@ -130,3 +136,6 @@ The project includes the following scripts:
 
 https://www.theodysseyonline.com/best-creed-bratton-quotes-the-office
 
+You could have a virus where people feel well enough while they're infectious that they get on a plane or go to a market.
+
+Global wealth loss estimate \$3T.

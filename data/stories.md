@@ -144,9 +144,10 @@
 * slots
   - utter_slots
 
+## time_from
+* time_from
+  - action_time_range
+
 ## time_range
 * time_range
   - action_time_range
-#  - time_form
-#  - form{"name": "time_form"}
-#  - form{"name": null}

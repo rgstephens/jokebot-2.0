@@ -20,6 +20,7 @@ intents:
 - slots
 - inform
 - time_range
+- time_from
 entities:
 - email_addr
 - feedback
@@ -121,7 +122,8 @@ responses:
   utter_doc_slots:
   - text: "customer doc slots:\n - customer: {customer}\n - domicile: {domicile}"
   utter_slots:
-  - text: "- joke_type: {joke_type}\n - quote_type: {quote_type}\n - email_addr: {email_addr}"
+  - text: "- joke_type: {joke_type}\n - quote_type: {quote_type}\n - email_addr: {email_addr}\n\
+      \ from_time: {from_time}\nto_time: {to_time}"
   utter_goodbye:
   - text: Talk to you later!
   - text: Bye!

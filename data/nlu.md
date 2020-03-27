@@ -212,14 +212,14 @@
 - let's see the slots
 
 ## intent:inform
-- my email is [mhaneef@provenconsult.com](email_addr)
-- email [tsheikh@provenconsult.com](email_addr)
+- my email is [mhaneef@gmail.com](email_addr)
+- email [tsheikh@gmail.com](email_addr)
 - email is [greg@mtv.com](email_addr)
-- my email [lverma@provenconsult.com](email_addr)
-- email [greg@udon.org](email_addr)
-- emails are [ssheikh@provenconsult.com](email_addr),[msuaib@provenconsult.com](email_addr),[ysai@provenconsult.com](email_addr) and [uatre@provenconsult.com](email_addr)
-- emails are [ssheikh@provenconsult.com](email_addr) [msuaib@provenconsult.com](email_addr) [ysai@provenconsult.com](email_addr) [uatre@provenconsult.com](email_addr)
-- emails are [ssheikh@provenconsult.com](email_addr), [msuaib@provenconsult.com](email_addr), [ysai@provenconsult.com](email_addr) and [uatre@provenconsult.com](email_addr)
+- my email [lverma@gmail.com](email_addr)
+- email [greg@hotmail.org](email_addr)
+- emails are [ssheikh@gmail.com](email_addr) [msuaib@gmail.com](email_addr) [ysai@gmail.com](email_addr) and [uatre@gmail.com](email_addr)
+- emails are [ssheikh@gmail.com](email_addr) [msuaib@gmail.com](email_addr) [ysai@gmail.com](email_addr) [uatre@gmail.com](email_addr)
+- emails are [ssheikh@gmail.com](email_addr)  [msuaib@gmail.com](email_addr)  [ysai@gmail.com](email_addr) and [uatre@gmail.com](email_addr)
 
 ## intent:greet
 - Hi
@@ -272,7 +272,7 @@
 
 ## intent:stop
 - ok then you cant help me
-- that was shit, you're not helping
+- that was shit  you're not helping
 - you can't help me
 - you can't help me with what i need
 - i guess you can't help me then
@@ -326,3 +326,11 @@
 - last october through today
 - from november 3 through january 8
 - january 1st to february 28th
+
+## intent:time_from
+- start on august 3rd
+- from last monday
+- starting march 10th
+- april 12th should be the start date
+- start at the first of the year
+- starting may 2

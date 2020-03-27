@@ -29,49 +29,6 @@ from datetime import datetime, date, time, timedelta
 logger = logging.getLogger(__name__)
 vers = 'Vers: 0.7.0, Date: Mar 18, 2019'
 
-""" class MongoFeedback(object):
-    def __init__(self,
-                 host="http://arango-dev.digitalcrimefighters.io:8529",
-                 db="rasa",
-                 username=None,
-                 password=None,
-                 auth_source="admin",
-                 collection="feedback",
-                 event_broker=None):
-        from pymongo.database import Database
-        from pymongo import MongoClient
-
-        #mongoTracker = MongoTrackerStore()
-        #logger.debug("endpoint.mongoTracker: {}".format(mongoTracker))
-
-        self.client = MongoClient(host,
-                                  username=username,
-                                  password=password,
-                                  authSource=auth_source,
-                                  # delay connect until process forking is done
-                                  connect=False)
-
-        self.db = Database(self.client, db)
-        self.collection = collection
-        super(MongoFeedback, self)
-
-        #self._ensure_indices()
-
-    @property
-    def feedback(self):
-        return self.db[self.collection]
-
-    def save(self, tracker, timeout=None):
-        logger.debug("tracker now has {} events".format(len(tracker.events)))
-        prev_user_event = get_last_event_for(tracker, 'user', skip=1)
-        feedback_answer = tracker.get_slot("feedback")
-        logger.debug("prev_user_event: {}".format(prev_user_event))
-        sender = tracker.current_state()['sender_id']
-        #logger.debug("event.text: {}, intent: {}, confidence: {}".format(prev_user_event["text"], prev_user_event["parse_data"]["intent"]["name"], prev_user_event["parse_data"]["intent"]["confidence"]))
-        #logger.debug("feedback: {}".format(feedback_answer))
-
-        self.feedback.insert_one({"timestamp": datetime.utcnow(), "intent": prev_user_event["parse_data"]["intent"]["name"], "confidence": prev_user_event["parse_data"]["intent"]["confidence"], "utterance": prev_user_event["text"], "feedback": feedback_answer, "sender": sender})
- """
 def _json_object_hook(d): return namedtuple('X', d.keys())(*d.values())
 def json2obj(data): return json.loads(data, object_hook=_json_object_hook)
 
@@ -233,316 +190,14 @@ class ActionVersion(Action):
     def run(self, dispatcher, tracker, domain):
         #logger.info(">>> responding with version: {}".format(vers))
         #dispatcher.utter_message(vers) #send the message back to the user
-        request = json.loads(requests.get('http://rasa-x:5002/api/version').text)
+        try:
+            request = json.loads(requests.get('http://rasa-x:5002/api/version').text)
+        except:
+            request = { "rasa-x": "", "rasa": { "production": "" }}
         logger.info(">> rasa x version response: {}".format(request['rasa-x']))
         logger.info(">> rasa version response: {}".format(request['rasa']['production']))
         dispatcher.utter_message(f"Rasa X: {request['rasa-x']}\nRasa:  {request['rasa']['production']}")
         return []
-
-class ActionFeedback(Action):
-    def __init__(self):
-        logger.info("ActionFeedback __init__")
-        #self.feedback = MongoFeedback()
-        #self.feedback = MongoFeedback(domain=domain, host=store.url, event_broker=event_broker, **store.kwargs)
-
-    def name(self):
-        # define the name of the action which can then be included in training stories
-        return "action_feedback"
-
-    def run(self, dispatcher, tracker, domain):
-        # what your action should do
-        # dispatcher.utter_message(vers) #send the message back to the user
-        #state = tracker.current_state(self)
-        logger.info("ActionFeedback run")
-        #logger.warning("ActionFeedback self called (warning)")
-        #logger.error("ActionFeedback self called (error)")
-        self.feedback.save(tracker)
-        logger.info("ActionFeedback, say thanks!")
-        dispatcher.utter_template('utter_feedback_thanks', tracker)
-        return []
-
-class ActionResetCustomer(Action):
-    def name(self):
-        print(">> ActionResetCustomer self called")
-        # define the name of the action which can then be included in training stories
-        return "action_reset_customer"
-
-    def run(self, dispatcher, tracker, domain):
-        # what your action should do
-        #SlotSet('domicile', '')
-        #dispatcher.utter_message(vers) #send the message back to the user
-        print(">> resetting slots")
-        #tracker._reset_slots()
-        print(">> return from reset slots")
-        return [AllSlotsReset()]
-        #return [SlotSet(slot, None) for slot in ['customer', 'domicile'] ]
-
-ballmoved_dict = {
-    "green,golfer,accidental,": "utter_golf_13_1d",
-    "green,golfer,deliberate,": "utter_golf_9_4_b1",
-    "green,opponent,,": "utter_golf_9_5",
-    "green,opponent,accidental,": "utter_golf_9_5",
-    "green,opponent,deliberate,": "utter_golf_9_5",
-    "green,natural,,": "utter_golf_9_3",
-    "green,natural,accidental,": "utter_golf_9_3",
-    "green,natural,deliberate,": "utter_golf_9_3",
-    "green,outside_force,,": "utter_golf_9_6",
-
-    "general_area,golfer,accidental,searching": "utter_golf_7_4",
-    "general_area,golfer,deliberate,searching": "utter_golf_9_5",
-    "general_area,opponent,accidental,searching": "utter_golf_7_4",
-    "general_area,opponent,deliberate,searching": "utter_golf_9_5",
-    "general_area,natural,,": "utter_golf_9_3",
-    "general_area,natural,accidental,searching": "utter_golf_9_3",
-    "general_area,natural,deliberate,searching": "utter_golf_9_3",
-    "general_area,outside_force,,": "utter_golf_9_6",
-    "general_area,outside_force,accidental,searching": "utter_golf_9_6",
-    "general_area,outside_force,deliberate,searching": "utter_golf_9_6",
-
-    "general_area,golfer,accidental,not_searching": "utter_golf_9_4",  # consolidate with next
-    "general_area,golfer,deliberate,not_searching": "utter_golf_9_4",
-    "general_area,opponent,,not_searching": "utter_golf_9_5",
-    "general_area,opponent,,searching": "utter_golf_7_4",
-    "general_area,natural,accidental,not_searching": "utter_golf_9_3",
-    "general_area,natural,deliberate,not_searching": "utter_golf_9_3",
-    "general_area,outside_force,accidental,not_searching": "utter_golf_9_6",
-    "general_area,outside_force,deliberate,not_searching": "utter_golf_9_6"
-}
-
-class GolfBallMovedForm(FormAction):
-    def name(self):
-        return "golf_ballmoved_form"
-
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
-        if tracker.get_slot('ball_location') == 'general_area':
-            # general_area
-            if tracker.get_slot('ball_searching') == 'not_searching':
-                # general_area, not_searching
-                return ["ball_location", "ball_searching", "who_moved", "reason_moved"]
-            elif tracker.get_slot('ball_searching') == 'searching':
-                # general_area, searching
-                return ["ball_location", "ball_searching", "who_moved", "reason_moved"]
-            elif tracker.get_slot('ball_searching') == None:
-                if tracker.get_slot('who_moved') == 'natural' or tracker.get_slot('who_moved') == 'outside_force':
-                    # general_area, natural or outside force, <searching not set>
-                    return ["ball_location", "who_moved"]
-                else:
-                    # general_area, <searching not set>
-                    return ["ball_location", "who_moved", "ball_searching", "reason_moved"]
-        elif tracker.get_slot('ball_location') == 'green':
-            if tracker.get_slot('who_moved') == 'opponent' or tracker.get_slot('who_moved') == 'natural' or tracker.get_slot('who_moved') == 'outside_force':
-                return ["ball_location", "who_moved"]
-            else:
-                return ["ball_location", "who_moved", "reason_moved"]
-        elif tracker.get_slot('who_moved') == 'natural' or tracker.get_slot('who_moved') == 'outside_force':
-            return ["ball_location", "who_moved"]
-        else:
-            # this is the catch-all
-            return ["ball_location", "who_moved", "reason_moved", "ball_searching"]
-
-    def slot_mappings(self):
-        # type: () -> Dict[Text: Union[Dict, List[Dict]]]
-        """A dictionary to map required slots to
-            - an extracted entity
-            - intent: value pairs
-            - a whole message
-            or a list of them, where a first match will be picked"""
-
-        return {"ball_location": self.from_entity(entity="ball_location"),
-                "who_moved": self.from_entity(entity="who_moved"),
-                "reason_moved": self.from_entity(entity="reason_moved"),
-                "ball_searching": self.from_entity(entity="ball_searching")
-               }
-
-    @staticmethod
-    def valid_ball_location():
-        # type: () -> List[Text]
-        return ["general_area",
-                "green",
-                "teeing_area",
-                "bunker",
-                "penalty_area"]
-
-    @staticmethod
-    def valid_reason_moved():
-        # type: () -> List[Text]
-        return ["accidental",
-                "deliberate"]
-
-    @staticmethod
-    def valid_who_moved():
-        # type: () -> List[Text]
-        return ["golfer",
-                "opponent",
-                "natural",
-                "outside_force"]
-
-    @staticmethod
-    def valid_ball_searching():
-        # type: () -> List[Text]
-        return ["searching",
-                "not_searching"]
-
-    def validate(self,
-                 dispatcher: CollectingDispatcher,
-                 tracker: Tracker,
-                 domain: Dict[Text, Any]) -> List[Dict]:
-        """Validate extracted requested slot
-            else reject the execution of the form action
-        """
-        # extract other slots that were not requested
-        # but set by corresponding entity
-        slot_values = self.extract_other_slots(dispatcher, tracker, domain)
-        logger.info("validate, slot_values: {}".format(slot_values))
-
-        # extract requested slot
-        slot_to_fill = tracker.get_slot(REQUESTED_SLOT)
-        logger.info("validate, slot_to_fill: {}".format(slot_to_fill))
-        if slot_to_fill:
-            slot_values.update(self.extract_requested_slot(dispatcher, tracker, domain))
-            if not slot_values:
-                dispatcher.utter_message(
-                    "Sorry, I could not understand your response.")
-
-        for slot, value in slot_values.items():
-            if slot == 'ball_location':
-                if value.lower() not in self.valid_ball_location():
-                    logger.debug("Invalid location type: {}".format(value))
-                    dispatcher.utter_template('utter_invalid_location', tracker)
-                    # validation failed, set slot to None
-                    slot_values[slot] = None
-
-            elif slot == 'reason_moved':
-                if value.lower() not in self.valid_reason_moved():
-                    dispatcher.utter_template('utter_wrong_reason_moved', tracker)
-                    slot_values[slot] = None
-
-            elif slot == 'who_moved':
-                if value.lower() not in self.valid_who_moved():
-                    dispatcher.utter_template('utter_wrong_who_moved', tracker)
-                    slot_values[slot] = None
-
-            elif slot == 'ball_searching':
-                if value.lower() not in self.valid_ball_searching():
-                    dispatcher.utter_template('utter_wrong_ball_searching', tracker)
-                    slot_values[slot] = None
-
-        # validation succeed, set the slots values to the extracted values
-        return [SlotSet(slot, value) for slot, value in slot_values.items()]
-
-    def submit(self,
-               dispatcher: CollectingDispatcher,
-               tracker: Tracker,
-               domain: Dict[Text, Any]) -> List[Dict]:
-        """Define what the form has to do
-            after all required slots are filled"""
-
-        # utter submit template
-        ball_location = tracker.get_slot('ball_location')
-        reason_moved = tracker.get_slot('reason_moved')
-        who_moved = tracker.get_slot('who_moved')
-        ball_searching = tracker.get_slot('ball_searching')
-
-        logger.info("dispatch template, ball_location: \n{}, reason_moved: {}, who_moved: {}, ball_searching: {}".format(ball_location, reason_moved, who_moved, ball_searching))
-        
-        lookup_str = (ball_location if ball_location else "") + "," + (who_moved if who_moved else "") + "," + (reason_moved if reason_moved else "") + "," + (ball_searching if ball_searching else "")
-        logger.info("lookup_str: {}".format(lookup_str))
-        if lookup_str in ballmoved_dict:
-            utterance = ballmoved_dict[lookup_str]
-        else:
-            utterance = "utter_not_sure"
-        logger.info("utterance: {}".format(utterance))
-        dispatcher.utter_template(utterance, tracker)
-        # dispatcher.utter_template('utter_golfballmoved_slots', tracker)
-
-        return [SlotSet("ball_location", None), SlotSet("reason_moved", None), SlotSet("who_moved", None), SlotSet("ball_searching", None)]
-        #return [AllSlotsReset()]
-
-relief_dict = {
-    "red": "utter_golf_17_1d_red",
-    "yellow": "utter_golf_17_1d_yellow",
-    "white": "utter_golf_18_2b"
-}
-
-class GolfReliefForm(FormAction):
-    def name(self):
-        return "golf_relief_form"
-
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
-        return ["penalty_location"]
-
-    def slot_mappings(self):
-        # type: () -> Dict[Text: Union[Dict, List[Dict]]]
-        """A dictionary to map required slots to
-            - an extracted entity
-            - intent: value pairs
-            - a whole message
-            or a list of them, where a first match will be picked"""
-
-        return {"penalty_location": self.from_entity(entity="penalty_location")}
-
-    @staticmethod
-    def valid_penalty_location():
-        # type: () -> List[Text]
-        return ["red",
-                "white",
-                "yellow"]
-
-    def validate(self,
-                 dispatcher: CollectingDispatcher,
-                 tracker: Tracker,
-                 domain: Dict[Text, Any]) -> List[Dict]:
-        """Validate extracted requested slot
-            else reject the execution of the form action
-        """
-        # extract other slots that were not requested
-        # but set by corresponding entity
-        slot_values = self.extract_other_slots(dispatcher, tracker, domain)
-        logger.info("validate, slot_values: {}".format(slot_values))
-
-        # extract requested slot
-        slot_to_fill = tracker.get_slot(REQUESTED_SLOT)
-        logger.info("validate, slot_to_fill: {}".format(slot_to_fill))
-        if slot_to_fill:
-            slot_values.update(self.extract_requested_slot(dispatcher, tracker, domain))
-            if not slot_values:
-                dispatcher.utter_message("Sorry, I could not understand your response.")
-
-        for slot, value in slot_values.items():
-            if slot == 'penalty_location':
-                if value.lower() not in self.valid_penalty_location():
-                    logger.debug("Invalid location type: {}".format(value))
-                    dispatcher.utter_template('utter_invalid_penalty_area', tracker)
-                    # validation failed, set slot to None
-                    slot_values[slot] = None
-
-        # validation succeed, set the slots values to the extracted values
-        return [SlotSet(slot, value) for slot, value in slot_values.items()]
-
-    def submit(self,
-               dispatcher: CollectingDispatcher,
-               tracker: Tracker,
-               domain: Dict[Text, Any]) -> List[Dict]:
-        """Define what the form has to do
-            after all required slots are filled"""
-
-        # utter submit template
-        penalty_location = tracker.get_slot('penalty_location')
-
-        logger.info("dispatch template, penalty_location: {}".format(penalty_location))
-        
-        if penalty_location in relief_dict:
-            utterance = relief_dict[penalty_location]
-        else:
-            utterance = "utter_not_sure"
-        logger.info("utterance: {}".format(utterance))
-        dispatcher.utter_template(utterance, tracker)
-        # dispatcher.utter_template('utter_golfballmoved_slots', tracker)
-
-        return [SlotSet("penalty_location", None)]
-        #return [AllSlotsReset()]
 
 class ActionContactInfoForm(FormAction):
     _switch_intent = False
@@ -992,15 +647,18 @@ class TimeForm(FormAction):
 
         return []
 
-
 class ActionDuckingTimeRange(Action):
-    """Greets the user with/without privacy policy"""
+    """Calculate time range
+    ToDo:
+      - Support additional grains (week, month, year)
+      - Start date must be before end, when `time_from` is set, could be a later date
+      - Fixup future dates
+      - Handle null duckling entity, "start last weds"
+      - Relative statements - "add a week"
+    """ 
 
     def name(self) -> Text:
         return "action_time_range"
-
-    #def _filterDateRange(self, from, to):
-    #    return {from, to}
 
     def _extractRange(self, duckling_time, grain):
         import re
@@ -1031,17 +689,29 @@ class ActionDuckingTimeRange(Action):
         # duckling value
         duckling_time = tracker.get_slot("time")
 
-        logger.info(f"duckling_time: {type(duckling_time)}, value: {duckling_time}")
+        logger.info(f"duckling_time: {type(duckling_time)}, value: {duckling_time}, to_time: {to_time}, from_time: {from_time}")
         # do we have a range
         if type(duckling_time) is dict:
             from_time = tracker.get_slot("time")['from'][:19]
             to_time = tracker.get_slot("time")['to'][:19]
         else:
+            logger.info(f"latest_message: {tracker.latest_message}")
+            entities = tracker.latest_message.get("entities", [])
+            logger.info(f"entities 1: {entities}")
+            entities = {e["entity"]: e["value"] for e in entities}
+            logger.info(f"entities: {entities}")
             additional_info = tracker.latest_message.get("entities", [])[0]['additional_info']
             logger.info(f"grain: {additional_info['grain']}")
-            range = self._extractRange(duckling_time[:19], additional_info['grain'])
-            from_time = range['from']
-            to_time = range['to']
+            state = tracker.current_state()
+            intent = state["latest_message"]["intent"]["name"]
+            logger.info(f"intent: {intent}")
+            if intent == 'time_from' and to_time:
+                logger.info(f"setting from_time: {duckling_time[:19]}")
+                from_time = duckling_time[:19]
+            else:
+                range = self._extractRange(duckling_time[:19], additional_info['grain'])
+                from_time = range['from']
+                to_time = range['to']
 
         #entities = {e["entity"]: e["value"] for e in entities}
         #logger.info(f"entities 2: {entities}")
@@ -1049,6 +719,7 @@ class ActionDuckingTimeRange(Action):
 
         #date = datetime.datetime.now().strftime("%d/%m/%Y")
         #dispatcher.utter_message(text=entities_json)
+        logger.info(f"from: {from_time} to: {to_time}")
         dispatcher.utter_message(text=f"from: {from_time}\n  to: {to_time}")
 
         return [ SlotSet("from_time", from_time), SlotSet("to_time", to_time)]
