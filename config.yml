@@ -9,7 +9,7 @@ pipeline:
 - name: "CountVectorsFeaturizer"
   analyzer: "char_wb"
   min_ngram: 1
-  max_ngram: 4
+  max_ngram: 5
 - name: "EmbeddingIntentClassifier"
 - name: DucklingHTTPExtractor
   url: http://duckling:8000
@@ -18,7 +18,8 @@ pipeline:
   - email_addr
   - duration
   - time
-policies:
+
+  policies:
 - name: AugmentedMemoizationPolicy
 - name: EmbeddingPolicy
   max_history: 2
