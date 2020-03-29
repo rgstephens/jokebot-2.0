@@ -14,3 +14,14 @@ services:
       --cors "*"
       --enable-api
       --debug
+
+  app:
+#    image: rasa/rasa-sdk:${RASA_SDK_VERSION}
+    volumes:
+      - "./actions:/app/actions"
+#    ports:
+#      - "5055:5055"
+
+  rasa-x:
+    environment:
+      - RASA_X_PASSWORD=${RASA_X_PASSWORD}
