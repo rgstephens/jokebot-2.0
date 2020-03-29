@@ -1,0 +1,16 @@
+version: "3.4"
+
+services:
+  rasa-production:
+    command: >
+      x
+      --no-prompt
+      --production
+      --config-endpoint http://rasa-x:5002/api/config?token=${RASA_X_TOKEN}
+      --port 5005
+      --jwt-method HS256
+      --jwt-secret ${JWT_SECRET}
+      --auth-token '${RASA_TOKEN}'
+      --cors "*"
+      --enable-api
+      --debug
