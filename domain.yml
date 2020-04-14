@@ -17,7 +17,7 @@ intents:
 - deny
 - chitchat
 - affirm
-- slots
+- show_slots
 - inform
 - time_range
 - time_from
@@ -75,7 +75,7 @@ slots:
     type: unfeaturized
 responses:
   utter_version:
-  - text: "Model 1.0.1 - Mar 9, 2020\n Actions 1.0.0 - Mar 8, 2020"
+  - text: "Model 1.1.0 - Apr 14, 2020"
   utter_greet:
   - text: Welcome to the Jokebot, you can ask for Geek jokes, Corny jokes, Ron Swanson
       or Breaking Bad jokes. Also, Inspiring or Trump quotes.
@@ -84,12 +84,20 @@ responses:
   utter_ask_continue:
   - text: Do you want to continue?
   utter_ask_joke_type:
-  - buttons:
-    - payload: /joke{"joke_type":"geek"}
-      title: Geek
-    - payload: /joke{"joke_type":"corny"}
-      title: Corny
-    text: What type of joke would you like?
+  - text: What type of joke would you like?
+    buttons:
+    - title: Geek
+      payload: /joke{"joke_type":"geek"}
+    - title: Corny
+      payload: /joke{"joke_type":"corny"}
+  - text: What type of joke do you want?
+    channel: "slack"
+    custom:
+    buttons:
+    - title: Geek
+      payload: Geek joke
+    - title: Corny
+      payload: Corny joke
   utter_ask_quote_type:
   - buttons:
     - payload: /quote{"quote_type":"inspiring"}
@@ -121,9 +129,6 @@ responses:
   - text: Sorry, I don't recognize that question, want to try again?
   utter_doc_slots:
   - text: "customer doc slots:\n - customer: {customer}\n - domicile: {domicile}"
-  utter_slots:
-  - text: "- joke_type: {joke_type}\n - quote_type: {quote_type}\n - email_addr: {email_addr}\n\
-      \ from_time: {from_time}\nto_time: {to_time}"
   utter_goodbye:
   - text: Talk to you later!
   - text: Bye!
@@ -139,8 +144,8 @@ responses:
 actions:
 - action_f1_score
 - action_version
+- action_show_slots
 - action_feedback
-- utter_slots
 - utter_thanks
 - utter_ask_continue
 - utter_version

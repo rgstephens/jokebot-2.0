@@ -182,7 +182,7 @@
 - set debug [on](debug)
 - debug status
 
-## intent:f1_score  
+## intent:f1_score
 - show last intent
 - debug last intent
 - debug intent info
@@ -192,6 +192,10 @@
 - what did you say that
 - f1 score
 - f1
+- confidence scores
+- show confidence
+- intent confidence
+- nlu confidence
 
 ## intent:goodbye
 - Goodbye
@@ -205,7 +209,7 @@
 - reset slots
 - clear slots
 
-## intent:slots
+## intent:show_slots
 - slots
 - show slots
 - view slots

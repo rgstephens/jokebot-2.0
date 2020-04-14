@@ -1,0 +1,136 @@
+[
+  {
+    "_id": "ae24c900-7b2a-11e9-913b-3d88cab4cbd6",
+    "_type": "visualization",
+    "_source": {
+      "title": "Rasa Intents Graph",
+      "visState": "{\"title\":\"Rasa Intents Graph\",\"type\":\"metrics\",\"params\":{\"bar_color_rules\":[{\"id\":\"6252c320-a1f5-11e7-92ba-5d0b8663aece\"}],\"time_field\":\"@timestamp\",\"series\":[{\"line_width\":1,\"terms_field\":\"parse_data.intent.name\",\"point_size\":1,\"color\":\"#68BC00\",\"value_template\":\"\",\"metrics\":[{\"type\":\"count\",\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\"}],\"seperate_axis\":0,\"split_mode\":\"terms\",\"chart_type\":\"line\",\"terms_order_by\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"stacked\":\"none\",\"axis_position\":\"right\",\"formatter\":\"number\",\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"fill\":0.5}],\"axis_formatter\":\"number\",\"interval\":\"auto\",\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"filter\":\"!(parse_data.intent.name:*inform*)\",\"show_legend\":1,\"show_grid\":1,\"index_pattern\":\"logstash*\",\"type\":\"timeseries\",\"axis_position\":\"left\",\"axis_scale\":\"normal\",\"default_index_pattern\":\"logstash*\",\"background_color_rules\":[{\"id\":\"638479e0-7b2a-11e9-94e5-b3205419d9b9\"}],\"gauge_color_rules\":[{\"id\":\"6b3a3350-7b2a-11e9-94e5-b3205419d9b9\"}],\"gauge_width\":10,\"gauge_inner_width\":10,\"gauge_style\":\"half\"},\"aggs\":[]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+      }
+    },
+    "_meta": {
+      "savedObjectVersion": 2
+    },
+    "_migrationVersion": {
+      "visualization": "7.0.1"
+    },
+    "_references": []
+  },
+  {
+    "_id": "14750410-7b1a-11e9-913b-3d88cab4cbd6",
+    "_type": "visualization",
+    "_source": {
+      "title": "Rasa Intents",
+      "visState": "{\"title\":\"Rasa Intents\",\"type\":\"pie\",\"params\":{\"type\":\"pie\",\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":true,\"labels\":{\"show\":true,\"values\":true,\"last_level\":true,\"truncate\":100}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"hostname\",\"size\":10,\"order\":\"desc\",\"orderBy\":\"1\",\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"parse_data.intent.name\",\"size\":15,\"order\":\"desc\",\"orderBy\":\"1\",\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}}]}",
+      "uiStateJSON": "{\"vis\":{\"legendOpen\":true}}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"key\":\"log.file.path\",\"negate\":false,\"params\":{\"query\":\"/var/log/rasa_tracker.log\"},\"type\":\"phrase\",\"value\":\"/var/log/rasa_tracker.log\",\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match\":{\"log.file.path\":{\"query\":\"/var/log/rasa_tracker.log\",\"type\":\"phrase\"}}}},{\"query\":{\"query_string\":{\"query\":\"!(intent.name:*inform*)\"}},\"meta\":{\"type\":\"query_string\",\"disabled\":false,\"negate\":false,\"alias\":null,\"key\":\"query\",\"value\":\"!(parse_data.intent.name:*inform*)\",\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[1].meta.index\"},\"$state\":{\"store\":\"appState\"}}],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+      }
+    },
+    "_meta": {
+      "savedObjectVersion": 2
+    },
+    "_migrationVersion": {
+      "visualization": "7.0.1"
+    },
+    "_references": [
+      {
+        "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+        "type": "index-pattern",
+        "id": "logstash*"
+      },
+      {
+        "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+        "type": "index-pattern",
+        "id": "logstash*"
+      },
+      {
+        "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[1].meta.index",
+        "type": "index-pattern",
+        "id": "logstash*"
+      }
+    ]
+  },
+  {
+    "_id": "b9c0bb20-7b1b-11e9-913b-3d88cab4cbd6",
+    "_type": "visualization",
+    "_source": {
+      "title": "Rasa Intent Table",
+      "visState": "{\"title\":\"Rasa Intent Table\",\"type\":\"table\",\"params\":{\"perPage\":10,\"showMetricsAtAllLevels\":false,\"showPartialRows\":false,\"showTotal\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"totalFunc\":\"sum\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"4\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"@timestamp\",\"size\":20,\"order\":\"desc\",\"orderBy\":\"1\",\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"parse_data.intent.name\",\"size\":20,\"order\":\"desc\",\"orderBy\":\"1\",\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"parse_data.intent.confidence\",\"size\":20,\"order\":\"desc\",\"orderBy\":\"1\",\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}},{\"id\":\"5\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"text\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}}]}",
+      "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":null,\"direction\":null}}}}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[{\"$state\":{\"store\":\"appState\"},\"exists\":{\"field\":\"parse_data.intent.name\"},\"meta\":{\"alias\":null,\"disabled\":false,\"key\":\"intent.name\",\"negate\":false,\"type\":\"exists\",\"value\":\"exists\",\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"}},{\"query\":{\"query_string\":{\"query\":\"!(parse_data.intent.name:*inform*)\"}},\"meta\":{\"type\":\"query_string\",\"disabled\":false,\"negate\":false,\"alias\":null,\"key\":\"query\",\"value\":\"!(parse_data.intent.name:*inform*)\",\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[1].meta.index\"},\"$state\":{\"store\":\"appState\"}}],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+      }
+    },
+    "_meta": {
+      "savedObjectVersion": 2
+    },
+    "_migrationVersion": {
+      "visualization": "7.0.1"
+    },
+    "_references": [
+      {
+        "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+        "type": "index-pattern",
+        "id": "logstash*"
+      },
+      {
+        "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+        "type": "index-pattern",
+        "id": "logstash*"
+      },
+      {
+        "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[1].meta.index",
+        "type": "index-pattern",
+        "id": "logstash*"
+      }
+    ]
+  },
+  {
+    "_id": "fbc2eca0-7b1b-11e9-913b-3d88cab4cbd6",
+    "_type": "dashboard",
+    "_source": {
+      "title": "Rasa",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"gridData\":{\"x\":0,\"y\":0,\"w\":24,\"h\":15,\"i\":\"1\"},\"version\":\"7.0.1\",\"panelIndex\":\"1\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"gridData\":{\"x\":0,\"y\":15,\"w\":48,\"h\":21,\"i\":\"2\"},\"version\":\"7.0.1\",\"panelIndex\":\"2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"},{\"gridData\":{\"w\":24,\"h\":15,\"x\":24,\"y\":0,\"i\":\"3\"},\"version\":\"7.0.1\",\"panelIndex\":\"3\",\"embeddableConfig\":{},\"panelRefName\":\"panel_2\"}]",
+      "optionsJSON": "{\"useMargins\":true,\"hidePanelTitles\":false}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+      }
+    },
+    "_meta": {
+      "savedObjectVersion": 2
+    },
+    "_migrationVersion": {
+      "dashboard": "7.0.0"
+    },
+    "_references": [
+      {
+        "name": "panel_0",
+        "type": "visualization",
+        "id": "14750410-7b1a-11e9-913b-3d88cab4cbd6"
+      },
+      {
+        "name": "panel_1",
+        "type": "visualization",
+        "id": "b9c0bb20-7b1b-11e9-913b-3d88cab4cbd6"
+      },
+      {
+        "name": "panel_2",
+        "type": "visualization",
+        "id": "ae24c900-7b2a-11e9-913b-3d88cab4cbd6"
+      }
+    ]
+  }
+]

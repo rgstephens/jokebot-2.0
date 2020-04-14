@@ -16,12 +16,19 @@ services:
       --debug
 
   app:
-#    image: rasa/rasa-sdk:${RASA_SDK_VERSION}
+    image: rasa/rasa-sdk:${RASA_SDK_VERSION}
     volumes:
       - "./actions:/app/actions"
+    command: >
 #    ports:
 #      - "5055:5055"
 
   rasa-x:
     environment:
       - RASA_X_PASSWORD=${RASA_X_PASSWORD}
+
+  rabbit:
+    ports:
+      - 5672:5672
+    volumes:
+      - ./rabbit/config:/opt/bitnami/rabbitmq/etc/rabbitmq

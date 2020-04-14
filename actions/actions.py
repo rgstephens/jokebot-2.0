@@ -33,31 +33,12 @@ def _json_object_hook(d): return namedtuple('X', d.keys())(*d.values())
 def json2obj(data): return json.loads(data, object_hook=_json_object_hook)
 
 def get_last_event_for(tracker, event_type: Text, action_names_to_exclude: List[Text] = None, skip: int = 0) -> Optional[Any]:
-    """Gets the last event of a given type which was actually applied.
-
-    Args:
-        event_type: The type of event you want to find.
-        action_names_to_exclude: Events of type `ActionExecuted` which
-            should be excluded from the results. Can be used to skip
-            `action_listen` events.
-        skip: Skips n possible results before return an event.
-
-    Returns:
-        event which matched the query or `None` if no event matched.
-    """
-    #import copy
-    #to_exclude = action_names_to_exclude or []
 
     def filter_function(e):
-        #logger.debug("e: {}".format(e))
-        #logger.debug("e.event: {}".format(e["event"]))
         has_instance = e
         if e["event"] == event_type:
             has_instance = e
-            #logger.debug("  filtering event, intent name: {}".format(has_instance["parse_data"]["intent"]["name"]))
-        #excluded = (isinstance(e, ActionExecuted) and e.action_name in to_exclude)
         excluded = (e["event"] != event_type or ((e["event"] == event_type and ((e["parse_data"]["intent"]["name"] == "domicile") or (e["parse_data"]["intent"]["name"] == "customertype")))))
-
         return has_instance and not excluded
 
     filtered = filter(filter_function, reversed(tracker.events))
@@ -196,7 +177,20 @@ class ActionVersion(Action):
             request = { "rasa-x": "", "rasa": { "production": "" }}
         logger.info(">> rasa x version response: {}".format(request['rasa-x']))
         logger.info(">> rasa version response: {}".format(request['rasa']['production']))
-        dispatcher.utter_message(f"Rasa X: {request['rasa-x']}\nRasa:  {request['rasa']['production']}")
+        dispatcher.utter_message(f"Rasa X: {request['rasa-x']}\nRasa:  {request['rasa']['production']}\nActions: {vers}")
+        return []
+
+class ActionShowSlots(Action):
+    def name(self):
+        logger.info("ActionVersion self called")
+        # define the name of the action which can then be included in training stories
+        return "action_show_slots"
+
+    def run(self, dispatcher, tracker, domain):
+        msg = "Slots:\n"
+        for k, v in tracker.slots.items():
+            msg += f" {k} | {v}\n"
+        dispatcher.utter_message(msg)
         return []
 
 class ActionContactInfoForm(FormAction):

@@ -9,10 +9,6 @@
   - utter_goodbye
   - action_restart
 
-## inform email
-* inform
-  - utter_slots
-
 ## story_goodbye
 * goodbye
   - utter_goodbye
@@ -28,19 +24,9 @@
   - slot{"feedback":"positive"}
   - action_feedback
 
-## debug
-* debug{"debug": "on"}
-  - slot{"debug": "1"}
-  - utter_slots
-
 ## f1_score
 * f1_score
   - action_f1_score
-
-## survey
-* survey{"survey": "off"}
-  - slot{"survey": "0"}
-  - utter_slots
 
 ## story_thanks
 * thanks
@@ -140,10 +126,6 @@
     - slot{"quote_type":"trump"}
     - action_trump
 
-## show slot 1
-* slots
-  - utter_slots
-
 ## time_from
 * time_from
   - action_time_range
@@ -151,3 +133,7 @@
 ## time_range
 * time_range
   - action_time_range
+
+## show_slots
+* show_slots
+  - action_show_slots

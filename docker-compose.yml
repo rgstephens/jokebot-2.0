@@ -6,3 +6,9 @@
 version: "3.4"
 
 services:
+  duckling:
+    restart: always
+    image: "rasa/duckling:latest"
+    ports:
+      - "8000:8000"
+    command: ["duckling-example-exe", "--no-access-log", "--no-error-log"]
