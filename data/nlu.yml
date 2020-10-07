@@ -1,0 +1,366 @@
+version: "2.0"
+nlu:
+- intent: affirm
+  examples: |
+    - yes
+    - yes sure
+    - absolutely
+    - for sure
+    - yes yes yes
+    - definitely
+    - correct
+    - ye
+    - uh yes
+    - let's do it
+    - yeah
+    - um yes
+    - yes knocking
+    - that's correct
+    - yes yes
+    - right
+    - yea
+    - yes right
+    - yes and i dont care
+    - right on
+    - i love that
+- intent: deny
+  examples: |
+    - no
+    - no new selection
+    - no thanks
+    - no thank you
+    - uh no
+    - breath no
+    - do you have something else
+    - no this does not work for me
+- intent: chitchat
+  examples: |
+    - can you share your boss with me?
+    - i want to get to know your owner
+    - i want to know the company which designed you
+    - i want to know the company which generated you
+    - i want to know the company which invented you
+    - i want to know who invented you
+    - May I ask who invented you?
+    - please tell me the company who created you
+    - please tell me who created you
+    - tell me more about your creators
+    - tell me more about your founders
+    - Ahoy matey how are you?
+    - are you alright
+    - are you having a good day
+    - Are you ok?
+    - are you okay
+    - Do you feel good?
+    - how are things going
+    - how are things with you?
+    - How are things?
+    - how are you
+    - how are you doing
+    - how are you doing this morning
+    - how are you feeling
+    - how are you today
+    - How are you?
+    - How is the weather today?
+    - What's the weather like?
+    - How is the weather?
+    - What is the weather at your place?
+    - Do you have good weather?
+    - Is it raining?
+    - What's it like out there?
+    - Is it hot or cold?
+    - Beautiful day, isn't it?
+    - What's the weather forecast?
+    - Is it quite breezy outside?
+    - This is some nonsense chitchat
+    - This is non sense
+    - Here's a garbage sentence
+- intent: quote
+  examples: |
+    - give me a quote
+    - quote
+    - tell me a quote
+    - got a quote
+    - quotes are us
+    - parks and recreation quote from [ron swanson]{"entity": "quote_type", "value": "ron"}
+    - [Ron Swanson]{"entity": "quote_type", "value": "ron"} parks and rec quote
+    - [ron swanson]{"entity": "quote_type", "value": "ron"}
+    - [swanson]{"entity": "quote_type", "value": "ron"}
+    - [ron](quote_type)
+    - [breaking bad]{"entity": "quote_type", "value": "breaking"} quote
+    - [breaking](quote_type) quote
+    - [breaking bad]{"entity": "quote_type", "value": "breaking"}
+    - [breaking](quote_type)
+    - [heisenberg]{"entity": "quote_type", "value": "breaking"}
+    - [walter]{"entity": "quote_type", "value": "breaking"}
+    - [walter white]{"entity": "quote_type", "value": "breaking"}
+    - tell me a [inspiring](quote_type) quote
+    - [inspiring](quote_type) quote
+    - give me an [inspiring](quote_type) quote
+    - give me an [inspriational]{"entity": "quote_type", "value": "inspiring"} quote
+    - let's hear something [inspiring](quote_type)
+    - let's hear something [inspriational]{"entity": "quote_type", "value": "inspiring"}
+    - something [inspiring](quote_type)
+    - something [inspriational]{"entity": "quote_type", "value": "inspiring"}
+    - [inspirational]{"entity": "quote_type", "value": "inspiring"} quote
+    - [inspriational]{"entity": "quote_type", "value": "inspiring"}
+    - [inspire]{"entity": "quote_type", "value": "inspiring"} me
+    - [inspire]{"entity": "quote_type", "value": "inspiring"} quote
+    - tell me a [trump](quote_type) quote
+    - [trump](quote_type) quote
+    - [donald trump]{"entity": "quote_type", "value": "trump"} quote
+    - how about a [donald]{"entity": "quote_type", "value": "trump"} quote
+    - let's hear a [trump](quote_type) quote
+    - how about a [trumpism]{"entity": "quote_type", "value": "trump"}
+    - [trumpism]{"entity": "quote_type", "value": "trump"}
+    - president [trump](quote_type) quote
+    - [trump](quote_type)
+- intent: joke
+  examples: |
+    - tell me a joke
+    - how about a joke
+    - jokes are us
+    - me gotta really good joke
+    - you got joke for me
+    - tell me a [Chuck]{"entity": "joke_type", "value": "chuck"} joke
+    - tell me a [Chuck Norris]{"entity": "joke_type", "value": "chuck"} joke
+    - tell me a [chuck norris]{"entity": "joke_type", "value": "chuck"} joke
+    - [chuck](joke_type) joke
+    - [chuck norris]{"entity": "joke_type", "value": "chuck"} joke
+    - something from [chuck norris]{"entity": "joke_type", "value": "chuck"}
+    - i want a [chuck norris]{"entity": "joke_type", "value": "chuck"} joke
+    - how about a [chuck](joke_type) quote
+    - [norris]{"entity": "joke_type", "value": "chuck"} joke
+    - [Norris]{"entity": "joke_type", "value": "chuck"} joke
+    - tell me a [corny](joke_type) joke
+    - [chuck](joke_type)
+    - [norris]{"entity": "joke_type", "value": "chuck"}
+    - [chuck norris]{"entity": "joke_type", "value": "chuck"}
+    - [corny](joke_type) joke
+    - [Corny]{"entity": "joke_type", "value": "corny"} joke
+    - [corny](joke_type) quote
+    - let's hear a [corny](joke_type) quote
+    - tell me a [geek](joke_type) joke
+    - [geek](joke_type) joke
+    - [geeky]{"entity": "joke_type", "value": "geek"} joke
+    - [geeky]{"entity": "joke_type", "value": "geek"}
+    - [geek](joke_type)
+    - [technology]{"entity": "joke_type", "value": "geek"}
+    - how about a [technology]{"entity": "joke_type", "value": "geek"}
+    - [tech]{"entity": "joke_type", "value": "geek"}
+    - how about a [tech]{"entity": "joke_type", "value": "geek"}
+    - tell me a [ron swanson]{"entity": "quote_type", "value": "ron"} joke
+    - [Ron]{"entity": "quote_type", "value": "ron"} joke
+    - [ron swanson]{"entity": "quote_type", "value": "ron"} joke
+    - [parks and recreation]{"entity": "quote_type", "value": "ron"} joke
+    - joke from [parks and rec]{"entity": "quote_type", "value": "ron"}
+    - tell me a [breaking bad]{"entity": "quote_type", "value": "breaking"} joke
+    - [breaking bad]{"entity": "quote_type", "value": "breaking"} joke
+    - [breaking](quote_type) joke
+- intent: feedback
+  examples: |
+    - The answer the chatbot gave me was [positive](feedback)
+    - The chatbot response was [negative](feedback)
+    - The feedback for the question was [mostly](feedback) correct
+    - My opinion of the answer was that it [partly](feedback) answered my question
+    - The answer was [positive](feedback) feedback
+    - The answer was [negative](feedback) because it didn't answer my question
+- intent: survey
+  examples: |
+    - bot survey [1](survey)
+    - set survey [0](survey)
+    - bot set survey [1](survey)
+    - survey [off](survey)
+    - set survey [on](survey)
+    - survey status
+- intent: debug
+  examples: |
+    - bot debug [1](debug)
+    - set debug [0](debug)
+    - bot set debug [1](debug)
+    - debug [off](debug)
+    - set debug [on](debug)
+    - debug status
+- intent: f1_score
+  examples: |
+    - show last intent
+    - debug last intent
+    - debug intent info
+    - show f1 score
+    - last f1 score
+    - last intent f1 score
+    - what did you say that
+    - f1 score
+    - f1
+    - confidence scores
+    - show confidence
+    - intent confidence
+    - nlu confidence
+- intent: goodbye
+  examples: |
+    - Goodbye
+    - See you later
+    - so long
+    - bye
+- intent: clear
+  examples: |
+    - clear
+    - reset
+    - reset slots
+    - clear slots
+- intent: show_slots
+  examples: |
+    - slots
+    - show slots
+    - view slots
+    - let's see the slots
+- intent: inform
+  examples: |
+    - my email is [mhaneef@gmail.com](email_addr)
+    - email [tsheikh@gmail.com](email_addr)
+    - email is [greg@mtv.com](email_addr)
+    - my email [lverma@gmail.com](email_addr)
+    - email [greg@hotmail.org](email_addr)
+    - emails are [ssheikh@gmail.com](email_addr) [msuaib@gmail.com](email_addr) [ysai@gmail.com](email_addr) and [uatre@gmail.com](email_addr)
+    - emails are [ssheikh@gmail.com](email_addr) [msuaib@gmail.com](email_addr) [ysai@gmail.com](email_addr) [uatre@gmail.com](email_addr)
+    - emails are [ssheikh@gmail.com](email_addr)  [msuaib@gmail.com](email_addr)  [ysai@gmail.com](email_addr) and [uatre@gmail.com](email_addr)
+- intent: greet
+  examples: |
+    - Hi
+    - Hey
+    - Hello
+    - Good morning
+    - hi again
+    - hi folks
+    - hi Mister
+    - hi pal!
+    - hi there
+    - greetings
+    - hello everybody
+    - hello is anybody there
+    - hello robot
+    - hi alexa
+    - hey google
+    - what's happening
+    - what's up
+    - howdy
+    - hey dude
+    - Hi bot
+    - Hey bot
+    - hallo
+    - heeey
+    - hi hi
+    - hey
+    - hey hey
+    - hello there
+    - hi
+    - hello
+    - yo
+    - hola
+    - hi?
+    - hey bot!
+    - hello friend
+- intent: stop
+  examples: |
+    - ok then you cant help me
+    - that was shit  you're not helping
+    - you can't help me
+    - you can't help me with what i need
+    - i guess you can't help me then
+    - ok i guess you can't help me
+    - that's not what i want
+    - ok, but that doesnt help me
+    - this is leading to nothing
+    - this conversation is not really helpful
+    - you cannot help me with what I want
+    - I think you cant help me
+    - hm i don't think you can do what i want
+    - stop
+    - stop go back
+    - do you get anything?
+    - and you call yourself bot company?
+    - and that's it?
+    - nothing else?
+- intent: version
+  examples: |
+    - version
+    - show version
+    - what version
+    - what's your version
+    - show build date
+    - what is your build date
+    - what's your build
+    - show model version
+- intent: time_range
+  examples: |
+    - show from yesterday to today
+    - show yesterday
+    - try duckling last week
+    - next day
+    - next hour
+    - move forward one week
+    - duckling tomorrow
+    - test ducking last hour
+    - last month duckling
+    - past 7 days
+    - past hour
+    - from last monday to last saturday
+    - january 3rd
+    - february 2nd
+    - march 30
+    - april 12th
+    - may 3
+    - june 8 thru 9
+    - from july 9 to the 12th
+    - start on august 3rd to november 3
+    - going from september 8th to 12th
+    - last october through today
+    - from november 3 through january 8
+    - january 1st to february 28th
+- intent: time_from
+  examples: |
+    - start on august 3rd
+    - from last monday
+    - starting march 10th
+    - april 12th should be the start date
+    - start at the first of the year
+    - starting may 2
+- synonym: ron
+  examples: |
+    - ron swanson
+    - Ron Swanson
+    - swanson
+    - Ron
+    - parks and recreation
+    - parks and rec
+- synonym: breaking
+  examples: |
+    - breaking bad
+    - heisenberg
+    - walter
+    - walter white
+- synonym: inspiring
+  examples: |
+    - inspriational
+    - inspirational
+    - inspire
+- synonym: trump
+  examples: |
+    - donald trump
+    - donald
+    - trumpism
+- synonym: chuck
+  examples: |
+    - Chuck
+    - Chuck Norris
+    - chuck norris
+    - norris
+    - Norris
+- synonym: corny
+  examples: |
+    - Corny
+- synonym: geek
+  examples: |
+    - geeky
+    - technology
+    - tech

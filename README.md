@@ -136,6 +136,13 @@ The project includes the following scripts:
 
 https://www.theodysseyonline.com/best-creed-bratton-quotes-the-office
 
-You could have a virus where people feel well enough while they're infectious that they get on a plane or go to a market.
+## 2.0 Migration
 
-Global wealth loss estimate \$3T.
+2.0 Migration Steps:
+
+```
+mv data data-1.0
+mkdir -p data
+rasa data convert nlu -f yaml --data data-1.0 --out data
+rasa data convert core -f yaml --data data-1.0 --out data
+```

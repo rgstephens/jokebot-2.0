@@ -1,0 +1,244 @@
+version: "2.0"
+stories:
+- story: story_greet
+  steps:
+  - checkpoint: STORY_START
+  - intent: greet
+  - action: utter_greet
+- story: greet 2
+  steps:
+  - checkpoint: STORY_START
+  - intent: greet
+  - action: utter_greet
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_restart
+- story: story_goodbye
+  steps:
+  - checkpoint: STORY_START
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_restart
+- story: clear
+  steps:
+  - checkpoint: STORY_START
+  - intent: clear
+  - action: utter_clear
+  - action: action_restart
+- story: feedback
+  steps:
+  - checkpoint: STORY_START
+  - intent: feedback
+    user: |-
+      feedback{"feedback":"positive"}
+    entities:
+    - feedback: positive
+  - slot_was_set:
+    - feedback: positive
+  - action: action_feedback
+- story: f1_score
+  steps:
+  - checkpoint: STORY_START
+  - intent: f1_score
+  - action: action_f1_score
+- story: story_thanks
+  steps:
+  - checkpoint: STORY_START
+  - intent: thanks
+  - action: utter_thanks
+- story: story_version
+  steps:
+  - checkpoint: STORY_START
+  - intent: version
+  - action: utter_version
+  - action: action_version
+- story: 'chitchat #1'
+  steps:
+  - checkpoint: STORY_START
+  - intent: chitchat
+  - action: utter_chitchat
+- story: chuck_joke greet
+  steps:
+  - checkpoint: STORY_START
+  - intent: greet
+  - action: utter_greet
+  - intent: joke
+    entities:
+    - joke_type: chuck
+  - action: action_chuck
+- story: ron joke
+  steps:
+  - checkpoint: STORY_START
+  - intent: joke
+    entities:
+    - joke_type: chuck
+  - action: action_chuck
+- story: chuck_joke 2
+  steps:
+  - checkpoint: STORY_START
+  - intent: joke
+  - action: utter_ask_joke_type
+  - intent: joke
+    user: |-
+      joke{"joke_type":"chuck"}
+    entities:
+    - joke_type: chuck
+  - action: action_chuck
+- story: ron_joke prompt
+  steps:
+  - checkpoint: STORY_START
+  - intent: joke
+  - action: utter_ask_joke_type
+  - intent: quote
+    user: |-
+      quote{"quote_type":"ron"}
+    entities:
+    - quote_type: ron
+  - action: action_ron
+- story: ron joke
+  steps:
+  - checkpoint: STORY_START
+  - intent: joke
+    user: |-
+      joke{"quote_type":"ron"}
+    entities:
+    - quote_type: ron
+  - action: action_ron
+- story: geek joke
+  steps:
+  - checkpoint: STORY_START
+  - intent: joke
+    user: |-
+      joke{"joke_type":"geek"}
+    entities:
+    - joke_type: geek
+  - action: action_geek
+- story: breaking
+  steps:
+  - checkpoint: STORY_START
+  - intent: quote
+    user: |-
+      quote{"quote_type":"breaking"}
+    entities:
+    - quote_type: breaking
+  - action: action_breaking
+- story: corny_joke greet
+  steps:
+  - checkpoint: STORY_START
+  - intent: joke
+  - action: utter_ask_joke_type
+  - intent: joke
+    user: |-
+      joke{"joke_type":"corny"}
+    entities:
+    - joke_type: corny
+  - slot_was_set:
+    - joke_type: corny
+  - action: action_corny
+- story: corny
+  steps:
+  - checkpoint: STORY_START
+  - intent: joke
+    user: |-
+      joke{"joke_type":"corny"}
+    entities:
+    - joke_type: corny
+  - slot_was_set:
+    - joke_type: corny
+  - action: action_corny
+- story: inspiring_quote
+  steps:
+  - checkpoint: STORY_START
+  - intent: quote
+  - action: utter_ask_quote_type
+  - intent: quote
+    user: |-
+      quote{"quote_type":"inspiring"}
+    entities:
+    - quote_type: inspiring
+  - slot_was_set:
+    - quote_type: inspiring
+  - action: action_inspiring
+- story: inspiring_quote filled
+  steps:
+  - checkpoint: STORY_START
+  - intent: quote
+    user: |-
+      quote{"quote_type":"inspiring"}
+    entities:
+    - quote_type: inspiring
+  - action: action_inspiring
+- story: trump_quote
+  steps:
+  - checkpoint: STORY_START
+  - intent: quote
+  - action: utter_ask_quote_type
+  - intent: quote
+    user: |-
+      quote{"quote_type":"trump"}
+    entities:
+    - quote_type: trump
+  - action: action_trump
+- story: Greet+Inspiring
+  steps:
+  - checkpoint: STORY_START
+  - intent: greet
+  - action: utter_greet
+  - intent: quote
+    user: |-
+      quote{"quote_type":"inspiring"}
+    entities:
+    - quote_type: inspiring
+  - slot_was_set:
+    - quote_type: inspiring
+  - action: action_inspiring
+- story: Trump Story
+  steps:
+  - checkpoint: STORY_START
+  - intent: quote
+    user: |-
+      quote{"quote_type":"trump"}
+    entities:
+    - quote_type: trump
+  - action: action_trump
+- story: Inspiring+Trump
+  steps:
+  - checkpoint: STORY_START
+  - intent: quote
+    user: |-
+      quote{"quote_type":"inspiring"}
+    entities:
+    - quote_type: inspiring
+  - action: action_inspiring
+  - intent: quote
+    user: |-
+      quote{"quote_type":"trump"}
+    entities:
+    - quote_type: trump
+  - action: action_trump
+- story: Trump quote
+  steps:
+  - checkpoint: STORY_START
+  - intent: quote
+    user: |-
+      quote{"quote_type":"trump"}
+    entities:
+    - quote_type: trump
+  - slot_was_set:
+    - quote_type: trump
+  - action: action_trump
+- story: time_from
+  steps:
+  - checkpoint: STORY_START
+  - intent: time_from
+  - action: action_time_range
+- story: time_range
+  steps:
+  - checkpoint: STORY_START
+  - intent: time_range
+  - action: action_time_range
+- story: show_slots
+  steps:
+  - checkpoint: STORY_START
+  - intent: show_slots
+  - action: action_show_slots

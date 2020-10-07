@@ -92,7 +92,6 @@ responses:
       payload: /joke{"joke_type":"corny"}
   - text: What type of joke do you want?
     channel: "slack"
-    custom:
     buttons:
     - title: Geek
       payload: Geek joke
