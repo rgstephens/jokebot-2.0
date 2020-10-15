@@ -12,13 +12,9 @@ pipeline:
   - name: DIETClassifier
     epochs: 100
   - name: EntitySynonymMapper
-  - name: DucklingHTTPExtractor
+  - name: DucklingEntityExtractor
     url: http://localhost:8000
-    dimensions:
-    - email
-    - email_addr
-    - duration
-    - time
+    dimensions: [ "email", "duration", "time" ]
 
 policies:
 - name: AugmentedMemoizationPolicy

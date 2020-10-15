@@ -1,6 +1,9 @@
+version: "2.0"
+
 session_config:
   session_expiration_time: 0.0
   carry_over_slots_to_new_session: true
+
 intents:
 - debug
 - f1_score
@@ -21,6 +24,7 @@ intents:
 - inform
 - time_range
 - time_from
+
 entities:
 - email_addr
 - feedback
@@ -34,21 +38,20 @@ entities:
 - time
 - from
 - to
+
 slots:
   debug:
     type: bool
   dynamic_slot:
-    type: unfeaturized
-    auto_fill: false
+    type: any
   email_addr:
     type: list
   feedback:
-    type: unfeaturized
-    auto_fill: false
+    type: any
   from:
-    type: unfeaturized
+    type: any
   from_time:
-    type: unfeaturized
+    type: any
   joke_type:
     type: categorical
     values:
@@ -64,15 +67,16 @@ slots:
     - trump
     - kanye
   requested_slot:
-    type: unfeaturized
+    type: any
   survey:
     type: bool
   time:
-    type: unfeaturized
+    type: any
   to:
-    type: unfeaturized
+    type: any
   to_time:
-    type: unfeaturized
+    type: any
+
 responses:
   utter_version:
   - text: "Model 1.1.0 - Apr 14, 2020"
@@ -140,6 +144,7 @@ responses:
   utter_not_sure:
   - text: I'm not sure
   - text: I don't know that one
+
 actions:
 - action_f1_score
 - action_version
@@ -168,5 +173,6 @@ actions:
 - utter_feedback_thanks
 - utter_ask_quote_type
 - utter_ask_joke_type
+
 forms:
 - time_form
