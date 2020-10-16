@@ -113,6 +113,7 @@ The project includes the following scripts:
 ## ToDo
 
 - Use featurized slots
+- Brainy quote, `https://github.com/Hemil96/Brainyquote-API`
 - Kanye quote, `https://api.kanye.rest/?format=text`
 - Random joke endpoint, `http://api.icndb.com/jokes/random`
 - Google Assistant integration
@@ -136,6 +137,3 @@ The project includes the following scripts:
 
 https://www.theodysseyonline.com/best-creed-bratton-quotes-the-office
 
-You could have a virus where people feel well enough while they're infectious that they get on a plane or go to a market.
-
-Global wealth loss estimate \$3T.
