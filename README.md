@@ -146,3 +146,4 @@ mkdir -p data
 rasa data convert nlu -f yaml --data data-1.0 --out data
 rasa data convert core -f yaml --data data-1.0 --out data
 ```
+

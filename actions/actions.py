@@ -11,6 +11,8 @@ import logging
 import requests
 import json
 import csv
+#from . import otel
+import actions.tracing
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet, AllSlotsReset, EventType
@@ -28,6 +30,9 @@ from datetime import datetime, date, time, timedelta
 
 logger = logging.getLogger(__name__)
 vers = 'Vers: 0.7.0, Date: Mar 18, 2019'
+
+#otel.init_tracer("action_server")
+tracer = actions.tracing.init_tracer('action_server')
 
 def _json_object_hook(d): return namedtuple('X', d.keys())(*d.values())
 def json2obj(data): return json.loads(data, object_hook=_json_object_hook)
@@ -63,6 +68,12 @@ class ActionChuck(Action):
 
     def run(self, dispatcher, tracker, domain):
         # what your action should do
+        if domain["traceparent"]:
+            span = actions.tracing.extract_start_span(tracer, domain["headers"], self.name())
+            #span = actions.tracing.extract_start_span(tracer, domain["traceparent"], self.name())
+            #span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
+            #span_ctx = tracing.extract(tracer, domain["traceparent"])
+            #otel.tracer.tracer.start_span(self.name(), child_of=domain["traceparent"])
         request = json.loads(requests.get('https://api.chucknorris.io/jokes/random').text) #make an apie call
         joke = request['value'] #extract a joke from returned json response
         dispatcher.utter_message(joke) #send the message back to the user
