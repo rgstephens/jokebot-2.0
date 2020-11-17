@@ -3,11 +3,11 @@ from jaeger_client import Config
 from opentracing.ext import tags
 from opentracing import Format, UnsupportedFormatException
 
+logger = logging.getLogger(__name__)
+logging.getLogger("").handlers = []
+logging.basicConfig(format="%(message)s", level=logging.DEBUG)
 
 def init_tracer(service):
-    logging.getLogger('').handlers = []
-    logging.basicConfig(format='%(message)s', level=logging.DEBUG)
-
     config = Config(
         config={ # usually read from some yaml config
             'sampler': {
@@ -34,11 +34,12 @@ def extract_start_span(tracer, headers, name, attributes=None):
     span_ctx = tracer.extract(Format.HTTP_HEADERS, headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     #span = tracer.start_active_span(name)
+    logger.debug(f"extract_start_span, child_of: {span_ctx}, span_tags: {span_tags}")
     span = tracer.start_active_span(name, child_of=span_ctx, tags=span_tags)
     #if attributes:
     #    for k, v in attributes.items():
     #        span.span.set_tag(k, v)
-    #return span
+    return span
 
 def inject(tracer, url):
     headers = {}

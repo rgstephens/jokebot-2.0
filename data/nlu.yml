@@ -1,5 +1,17 @@
 version: "2.0"
 nlu:
+- intent: kanye_quote
+  examples: |
+    - kanye quote
+    - give me a kanye quote
+    - how about a kanye quote
+    - a quote from kanye
+- intent: random_joke
+  examples: |
+    - random joke
+    - give me a random joke
+    - how about a random joke
+    - a random joke
 - intent: affirm
   examples: |
     - yes

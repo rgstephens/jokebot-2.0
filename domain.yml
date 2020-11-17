@@ -5,6 +5,10 @@ session_config:
   carry_over_slots_to_new_session: true
 
 intents:
+#- kanye_quote:
+#    triggers: action_kanye
+#- random_joke:
+#    triggers: action_random
 - debug
 - f1_score
 - stop
@@ -26,6 +30,8 @@ intents:
 - time_from
 
 entities:
+- action_kanye
+- action_random
 - email_addr
 - feedback
 - debug
@@ -91,9 +97,9 @@ responses:
   - text: What type of joke would you like?
     buttons:
     - title: Geek
-      payload: /joke{"joke_type":"geek"}
+      payload: '/joke{{"joke_type": "geek"}}'
     - title: Corny
-      payload: /joke{"joke_type":"corny"}
+      payload: '/joke{{"joke_type": "corny"}}'
   - text: What type of joke do you want?
     channel: "slack"
     buttons:

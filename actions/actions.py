@@ -61,23 +61,42 @@ def log_slots(tracker):
     feedback_answer = tracker.get_slot("feedback")
     logger.debug("feedback: {}".format(feedback_answer))
 
+class ActionKanye(Action):
+    def name(self):
+        # define the name of the action which can then be included in training stories
+        return "action_kanye"
+
+    def run(self, dispatcher, tracker, domain):
+        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+            r = requests.get('https://api.kanye.rest')
+            request = json.loads(requests.get('https://api.kanye.rest').text)
+            joke = request['quote'] #extract a joke from returned json response
+            dispatcher.utter_message(joke) #send the message back to the user
+            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+
+class ActionRandom(Action):
+    def name(self):
+        # define the name of the action which can then be included in training stories
+        return "action_random"
+
+    def run(self, dispatcher, tracker, domain):
+        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+            request = json.loads(requests.get('http://api.icndb.com/jokes/random').text)
+            joke = request['value'] #extract a joke from returned json response
+            dispatcher.utter_message(joke) #send the message back to the user
+            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+
 class ActionChuck(Action):
     def name(self):
         # define the name of the action which can then be included in training stories
         return "action_chuck"
 
     def run(self, dispatcher, tracker, domain):
-        # what your action should do
-        if domain["traceparent"]:
-            span = actions.tracing.extract_start_span(tracer, domain["headers"], self.name())
-            #span = actions.tracing.extract_start_span(tracer, domain["traceparent"], self.name())
-            #span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
-            #span_ctx = tracing.extract(tracer, domain["traceparent"])
-            #otel.tracer.tracer.start_span(self.name(), child_of=domain["traceparent"])
-        request = json.loads(requests.get('https://api.chucknorris.io/jokes/random').text) #make an apie call
-        joke = request['value'] #extract a joke from returned json response
-        dispatcher.utter_message(joke) #send the message back to the user
-        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+            request = json.loads(requests.get('https://api.chucknorris.io/jokes/random').text) #make an apie call
+            joke = request['value'] #extract a joke from returned json response
+            dispatcher.utter_message(joke) #send the message back to the user
+            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
 
 class ActionRon(Action):
     def name(self):
@@ -85,13 +104,14 @@ class ActionRon(Action):
         return "action_ron"
 
     def run(self, dispatcher, tracker, domain):
+        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
         # what your action should do
-        request = json.loads(requests.get('https://ron-swanson-quotes.herokuapp.com/v2/quotes').text) #make an apie call
-        logger.debug("request: {}".format(request))
-        joke = request[0]   + ' - Ron Swanson'
-        logger.debug("joke: {}".format(joke))
-        dispatcher.utter_message(joke) #send the message back to the user
-        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+            request = json.loads(requests.get('https://ron-swanson-quotes.herokuapp.com/v2/quotes').text) #make an apie call
+            logger.debug("request: {}".format(request))
+            joke = request[0]   + ' - Ron Swanson'
+            logger.debug("joke: {}".format(joke))
+            dispatcher.utter_message(joke) #send the message back to the user
+            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
 
 class ActionBreakingBad(Action):
     def name(self):
@@ -99,14 +119,15 @@ class ActionBreakingBad(Action):
         return "action_breaking"
 
     def run(self, dispatcher, tracker, domain):
-        # what your action should do
-        request = json.loads(requests.get('https://breaking-bad-quotes.herokuapp.com/v1/quotes').text) #make an apie call
-        author = request[0]['author']
-        quote = request[0]['quote']
-        message = quote + ' - ' + author
-        #message = quote + ' - [' + author + '] (' + permalink + ')'
-        dispatcher.utter_message(message) #send the message back to the user
-        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+            # what your action should do
+            request = json.loads(requests.get('https://breaking-bad-quotes.herokuapp.com/v1/quotes').text) #make an apie call
+            author = request[0]['author']
+            quote = request[0]['quote']
+            message = quote + ' - ' + author
+            #message = quote + ' - [' + author + '] (' + permalink + ')'
+            dispatcher.utter_message(message) #send the message back to the user
+            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
 
 class ActionCorny(Action):
     def name(self):
@@ -129,21 +150,22 @@ class ActionInspiring(Action):
         return "action_inspiring"
 
     def run(self, dispatcher, tracker, domain):
-        # what your action should do
-        request = requests.get('https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json')
-        if request.status_code == 200:
-            logger.info("request.text: {}".format(request.text))
-            resp = json.loads(request.text)
-            author = resp['quoteAuthor']
-            quote = resp['quoteText']
-            permalink = resp['quoteLink']
-            #message = quote + ' - ' + author + ' ' + permalink
-            message = quote + ' - [' + author + '] (' + permalink + ')'
-        else:
-            message = 'quote service error (exceeded max free quotes?), error: ' + request.status_code
-        #dispatcher.utter_message(message) #send the message back to the user
-        dispatcher.utter_message(message) #send the message back to the user
-        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+            # what your action should do
+            request = requests.get('https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json')
+            if request.status_code == 200:
+                logger.info("request.text: {}".format(request.text))
+                resp = json.loads(request.text)
+                author = resp['quoteAuthor']
+                quote = resp['quoteText']
+                permalink = resp['quoteLink']
+                #message = quote + ' - ' + author + ' ' + permalink
+                message = quote + ' - [' + author + '] (' + permalink + ')'
+            else:
+                message = 'quote service error (exceeded max free quotes?), error: ' + request.status_code
+            #dispatcher.utter_message(message) #send the message back to the user
+            dispatcher.utter_message(message) #send the message back to the user
+            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
 
 class ActionGeek(Action):
     def name(self):
@@ -151,15 +173,16 @@ class ActionGeek(Action):
         return "action_geek"
 
     def run(self, dispatcher, tracker, domain):
-        # what your action should do
-        request = json.loads(requests.get('http://quotes.stormconsultancy.co.uk/random.json').text) #make an apie call
-        author = request['author']
-        quote = request['quote']
-        permalink = request['permalink']
-        # message = quote + ' - ' + author + ' ' + permalink
-        message = quote + ' - [' + author + '] (' + permalink + ')'
-        dispatcher.utter_message(message) #send the message back to the user
-        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+            # what your action should do
+            request = json.loads(requests.get('http://quotes.stormconsultancy.co.uk/random.json').text) #make an apie call
+            author = request['author']
+            quote = request['quote']
+            permalink = request['permalink']
+            # message = quote + ' - ' + author + ' ' + permalink
+            message = quote + ' - [' + author + '] (' + permalink + ')'
+            dispatcher.utter_message(message) #send the message back to the user
+            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
 
 class ActionTrump(Action):
     def name(self):
@@ -180,16 +203,17 @@ class ActionVersion(Action):
         return "action_version"
 
     def run(self, dispatcher, tracker, domain):
-        #logger.info(">>> responding with version: {}".format(vers))
-        #dispatcher.utter_message(vers) #send the message back to the user
-        try:
-            request = json.loads(requests.get('http://rasa-x:5002/api/version').text)
-        except:
-            request = { "rasa-x": "", "rasa": { "production": "" }}
-        logger.info(">> rasa x version response: {}".format(request['rasa-x']))
-        logger.info(">> rasa version response: {}".format(request['rasa']['production']))
-        dispatcher.utter_message(f"Rasa X: {request['rasa-x']}\nRasa:  {request['rasa']['production']}\nActions: {vers}")
-        return []
+        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+            #logger.info(">>> responding with version: {}".format(vers))
+            #dispatcher.utter_message(vers) #send the message back to the user
+            try:
+                request = json.loads(requests.get('http://rasa-x:5002/api/version').text)
+            except:
+                request = { "rasa-x": "", "rasa": { "production": "" }}
+            logger.info(">> rasa x version response: {}".format(request['rasa-x']))
+            logger.info(">> rasa version response: {}".format(request['rasa']['production']))
+            dispatcher.utter_message(f"Rasa X: {request['rasa-x']}\nRasa:  {request['rasa']['production']}\nActions: {vers}")
+            return []
 
 class ActionShowSlots(Action):
     def name(self):
@@ -198,11 +222,12 @@ class ActionShowSlots(Action):
         return "action_show_slots"
 
     def run(self, dispatcher, tracker, domain):
-        msg = "Slots:\n"
-        for k, v in tracker.slots.items():
-            msg += f" {k} | {v}\n"
-        dispatcher.utter_message(msg)
-        return []
+        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+            msg = "Slots:\n"
+            for k, v in tracker.slots.items():
+                msg += f" {k} | {v}\n"
+            dispatcher.utter_message(msg)
+            return []
 
 class ActionContactInfoForm(FormAction):
     _switch_intent = False
@@ -556,10 +581,11 @@ class ActionLastIntent(Action):
         return "action_f1_score"
 
     def run(self, dispatcher, tracker, domain):
-        # what your action should do
-        msg = intentHistoryStr(tracker, 1, 4)
-        dispatcher.utter_message(msg) #send the message back to the user
-        return []
+        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+            # what your action should do
+            msg = intentHistoryStr(tracker, 1, 4)
+            dispatcher.utter_message(msg) #send the message back to the user
+            return []
 
 """
 DynamicForm is currently used to determine:
@@ -686,45 +712,45 @@ class ActionDuckingTimeRange(Action):
         return range
 
     def run(self, dispatcher, tracker, domain) -> List[EventType]:
+        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+            # existing slot values
+            from_time = tracker.get_slot("from_time")
+            to_time = tracker.get_slot("to_time")
 
-        # existing slot values
-        from_time = tracker.get_slot("from_time")
-        to_time = tracker.get_slot("to_time")
+            # duckling value
+            duckling_time = tracker.get_slot("time")
 
-        # duckling value
-        duckling_time = tracker.get_slot("time")
-
-        logger.info(f"duckling_time: {type(duckling_time)}, value: {duckling_time}, to_time: {to_time}, from_time: {from_time}")
-        # do we have a range
-        if type(duckling_time) is dict:
-            from_time = tracker.get_slot("time")['from'][:19]
-            to_time = tracker.get_slot("time")['to'][:19]
-        else:
-            logger.info(f"latest_message: {tracker.latest_message}")
-            entities = tracker.latest_message.get("entities", [])
-            logger.info(f"entities 1: {entities}")
-            entities = {e["entity"]: e["value"] for e in entities}
-            logger.info(f"entities: {entities}")
-            additional_info = tracker.latest_message.get("entities", [])[0]['additional_info']
-            logger.info(f"grain: {additional_info['grain']}")
-            state = tracker.current_state()
-            intent = state["latest_message"]["intent"]["name"]
-            logger.info(f"intent: {intent}")
-            if intent == 'time_from' and to_time:
-                logger.info(f"setting from_time: {duckling_time[:19]}")
-                from_time = duckling_time[:19]
+            logger.info(f"duckling_time: {type(duckling_time)}, value: {duckling_time}, to_time: {to_time}, from_time: {from_time}")
+            # do we have a range
+            if type(duckling_time) is dict:
+                from_time = tracker.get_slot("time")['from'][:19]
+                to_time = tracker.get_slot("time")['to'][:19]
             else:
-                range = self._extractRange(duckling_time[:19], additional_info['grain'])
-                from_time = range['from']
-                to_time = range['to']
+                logger.info(f"latest_message: {tracker.latest_message}")
+                entities = tracker.latest_message.get("entities", [])
+                logger.info(f"entities 1: {entities}")
+                entities = {e["entity"]: e["value"] for e in entities}
+                logger.info(f"entities: {entities}")
+                additional_info = tracker.latest_message.get("entities", [])[0]['additional_info']
+                logger.info(f"grain: {additional_info['grain']}")
+                state = tracker.current_state()
+                intent = state["latest_message"]["intent"]["name"]
+                logger.info(f"intent: {intent}")
+                if intent == 'time_from' and to_time:
+                    logger.info(f"setting from_time: {duckling_time[:19]}")
+                    from_time = duckling_time[:19]
+                else:
+                    range = self._extractRange(duckling_time[:19], additional_info['grain'])
+                    from_time = range['from']
+                    to_time = range['to']
 
-        #entities = {e["entity"]: e["value"] for e in entities}
-        #logger.info(f"entities 2: {entities}")
-        #entities_json = json.dumps(entities)
+            #entities = {e["entity"]: e["value"] for e in entities}
+            #logger.info(f"entities 2: {entities}")
+            #entities_json = json.dumps(entities)
 
-        #date = datetime.datetime.now().strftime("%d/%m/%Y")
-        #dispatcher.utter_message(text=entities_json)
-        logger.info(f"from: {from_time} to: {to_time}")
-        dispatcher.utter_message(text=f"from: {from_time}\n  to: {to_time}")
+            #date = datetime.datetime.now().strftime("%d/%m/%Y")
+            #dispatcher.utter_message(text=entities_json)
+            logger.info(f"from: {from_time} to: {to_time}")
+            dispatcher.utter_message(text=f"from: {from_time}\n  to: {to_time}")
 
-        return [ SlotSet("from_time", from_time), SlotSet("to_time", to_time)]
+            return [ SlotSet("from_time", from_time), SlotSet("to_time", to_time)]

@@ -15,10 +15,12 @@ pipeline:
   - name: DucklingEntityExtractor
     url: http://localhost:8000
     dimensions: [ "email", "duration", "time" ]
+#  - name: ResponseSelector
+#    epochs: 100
 
 policies:
+- name: RulePolicy
 - name: AugmentedMemoizationPolicy
-- name: FormPolicy
 - name: MappingPolicy
 - name: TEDPolicy
   epochs: 20
