@@ -66,6 +66,7 @@ stories:
     entities:
     - joke_type: chuck
   - action: action_chuck
+  - action: utter_slots
 - story: ron joke
   steps:
   - checkpoint: STORY_START
@@ -73,6 +74,7 @@ stories:
     entities:
     - joke_type: chuck
   - action: action_chuck
+  - action: utter_slots
 - story: chuck_joke 2
   steps:
   - checkpoint: STORY_START
@@ -84,6 +86,7 @@ stories:
     entities:
     - joke_type: chuck
   - action: action_chuck
+  - action: utter_slots
 - story: ron_joke prompt
   steps:
   - checkpoint: STORY_START
@@ -95,6 +98,7 @@ stories:
     entities:
     - quote_type: ron
   - action: action_ron
+  - action: utter_slots
 - story: ron joke
   steps:
   - checkpoint: STORY_START
@@ -104,6 +108,7 @@ stories:
     entities:
     - quote_type: ron
   - action: action_ron
+  - action: utter_slots
 - story: geek joke
   steps:
   - checkpoint: STORY_START
@@ -113,6 +118,7 @@ stories:
     entities:
     - joke_type: geek
   - action: action_geek
+  - action: utter_slots
 - story: breaking
   steps:
   - checkpoint: STORY_START
@@ -122,6 +128,7 @@ stories:
     entities:
     - quote_type: breaking
   - action: action_breaking
+  - action: utter_slots
 - story: corny_joke greet
   steps:
   - checkpoint: STORY_START
@@ -135,6 +142,7 @@ stories:
   - slot_was_set:
     - joke_type: corny
   - action: action_corny
+  - action: utter_slots
 - story: corny
   steps:
   - checkpoint: STORY_START
@@ -146,6 +154,7 @@ stories:
   - slot_was_set:
     - joke_type: corny
   - action: action_corny
+  - action: utter_slots
 - story: inspiring_quote
   steps:
   - checkpoint: STORY_START
@@ -159,6 +168,7 @@ stories:
   - slot_was_set:
     - quote_type: inspiring
   - action: action_inspiring
+  - action: utter_slots
 - story: inspiring_quote filled
   steps:
   - checkpoint: STORY_START
@@ -168,6 +178,7 @@ stories:
     entities:
     - quote_type: inspiring
   - action: action_inspiring
+  - action: utter_slots
 - story: trump_quote
   steps:
   - checkpoint: STORY_START
@@ -179,6 +190,7 @@ stories:
     entities:
     - quote_type: trump
   - action: action_trump
+  - action: utter_slots
 - story: Greet+Inspiring
   steps:
   - checkpoint: STORY_START
@@ -192,6 +204,7 @@ stories:
   - slot_was_set:
     - quote_type: inspiring
   - action: action_inspiring
+  - action: utter_slots
 - story: Trump Story
   steps:
   - checkpoint: STORY_START
@@ -201,6 +214,7 @@ stories:
     entities:
     - quote_type: trump
   - action: action_trump
+  - action: utter_slots
 - story: Inspiring+Trump
   steps:
   - checkpoint: STORY_START
@@ -210,12 +224,14 @@ stories:
     entities:
     - quote_type: inspiring
   - action: action_inspiring
+  - action: utter_slots
   - intent: quote
     user: |-
       quote{"quote_type":"trump"}
     entities:
     - quote_type: trump
   - action: action_trump
+  - action: utter_slots
 - story: Trump quote
   steps:
   - checkpoint: STORY_START
@@ -227,6 +243,7 @@ stories:
   - slot_was_set:
     - quote_type: trump
   - action: action_trump
+  - action: utter_slots
 - story: time_from
   steps:
   - checkpoint: STORY_START

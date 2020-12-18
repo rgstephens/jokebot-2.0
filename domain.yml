@@ -136,8 +136,8 @@ responses:
   utter_default:
   - text: Sorry, I can't answer that
   - text: Sorry, I don't recognize that question, want to try again?
-  utter_doc_slots:
-  - text: "customer doc slots:\n - customer: {customer}\n - domicile: {domicile}"
+  utter_slots:
+  - text: "joke_type:\n - joke_type: {joke_type}\n - quote_type: {quote_type}"
   utter_goodbye:
   - text: Talk to you later!
   - text: Bye!
@@ -175,7 +175,7 @@ actions:
 - utter_submit
 - utter_default
 - utter_ask_feedback
-- utter_doc_slots
+- utter_slots
 - utter_feedback_thanks
 - utter_ask_quote_type
 - utter_ask_joke_type
