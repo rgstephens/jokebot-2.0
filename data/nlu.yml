@@ -337,6 +337,37 @@ nlu:
     - april 12th should be the start date
     - start at the first of the year
     - starting may 2
+
+- intent: buttons_custom_default
+  examples: |
+    - try buttons custom default
+    - custom default buttons
+    - show me custom default buttons
+
+- intent: buttons_default
+  examples: |
+    - try buttons default
+    - default buttons
+    - show me default buttons
+
+- intent: buttons_inline
+  examples: |
+    - try buttons inline
+    - inline buttons
+    - show me inline buttons
+
+- intent: buttons_vertical
+  examples: |
+    - try buttons vertical
+    - vertical buttons
+    - show me vertical buttons
+
+- intent: buttons_reply
+  examples: |
+    - try buttons reply
+    - reply buttons
+    - show me reply buttons
+
 - synonym: ron
   examples: |
     - ron swanson

@@ -9,6 +9,16 @@ intents:
 #    triggers: action_kanye
 #- random_joke:
 #    triggers: action_random
+- buttons_default:
+    triggers: utter_buttons_default
+- buttons_inline:
+    triggers: utter_buttons_inline
+- buttons_vertical:
+    triggers: utter_buttons_vertical
+- buttons_reply:
+    triggers: utter_buttons_reply
+- buttons_custom_default:
+    triggers: utter_buttons_custom_default
 - debug
 - f1_score
 - stop
@@ -84,8 +94,92 @@ slots:
     type: any
 
 responses:
+  utter_buttons_default:
+  - buttons:
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_vertical
+      title: Vertical
+    - payload: /buttons_reply
+      title: Reply
+    text: These are default buttons?
+  - channel: telegram
+    text: These are default telegram buttons?
+    buttons:
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_vertical
+      title: Vertical
+    - payload: /buttons_reply
+      title: Reply
+
+  utter_buttons_inline:
+  - buttons:
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_vertical
+      title: Vertical
+    - payload: /buttons_reply
+      title: Reply
+    text: These are inline buttons?
+  - channel: telegram
+    text: These are inline telegram buttons?
+    buttons:
+    - payload: /buttons_default
+      title: Default
+    - payload: /buttons_vertical
+      title: Vertical
+    - payload: /buttons_reply
+      title: Reply
+      button_type: inline
+
+  utter_buttons_vertical:
+  - buttons:
+    - payload: /buttons_default
+      title: Default
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_reply
+      title: Reply
+    text: These are vertical buttons?
+  - channel: telegram
+    custom:
+      text: These are vertical telegram buttons?
+      button_type: vertical
+      buttons:
+      - payload: /buttons_default
+        title: Default
+      - payload: /buttons_inline
+        title: Inline
+      - payload: /buttons_reply
+        title: Reply
+
+  utter_buttons_reply:
+  - buttons:
+    - payload: /buttons_default
+      title: Default
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_vertical
+      title: Vertical
+    text: These are reply buttons?
+  - channel: telegram
+    custom:
+      button_type: reply
+      text: These are reply buttons?
+      buttons:
+      - payload: /buttons_default
+        title: Default
+      - payload: /buttons_inline
+        title: Inline
+      - payload: /buttons_vertical
+        title: Vertical
+
+  utter_buttons_custom_default:
+  - channel: telegram
+    text: These are custom channel default buttons?
   utter_version:
-  - text: "Model 1.1.0 - Apr 14, 2020"
+  - text: "Model 1.1.0 - Dec 18, 2020"
   utter_greet:
   - text: Welcome to the Jokebot, you can ask for Geek jokes, Corny jokes, Ron Swanson
       or Breaking Bad jokes. Also, Inspiring or Trump quotes.
@@ -152,6 +246,11 @@ responses:
   - text: I don't know that one
 
 actions:
+- utter_buttons_default
+- utter_buttons_inline
+- utter_buttons_vertical
+- utter_buttons_reply
+- utter_buttons_custom_default
 - action_f1_score
 - action_version
 - action_show_slots
