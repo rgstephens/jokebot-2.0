@@ -134,7 +134,7 @@ responses:
     text: These are vertical buttons?
   - channel: telegram
     text: These are vertical telegram buttons?
-    button_type: vertical
+#    button_type: vertical
     buttons:
     - payload: /buttons_default
       title: Default
@@ -154,7 +154,7 @@ responses:
     text: These are reply buttons?
   - channel: telegram
     text: These are reply buttons?
-    button_type: reply
+#    button_type: reply
     buttons:
     - payload: /buttons_default
       title: Default
