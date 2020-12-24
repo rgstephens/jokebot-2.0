@@ -266,7 +266,3 @@ actions:
 - utter_feedback_thanks
 - utter_ask_quote_type
 - utter_ask_joke_type
-
-forms:
-- time_form
-# split-domain test branch
