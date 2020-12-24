@@ -80,6 +80,7 @@ responses:
       quotes that are Inspiring or Trump quotes.
   utter_ask_continue:
   - text: Do you want to continue?
+  - text: Would you like to continue?
   utter_ask_joke_type:
   - text: What type of joke would you like?
     buttons:
