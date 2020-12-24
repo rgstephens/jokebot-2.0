@@ -1,7 +1,24 @@
+version: "2.0"
+
 session_config:
   session_expiration_time: 0.0
   carry_over_slots_to_new_session: true
+
 intents:
+#- kanye_quote:
+#    triggers: action_kanye
+#- random_joke:
+#    triggers: action_random
+- buttons_default:
+    triggers: utter_buttons_default
+- buttons_inline:
+    triggers: utter_buttons_inline
+- buttons_vertical:
+    triggers: utter_buttons_vertical
+- buttons_reply:
+    triggers: utter_buttons_reply
+- buttons_custom_default:
+    triggers: utter_buttons_custom_default
 - debug
 - f1_score
 - stop
@@ -21,7 +38,10 @@ intents:
 - inform
 - time_range
 - time_from
+
 entities:
+- action_kanye
+- action_random
 - email_addr
 - feedback
 - debug
@@ -34,21 +54,20 @@ entities:
 - time
 - from
 - to
+
 slots:
   debug:
     type: bool
   dynamic_slot:
-    type: unfeaturized
-    auto_fill: false
+    type: any
   email_addr:
     type: list
   feedback:
-    type: unfeaturized
-    auto_fill: false
+    type: any
   from:
-    type: unfeaturized
+    type: any
   from_time:
-    type: unfeaturized
+    type: any
   joke_type:
     type: categorical
     values:
@@ -64,18 +83,91 @@ slots:
     - trump
     - kanye
   requested_slot:
-    type: unfeaturized
+    type: any
   survey:
     type: bool
   time:
-    type: unfeaturized
+    type: any
   to:
-    type: unfeaturized
+    type: any
   to_time:
-    type: unfeaturized
+    type: any
+
 responses:
+  utter_buttons_default:
+  - buttons:
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_vertical
+      title: Vertical
+    - payload: /buttons_reply
+      title: Reply
+    text: These are default buttons?
+  - channel: telegram
+    text: These are default telegram buttons?
+    buttons:
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_vertical
+      title: Vertical
+    - payload: /buttons_reply
+      title: Reply
+
+  utter_buttons_inline:
+  - buttons:
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_vertical
+      title: Vertical
+    - payload: /buttons_reply
+      title: Reply
+    text: These are inline buttons?
+
+  utter_buttons_vertical:
+  - buttons:
+    - payload: /buttons_default
+      title: Default
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_reply
+      title: Reply
+    text: These are vertical buttons?
+  - channel: telegram
+    text: These are vertical telegram buttons?
+    button_type: vertical
+    buttons:
+    - payload: /buttons_default
+      title: Default
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_reply
+      title: Reply
+
+  utter_buttons_reply:
+  - buttons:
+    - payload: /buttons_default
+      title: Default
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_vertical
+      title: Vertical
+    text: These are reply buttons?
+  - channel: telegram
+    text: These are reply buttons?
+    button_type: reply
+    buttons:
+    - payload: /buttons_default
+      title: Default
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_vertical
+      title: Vertical
+
+  utter_buttons_custom_default:
+  - channel: telegram
+    text: These are custom channel default buttons?
   utter_version:
-  - text: "Model 1.1.0 - Apr 14, 2020"
+  - text: "Model 1.1.0 - Dec 18, 2020"
   utter_greet:
   - text: Welcome to the Jokebot, you can ask for Geek jokes, Corny jokes, Ron Swanson
       or Breaking Bad jokes. Also, Inspiring or Trump quotes.
@@ -87,12 +179,11 @@ responses:
   - text: What type of joke would you like?
     buttons:
     - title: Geek
-      payload: /joke{"joke_type":"geek"}
+      payload: '/joke{{"joke_type": "geek"}}'
     - title: Corny
-      payload: /joke{"joke_type":"corny"}
+      payload: '/joke{{"joke_type": "corny"}}'
   - text: What type of joke do you want?
     channel: "slack"
-    custom:
     buttons:
     - title: Geek
       payload: Geek joke
@@ -127,8 +218,8 @@ responses:
   utter_default:
   - text: Sorry, I can't answer that
   - text: Sorry, I don't recognize that question, want to try again?
-  utter_doc_slots:
-  - text: "customer doc slots:\n - customer: {customer}\n - domicile: {domicile}"
+  utter_slots:
+  - text: "joke_type:\n - joke_type: {joke_type}\n - quote_type: {quote_type}"
   utter_goodbye:
   - text: Talk to you later!
   - text: Bye!
@@ -141,7 +232,13 @@ responses:
   utter_not_sure:
   - text: I'm not sure
   - text: I don't know that one
+
 actions:
+- utter_buttons_default
+- utter_buttons_inline
+- utter_buttons_vertical
+- utter_buttons_reply
+- utter_buttons_custom_default
 - action_f1_score
 - action_version
 - action_show_slots
@@ -165,9 +262,10 @@ actions:
 - utter_submit
 - utter_default
 - utter_ask_feedback
-- utter_doc_slots
+- utter_slots
 - utter_feedback_thanks
 - utter_ask_quote_type
 - utter_ask_joke_type
+
 forms:
 - time_form
