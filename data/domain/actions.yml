@@ -1,0 +1,35 @@
+version: "2.0"
+
+actions:
+- utter_buttons_default
+- utter_buttons_inline
+- utter_buttons_vertical
+- utter_buttons_reply
+- utter_buttons_custom_default
+- action_f1_score
+- action_version
+- action_show_slots
+- action_feedback
+- utter_thanks
+- utter_ask_continue
+- utter_version
+- action_chuck
+- action_ron
+- action_breaking
+- action_corny
+- action_inspiring
+- action_geek
+- action_time_range
+- action_trump
+- utter_goodbye
+- utter_clear
+- utter_greet
+- utter_chitchat
+- utter_not_sure
+- utter_submit
+- utter_default
+- utter_ask_feedback
+- utter_slots
+- utter_feedback_thanks
+- utter_ask_quote_type
+- utter_ask_joke_type
