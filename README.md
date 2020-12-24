@@ -137,3 +137,37 @@ The project includes the following scripts:
 
 https://www.theodysseyonline.com/best-creed-bratton-quotes-the-office
 
+## 2.0 Migration
+
+2.0 Migration Steps:
+
+```
+mv data data-1.0
+mkdir -p data
+rasa data convert nlu -f yaml --data data-1.0 --out data
+rasa data convert core -f yaml --data data-1.0 --out data
+```
+
+## Test Curl
+
+```
+curl --location --request POST 'http://localhost:5055/webhook' \
+--data-raw '{      
+  "next_action": "action_kanye",
+  "sender_id": "postman",
+  "tracker": {
+    "sender_id": "default",
+    "slots": {},
+    "latest_message": {},
+    "latest_event_time": 1535092548.4191391,
+    "followup_action": "action_listen",
+    "events": []
+  },
+  "domain": {
+    "config": {},
+    "intents": [],
+    "entities": [],
+    "slots": {}
+  }
+}'
+```

@@ -1,29 +1,26 @@
 language: en
 
 pipeline:
-- name: "WhitespaceTokenizer"
-- name: "RegexFeaturizer"
-- name: "CRFEntityExtractor"
-- name: "EntitySynonymMapper"
-#- name: "CountVectorsFeaturizer"
-- name: "CountVectorsFeaturizer"
-  analyzer: "char_wb"
-  min_ngram: 1
-  max_ngram: 5
-- name: "EmbeddingIntentClassifier"
-- name: DucklingHTTPExtractor
-  url: http://duckling:8000
-  dimensions:
-  - email
-  - email_addr
-  - duration
-  - time
+  - name: WhitespaceTokenizer
+  - name: RegexFeaturizer
+  - name: LexicalSyntacticFeaturizer
+  - name: CountVectorsFeaturizer
+  - name: CountVectorsFeaturizer
+    analyzer: "char_wb"
+    min_ngram: 1
+    max_ngram: 4
+  - name: DIETClassifier
+    epochs: 100
+  - name: EntitySynonymMapper
+  - name: DucklingEntityExtractor
+    url: http://localhost:8000
+    dimensions: [ "email", "duration", "time" ]
+#  - name: ResponseSelector
+#    epochs: 100
 
 policies:
+- name: RulePolicy
 - name: AugmentedMemoizationPolicy
-- name: EmbeddingPolicy
-  max_history: 2
-  batch_strategy: sequence
-  epochs: 100
-  evaluate_on_num_examples: 0
-- name: FormPolicy
+- name: MappingPolicy
+- name: TEDPolicy
+  epochs: 20
