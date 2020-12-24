@@ -122,16 +122,6 @@ responses:
     - payload: /buttons_reply
       title: Reply
     text: These are inline buttons?
-  - channel: telegram
-    text: These are inline telegram buttons?
-    buttons:
-    - payload: /buttons_default
-      title: Default
-    - payload: /buttons_vertical
-      title: Vertical
-    - payload: /buttons_reply
-      title: Reply
-      button_type: inline
 
   utter_buttons_vertical:
   - buttons:
@@ -143,16 +133,15 @@ responses:
       title: Reply
     text: These are vertical buttons?
   - channel: telegram
-    custom:
-      text: These are vertical telegram buttons?
-      button_type: vertical
-      buttons:
-      - payload: /buttons_default
-        title: Default
-      - payload: /buttons_inline
-        title: Inline
-      - payload: /buttons_reply
-        title: Reply
+    text: These are vertical telegram buttons?
+    button_type: vertical
+    buttons:
+    - payload: /buttons_default
+      title: Default
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_reply
+      title: Reply
 
   utter_buttons_reply:
   - buttons:
@@ -164,16 +153,15 @@ responses:
       title: Vertical
     text: These are reply buttons?
   - channel: telegram
-    custom:
-      button_type: reply
-      text: These are reply buttons?
-      buttons:
-      - payload: /buttons_default
-        title: Default
-      - payload: /buttons_inline
-        title: Inline
-      - payload: /buttons_vertical
-        title: Vertical
+    text: These are reply buttons?
+    button_type: reply
+    buttons:
+    - payload: /buttons_default
+      title: Default
+    - payload: /buttons_inline
+      title: Inline
+    - payload: /buttons_vertical
+      title: Vertical
 
   utter_buttons_custom_default:
   - channel: telegram
