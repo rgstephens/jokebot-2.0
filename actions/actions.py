@@ -10,7 +10,9 @@ import typing
 import logging
 import requests
 import json
+import re
 import csv
+import random
 #from . import otel
 import actions.tracing
 
@@ -29,7 +31,7 @@ from datetime import datetime, date, time, timedelta
 #from rasa_core.tracker_store import TrackerStore
 
 logger = logging.getLogger(__name__)
-vers = 'Vers: 0.7.0, Date: Mar 18, 2019'
+vers = 'Vers: 0.8.0, Date: Dec 30, 2020'
 
 #otel.init_tracer("action_server")
 tracer = actions.tracing.init_tracer('action_server')
@@ -72,7 +74,7 @@ class ActionKanye(Action):
             request = json.loads(requests.get('https://api.kanye.rest').text)
             joke = request['quote'] #extract a joke from returned json response
             dispatcher.utter_message(joke) #send the message back to the user
-            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+            return []
 
 class ActionRandom(Action):
     def name(self):
@@ -82,9 +84,9 @@ class ActionRandom(Action):
     def run(self, dispatcher, tracker, domain):
         with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
             request = json.loads(requests.get('http://api.icndb.com/jokes/random').text)
-            joke = request['value'] #extract a joke from returned json response
+            joke = request['value']['joke'] #extract a joke from returned json response
             dispatcher.utter_message(joke) #send the message back to the user
-            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+            return []
 
 class ActionChuck(Action):
     def name(self):
@@ -96,7 +98,7 @@ class ActionChuck(Action):
             request = json.loads(requests.get('https://api.chucknorris.io/jokes/random').text) #make an apie call
             joke = request['value'] #extract a joke from returned json response
             dispatcher.utter_message(joke) #send the message back to the user
-            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+            return []
 
 class ActionRon(Action):
     def name(self):
@@ -111,7 +113,7 @@ class ActionRon(Action):
             joke = request[0]   + ' - Ron Swanson'
             logger.debug("joke: {}".format(joke))
             dispatcher.utter_message(joke) #send the message back to the user
-            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+            return []
 
 class ActionBreakingBad(Action):
     def name(self):
@@ -125,9 +127,9 @@ class ActionBreakingBad(Action):
             author = request[0]['author']
             quote = request[0]['quote']
             message = quote + ' - ' + author
-            #message = quote + ' - [' + author + '] (' + permalink + ')'
+            #message = quote + ' - [' + author + '](' + permalink + ')'
             dispatcher.utter_message(message) #send the message back to the user
-            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+            return []
 
 class ActionCorny(Action):
     def name(self):
@@ -140,9 +142,9 @@ class ActionCorny(Action):
         author = request['punchline']
         quote = request['setup']
         message = quote + ' - ' + author
-        #message = quote + ' - [' + author + '] (' + permalink + ')'
+        #message = quote + ' - [' + author + '](' + permalink + ')'
         dispatcher.utter_message(message) #send the message back to the user
-        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+        return []
 
 class ActionInspiring(Action):
     def name(self):
@@ -155,17 +157,18 @@ class ActionInspiring(Action):
             request = requests.get('https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json')
             if request.status_code == 200:
                 logger.info("request.text: {}".format(request.text))
-                resp = json.loads(request.text)
+                fixed = re.sub(r'(?<!\\)\\(?!["\\/bfnrt]|u[0-9a-fA-F]{4})', r'', request.text)
+                resp = json.loads(fixed)
                 author = resp['quoteAuthor']
                 quote = resp['quoteText']
                 permalink = resp['quoteLink']
                 #message = quote + ' - ' + author + ' ' + permalink
-                message = quote + ' - [' + author + '] (' + permalink + ')'
+                message = quote + ' - [' + author + '](' + permalink + ')'
             else:
                 message = 'quote service error (exceeded max free quotes?), error: ' + request.status_code
             #dispatcher.utter_message(message) #send the message back to the user
             dispatcher.utter_message(message) #send the message back to the user
-            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+            return []
 
 class ActionGeek(Action):
     def name(self):
@@ -180,9 +183,9 @@ class ActionGeek(Action):
             quote = request['quote']
             permalink = request['permalink']
             # message = quote + ' - ' + author + ' ' + permalink
-            message = quote + ' - [' + author + '] (' + permalink + ')'
+            message = quote + ' - [' + author + '](' + permalink + ')'
             dispatcher.utter_message(message) #send the message back to the user
-            return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+            return []
 
 class ActionTrump(Action):
     def name(self):
@@ -194,7 +197,32 @@ class ActionTrump(Action):
         request = json.loads(requests.get('https://api.whatdoestrumpthink.com/api/v1/quotes/random').text) #make an apie call
         joke = request['message']  + ' - Donald Trump'
         dispatcher.utter_message(joke) #send the message back to the user
-        return [SlotSet("joke_type", None), SlotSet("quote_type", None)]
+        return []
+
+class ActionCreed(Action):
+    def __init__(self):
+        self.quotes = [
+            "I wanna do a cartwheel. But real casual like. Not enough to make a big deal out of it, but I know everyone saw it. One stunning, gorgeous cartwheel",
+            "I've been involved in a number of cults, both a leader and a follower. You have more fun as a follower, but you make more money as a leader.",
+            "Just pretend like we're talking until the cops leave.",
+            "I already won the lottery. I was born in the US of A baby. And as backup I have a Swiss passport.",
+            "The Taliban's the worst. Great heroin though.",
+            "I run a small fake-ID company from my car with a laminating machine that I swiped from the Sheriff's station.",
+            "Ryan, you told Toby that Creed has a distinct old man smell",
+            "I know exactly what he's talking about, I sprout mung beans on a damp paper towel in my desk drawer, very nutritious but they smell like death",
+            "Nobody steals from Creed Bratton and gets away with it. The last person to do this disappeared. His name: Creed Bratton.",
+            "The only difference between me and a homeless man is this job. I will do whatever it takes to survive… like I did when I was a homeless man.",
+            "I am not offended by homosexuality, in the sixties I made love to many, many women, often outdoors in the mud & rain. It's possible a man could've slipped in there. There'd be no way of knowing.",
+            "You ever notice you can only ooze two things? Sexuality and pus."
+        ]
+
+    def name(self):
+        return "action_creed"
+
+    def run(self, dispatcher, tracker, domain):
+        n = random.randint(0,len(self.quotes)-1)
+        dispatcher.utter_message(quotes[n]) #send the message back to the user
+        return []
 
 class ActionVersion(Action):
     def name(self):
@@ -513,53 +541,6 @@ class JokeForm(FormAction):
         logger.info("dispatch template, joke_type: {}".format(joke_type))
 
         #return [SlotSet("joke_type", None)]
-        return []
-
-class QuoteForm(FormAction):
-    def name(self):
-        return "quote_form"
-
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
-        return ["quote_type"]
-
-    def slot_mappings(self):
-        return {"quote_type": self.from_entity(entity="quote_type")}
-
-
-    def validate(self,
-                 dispatcher: CollectingDispatcher,
-                 tracker: Tracker,
-                 domain: Dict[Text, Any]) -> List[Dict]:
-        """Validate extracted requested slot
-            else reject the execution of the form action
-        """
-        # extract other slots that were not requested
-        # but set by corresponding entity
-        slot_values = self.extract_other_slots(dispatcher, tracker, domain)
-        logger.info("validate, slot_values: {}".format(slot_values))
-
-        # extract requested slot
-        slot_to_fill = tracker.get_slot(REQUESTED_SLOT)
-        logger.info("validate, slot_to_fill: {}".format(slot_to_fill))
-        if slot_to_fill:
-            slot_values.update(self.extract_requested_slot(dispatcher, tracker, domain))
-            if not slot_values:
-                dispatcher.utter_message(
-                    "Sorry, I could not understand your response.")
-
-        return [SlotSet(slot, value) for slot, value in slot_values.items()]
-
-    def submit(self,
-               dispatcher: CollectingDispatcher,
-               tracker: Tracker,
-               domain: Dict[Text, Any]) -> List[Dict]:
-        # utter submit template
-        quote_type = tracker.get_slot('quote_type')
-
-        logger.info("dispatch template, quote_type: {}".format(quote_type))
-
-        #return [SlotSet("quote_type ", None)]
         return []
 
 def intentHistoryStr(tracker, skip, past):

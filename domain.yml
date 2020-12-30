@@ -5,34 +5,37 @@ session_config:
   carry_over_slots_to_new_session: true
 
 intents:
-#- kanye_quote:
-#    triggers: action_kanye
-#- random_joke:
-#    triggers: action_random
-- buttons_default:
-    triggers: utter_buttons_default
-- buttons_inline:
-    triggers: utter_buttons_inline
-- buttons_vertical:
-    triggers: utter_buttons_vertical
-- buttons_reply:
-    triggers: utter_buttons_reply
-- buttons_custom_default:
-    triggers: utter_buttons_custom_default
+- faq
+- creed_quote:
+    triggers: action_creed
+- corny_joke:
+    triggers: action_corny
+- geek_joke:
+    triggers: action_geek
+- random_joke:
+    triggers: action_random
+
+- inspiring_quote:
+    triggers: action_inspiring
+- trump_quote:
+    triggers: action_trump
+- chuck_quote:
+    triggers: action_chuck
+- breaking_quote:
+    triggers: action_breaking
+- ron_quote:
+    triggers: action_ron
+- kanye_quote:
+    triggers: action_kanye
 - debug
 - f1_score
 - stop
 - feedback
-- joke
-- quote
 - survey
-- greet
-- goodbye
 - clear
 - version
 - thanks
 - deny
-- chitchat
 - affirm
 - show_slots
 - inform
@@ -40,14 +43,10 @@ intents:
 - time_from
 
 entities:
-- action_kanye
-- action_random
 - email_addr
 - feedback
 - debug
 - survey
-- joke_type
-- quote_type
 - duration
 - from_time
 - to_time
@@ -68,20 +67,6 @@ slots:
     type: any
   from_time:
     type: any
-  joke_type:
-    type: categorical
-    values:
-    - chuck
-    - corny
-    - geek
-  quote_type:
-    type: categorical
-    values:
-    - breaking
-    - ron
-    - inspiring
-    - trump
-    - kanye
   requested_slot:
     type: any
   survey:
@@ -94,112 +79,60 @@ slots:
     type: any
 
 responses:
-  utter_buttons_default:
-  - buttons:
-    - payload: /buttons_inline
-      title: Inline
-    - payload: /buttons_vertical
-      title: Vertical
-    - payload: /buttons_reply
-      title: Reply
-    text: These are default buttons?
-  - channel: telegram
-    text: These are default telegram buttons?
-    buttons:
-    - payload: /buttons_inline
-      title: Inline
-    - payload: /buttons_vertical
-      title: Vertical
-    - payload: /buttons_reply
-      title: Reply
-
-  utter_buttons_inline:
-  - buttons:
-    - payload: /buttons_inline
-      title: Inline
-    - payload: /buttons_vertical
-      title: Vertical
-    - payload: /buttons_reply
-      title: Reply
-    text: These are inline buttons?
-
-  utter_buttons_vertical:
-  - buttons:
-    - payload: /buttons_default
-      title: Default
-    - payload: /buttons_inline
-      title: Inline
-    - payload: /buttons_reply
-      title: Reply
-    text: These are vertical buttons?
-  - channel: telegram
-    text: These are vertical telegram buttons?
-    button_type: vertical
-    buttons:
-    - payload: /buttons_default
-      title: Default
-    - payload: /buttons_inline
-      title: Inline
-    - payload: /buttons_reply
-      title: Reply
-
-  utter_buttons_reply:
-  - buttons:
-    - payload: /buttons_default
-      title: Default
-    - payload: /buttons_inline
-      title: Inline
-    - payload: /buttons_vertical
-      title: Vertical
-    text: These are reply buttons?
-  - channel: telegram
-    text: These are reply buttons?
-    button_type: reply
-    buttons:
-    - payload: /buttons_default
-      title: Default
-    - payload: /buttons_inline
-      title: Inline
-    - payload: /buttons_vertical
-      title: Vertical
-
-  utter_buttons_custom_default:
-  - channel: telegram
-    text: These are custom channel default buttons?
   utter_version:
-  - text: "Model 1.1.0 - Dec 18, 2020"
-  utter_greet:
-  - text: Welcome to the Jokebot, you can ask for Geek jokes, Corny jokes, Ron Swanson
-      or Breaking Bad jokes. Also, Inspiring or Trump quotes.
-  - text: Ask me for Geek jokes, Corny jokes, Ron Swanson or Breaking Bad jokes or
-      quotes that are Inspiring or Trump quotes.
+  - text: "Dec 30, 2020"
+  utter_faq/greet:
+  - text: Welcome to the Jokebot, you can ask for Geek jokes, Corny jokes. Also, Ron Swanson,
+      Creed, Breaking Bad, Inspiring or Trump quotes.
+
   utter_ask_continue:
   - text: Do you want to continue?
-  utter_ask_joke_type:
+
+  utter_faq/joke:
   - text: What type of joke would you like?
     buttons:
     - title: Geek
-      payload: '/joke{{"joke_type": "geek"}}'
+      payload: '/geek_joke'
     - title: Corny
-      payload: '/joke{{"joke_type": "corny"}}'
-  - text: What type of joke do you want?
-    channel: "slack"
+      payload: '/corny_joke'
+  - channel: telegram
+    text: What type of joke would you like?
+#    button_type: vertical
     buttons:
     - title: Geek
-      payload: Geek joke
+      payload: '/geek_joke'
     - title: Corny
-      payload: Corny joke
-  utter_ask_quote_type:
+      payload: '/corny_joke'
+
+  utter_faq/quote:
   - buttons:
-    - payload: /quote{"quote_type":"inspiring"}
+    - payload: /inspiring_quote
       title: Inspiring
-    - payload: /quote{"quote_type":"breaking"}
+    - payload: /breaking_quote
       title: Breaking Bad
-    - payload: /quote{"quote_type":"ron"}
+    - payload: /ron_quote
       title: Ron Swanson
-    - payload: /quote{"quote_type":"trump"}
+    - payload: /creed_quote
+      title: Creed Bratton
+    - payload: /trump_quote
       title: Trump
     text: What type of quote would you like?
+  - channel: telegram
+    text: What type of quote would you like?
+#    button_type: reply
+#    button_type: inline
+    buttons:
+    - payload: /inspiring_quote
+      title: Inspiring
+    - payload: /breaking_quote
+      title: Breaking Bad
+    - payload: /ron_quote
+      title: Ron Swanson
+    - payload: /creed_quote
+      title: Creed Bratton
+    - payload: /trump_quote
+      title: Trump
+
   utter_ask_feedback:
   - buttons:
     - payload: /feedback{"feedback":"positive"}
@@ -213,16 +146,19 @@ responses:
     text: Was your question answered?
   utter_feedback_thanks:
   - text: Thanks for your feedback!
-  utter_chitchat:
+  utter_faq/chitchat:
   - text: Sorry, I don't recognize that question, want to try again?
   utter_default:
   - text: Sorry, I can't answer that
   - text: Sorry, I don't recognize that question, want to try again?
   utter_slots:
-  - text: "joke_type:\n - joke_type: {joke_type}\n - quote_type: {quote_type}"
-  utter_goodbye:
+  - text: "no slots to utter"
+  utter_faq/goodbye:
   - text: Talk to you later!
   - text: Bye!
+  - text: See ya!
+  - text: Cheers!
+  - text: Ciao!
   utter_clear:
   - text: History cleared
   utter_submit:
@@ -234,11 +170,16 @@ responses:
   - text: I don't know that one
 
 actions:
-- utter_buttons_default
-- utter_buttons_inline
-- utter_buttons_vertical
-- utter_buttons_reply
-- utter_buttons_custom_default
+- action_chuck
+- action_ron
+- action_breaking
+- action_corny
+- action_inspiring
+- action_geek
+- action_trump
+- action_kanye
+- action_random
+- action_creed
 - action_f1_score
 - action_version
 - action_show_slots
@@ -246,26 +187,14 @@ actions:
 - utter_thanks
 - utter_ask_continue
 - utter_version
-- action_chuck
-- action_ron
-- action_breaking
-- action_corny
-- action_inspiring
-- action_geek
 - action_time_range
-- action_trump
-- utter_goodbye
 - utter_clear
-- utter_greet
-- utter_chitchat
 - utter_not_sure
 - utter_submit
 - utter_default
 - utter_ask_feedback
 - utter_slots
 - utter_feedback_thanks
-- utter_ask_quote_type
-- utter_ask_joke_type
 
 forms:
 - time_form
