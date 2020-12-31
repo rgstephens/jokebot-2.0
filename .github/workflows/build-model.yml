@@ -1,5 +1,5 @@
 
-name: Build and Deploy
+name: Train, Test & Deploy Model
 on: [pull_request]
 
 jobs:
