@@ -75,32 +75,13 @@ jobs:
         uses: Rishabh510/Path-lister-action@master
         with:
           path: "."
-          type: ".yml"
+          type: ".gz"
       - name: Output results
         run: |
           echo "Found ${{ steps.path-list-models.outputs.path_count }} file(s) with this extension:"
           for i in ${{ steps.path-list-models.outputs.paths }}; do
           echo $i
           done
-      - name: List root tgz files
-        id: path-list-root
-        uses: Rishabh510/Path-lister-action@master
-        with:
-          path: "."
-          type: ".tgz"
-      - name: Output results
-        run: |
-          echo "Found ${{ steps.path-list-root.outputs.path_count }} file(s) with this extension:"
-          for i in ${{ steps.path-list-root.outputs.paths }}; do
-          echo $i
-          done
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-      - name: Upload model path
-        uses: actions/upload-artifact@master
-        with:
-          name: model-pretest
-          path: models/
 
   test-model:
     name: Test Model
@@ -122,14 +103,6 @@ jobs:
           cross_validation: true
           publish_summary: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-  upload-model:
-    name: Upload Model
-    runs-on: ubuntu-latest
-    needs: [test-model]
-
-    steps:
-      - uses: actions/checkout@v1
       - name: Upload model
         uses: actions/upload-artifact@master
         with:
