@@ -45,6 +45,10 @@ jobs:
     name: Training and Testing
     runs-on: ubuntu-latest
     needs: [lint-testing, type-testing]
+
+    env:
+      RASA_VERSION: '2.1.3-spacy-en'
+
     steps:
       - uses: actions/checkout@v1
       - id: files
@@ -59,7 +63,7 @@ jobs:
         if: env.RUN_TRAINING == 'true'
         uses: RasaHQ/rasa-train-test-gha@main
         with:
-          rasa_version: '2.1.3-spacy-en'
+          rasa_version: ${{ env.RASA_VERSION }}
           test_type: all
           data_validate: true
           cross_validation: true
