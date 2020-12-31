@@ -70,6 +70,24 @@ jobs:
           rasa_test: false
           data_validate: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: List models tgz files
+        id: path-list
+        uses: Rishabh510/Path-lister-action@master
+        with:
+          path: "models/"
+          type: ".tgz"
+      - name: List root tgz files
+        id: path-list
+        uses: Rishabh510/Path-lister-action@master
+        with:
+          path: "/"
+          type: ".tgz"
+      - name: Upload model path
+        if: github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@master
+        with:
+          name: model-pretest
+          path: models/
 
   test-model:
     name: Test Model
@@ -91,12 +109,6 @@ jobs:
           cross_validation: true
           publish_summary: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload model
-        if: github.ref == 'refs/heads/master'
-        uses: actions/upload-artifact@master
-        with:
-          name: model
-          path: models
 
   upload-model:
     name: Upload Model
@@ -110,4 +122,4 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: model
-          path: models
+          path: models/
