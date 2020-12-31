@@ -71,13 +71,13 @@ jobs:
           data_validate: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: List models tgz files
-        id: path-list
+        id: path-list-models
         uses: Rishabh510/Path-lister-action@master
         with:
           path: "models/"
           type: ".tgz"
       - name: List root tgz files
-        id: path-list
+        id: path-list-root
         uses: Rishabh510/Path-lister-action@master
         with:
           path: "/"
