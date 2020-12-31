@@ -60,7 +60,7 @@ jobs:
             contains(  steps.files.outputs.all, 'data/' )
             || contains(  steps.files.outputs.all, 'config.yml' )
             || contains(  steps.files.outputs.all, 'domain.yml' )
-            || contains(  steps.files.outputs.all, ''.github/workflows/build-model.yml'' )
+            || contains(  steps.files.outputs.all, '.github/workflows/build-model.yml' )
         run: echo "RUN_TRAINING=true" >> $GITHUB_ENV
       - name: Rasa Train and Test GitHub Action
         if: env.RUN_TRAINING == 'true'
