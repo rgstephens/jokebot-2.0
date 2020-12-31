@@ -84,24 +84,13 @@ The project includes the following scripts:
 
 # Rasa X & Rasa Version Combinations
 
+There is a [Rasa Compatibility Matrix](https://rasa.com/docs/rasa-x/changelog/compatibility-matrix/).
+
+The docker hub images are here:
+
 - [rasa tags](https://hub.docker.com/r/rasa/rasa/tags)
 - [rasa-x tags](https://hub.docker.com/r/rasa/rasa-x/tags)
 - [rasa-sdk tags](https://hub.docker.com/r/rasa/rasa-sdk/tags)
-
-| Rasa X |  Rasa  | Rasa SDK |
-| :----: | :----: | :------: |
-| 0.27.4 | 1.9.5  |  1.9.0   |
-| 0.26.3 | 1.8.2  |  1.8.1   |
-| 0.25.1 | 1.7.0  |  1.7.0   |
-| 0.24.6 | 1.6.4  |  1.6.1   |
-| 0.23.5 | 1.5.3  |  1.5.2   |
-| 0.23.3 | 1.5.1  |  1.5.0   |
-| 0.22.1 | 1.4.3  |  1.4.0   |
-| 0.21.5 | 1.3.9  |  1.3.3   |
-| 0.21.4 | 1.3.9  |  1.3.3   |
-| 0.21.3 | 1.3.9  |  1.3.3   |
-| 0.20.5 | 1.2.11 |  1.2.0   |
-| 0.20.0 | 1.2.5  |  1.2.0   |
 
 ## Training Times
 
@@ -112,10 +101,8 @@ The project includes the following scripts:
 
 ## ToDo
 
-- Use featurized slots
 - Brainy quote, `https://github.com/Hemil96/Brainyquote-API`
-- Kanye quote, `https://api.kanye.rest/?format=text`
-- Random joke endpoint, `http://api.icndb.com/jokes/random`
+- Github Actions pipeline
 - Google Assistant integration
 - NLU test data
 - Core test data
@@ -123,19 +110,15 @@ The project includes the following scripts:
 - Support [multi-intents](https://blog.rasa.com/how-to-handle-multiple-intents-per-input-using-rasa-nlu-tensorflow-pipeline/?_ga=2.50044902.1771157212.1575170721-2034915719.1563294018)
 - travis testing with carbon bot style test results table
 
-### Creed Quotes
+## New Features
 
-- I wanna do a cartwheel. But real casual like. Not enough to make a big deal out of it, but I know everyone saw it. One stunning, gorgeous cartwheel.
-- I’ve been involved in a number of cults, both a leader and a follower. You have more fun as a follower, but you make more money as a leader.
-- Just pretend like we're talking until the cops leave.
-- I already won the lottery. I was born in the US of A baby. And as backup I have a Swiss passport.
-- The Taliban in the worst. Great heroin though.
-- I run a small fake-ID company from my car with a laminating machine that I swiped from the Sheriff’s station.
--
-- Ryan, you told Toby that Creed has a distinct old man smell
-- Creed quotes - I know exactly what he's talking about, I sprout mung beans on a damp paper towel in my desk drawer, very nutritious but they smell like death
+**Jan 2021:**
 
-https://www.theodysseyonline.com/best-creed-bratton-quotes-the-office
+- GitHub actions
+  - Build actions docker image
+- Creed quotes
+- Kanye quotes, `https://api.kanye.rest/?format=text`
+- Random jokes, `http://api.icndb.com/jokes/random`
 
 ## 2.0 Migration
 
@@ -170,4 +153,10 @@ curl --location --request POST 'http://localhost:5055/webhook' \
     "slots": {}
   }
 }'
+```
+
+```
+curl --location --request POST 'http://rasa-production:5005/webhooks/rest/webhook' --header 'Content-Type: application/x-www-form-urlencoded' --data-raw '{"sender": "postman","message": "hello" }'
+curl --location --request POST 'http://localhost/webhooks/rest/webhook' --header 'Content-Type: application/x-www-form-urlencoded' --data-raw '{"sender": "postman","message": "hello" }'
+curl --location --request POST 'http://localhost:5005/webhooks/rest/webhook' --header 'Content-Type: application/x-www-form-urlencoded' --data-raw '{"sender": "postman","message": "hello" }'
 ```

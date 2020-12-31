@@ -1,0 +1,34 @@
+version: "2.0"
+
+rules:
+- rule: respond to FAQs
+  steps:
+  - intent: faq
+  - action: utter_faq
+
+- rule: clear
+  steps:
+  - intent: clear
+  - action: utter_clear
+  - action: action_restart
+
+- rule: f1_score
+  steps:
+  - intent: f1_score
+  - action: action_f1_score
+
+- rule: story_thanks
+  steps:
+  - intent: thanks
+  - action: utter_thanks
+
+- rule: story_version
+  steps:
+  - intent: version
+  - action: utter_version
+  - action: action_version
+
+- rule: show_slots
+  steps:
+  - intent: show_slots
+  - action: action_show_slots

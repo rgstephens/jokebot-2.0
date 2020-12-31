@@ -1,17 +1,86 @@
 version: "2.0"
 nlu:
-- intent: kanye_quote
+- intent: creed_quote
   examples: |
-    - kanye quote
-    - give me a kanye quote
-    - how about a kanye quote
-    - a quote from kanye
+    - creed quote
+    - creed joke
+    - give me a creed quote
+    - how about a creed quote
+    - a creed quote
+- intent: corny_joke
+  examples: |
+    - corny joke
+    - give me a corny joke
+    - how about a corny joke
+    - a corny joke
+- intent: geek_joke
+  examples: |
+    - geek joke
+    - give me a geek joke
+    - how about a geek joke
+    - a geek joke
 - intent: random_joke
   examples: |
     - random joke
     - give me a random joke
     - how about a random joke
     - a random joke
+- intent: inspiring_quote
+  examples: |
+    - inspiring quote
+    - inspiring joke
+    - give me a inspiring quote
+    - how about a inspiring quote
+    - a quote from inspiring
+- intent: trump_quote
+  examples: |
+    - trump quote
+    - trump joke
+    - give me a trump quote
+    - how about a trump quote
+    - a quote from trump
+- intent: chuck_quote
+  examples: |
+    - chuck quote
+    - chuck joke
+    - give me a chuck quote
+    - how about a chuck quote
+    - a quote from chuck
+- intent: breaking_quote
+  examples: |
+    - breaking quote
+    - breaking joke
+    - give me a breaking quote
+    - how about a breaking quote
+    - a quote from breaking
+- intent: ron_quote
+  examples: |
+    - ron quote
+    - ron joke
+    - give me a ron quote
+    - how about a ron quote
+    - a quote from ron
+- intent: kanye_quote
+  examples: |
+    - kanye quote
+    - kanye joke
+    - give me a kanye quote
+    - how about a kanye quote
+    - a quote from kanye
+- intent: faq/quote
+  examples: |
+    - give me a quote
+    - quote
+    - tell me a quote
+    - got a quote
+    - quotes are us
+- intent: faq/joke
+  examples: |
+    - tell me a joke
+    - how about a joke
+    - jokes are us
+    - me gotta really good joke
+    - you got joke for me
 - intent: affirm
   examples: |
     - yes
@@ -45,7 +114,7 @@ nlu:
     - breath no
     - do you have something else
     - no this does not work for me
-- intent: chitchat
+- intent: faq/chitchat
   examples: |
     - can you share your boss with me?
     - i want to get to know your owner
@@ -87,88 +156,6 @@ nlu:
     - This is some nonsense chitchat
     - This is non sense
     - Here's a garbage sentence
-- intent: quote
-  examples: |
-    - give me a quote
-    - quote
-    - tell me a quote
-    - got a quote
-    - quotes are us
-    - parks and recreation quote from [ron swanson]{"entity": "quote_type", "value": "ron"}
-    - [Ron Swanson]{"entity": "quote_type", "value": "ron"} parks and rec quote
-    - [ron swanson]{"entity": "quote_type", "value": "ron"}
-    - [swanson]{"entity": "quote_type", "value": "ron"}
-    - [ron](quote_type)
-    - [breaking bad]{"entity": "quote_type", "value": "breaking"} quote
-    - [breaking](quote_type) quote
-    - [breaking bad]{"entity": "quote_type", "value": "breaking"}
-    - [breaking](quote_type)
-    - [heisenberg]{"entity": "quote_type", "value": "breaking"}
-    - [walter]{"entity": "quote_type", "value": "breaking"}
-    - [walter white]{"entity": "quote_type", "value": "breaking"}
-    - tell me a [inspiring](quote_type) quote
-    - [inspiring](quote_type) quote
-    - give me an [inspiring](quote_type) quote
-    - give me an [inspriational]{"entity": "quote_type", "value": "inspiring"} quote
-    - let's hear something [inspiring](quote_type)
-    - let's hear something [inspriational]{"entity": "quote_type", "value": "inspiring"}
-    - something [inspiring](quote_type)
-    - something [inspriational]{"entity": "quote_type", "value": "inspiring"}
-    - [inspirational]{"entity": "quote_type", "value": "inspiring"} quote
-    - [inspriational]{"entity": "quote_type", "value": "inspiring"}
-    - [inspire]{"entity": "quote_type", "value": "inspiring"} me
-    - [inspire]{"entity": "quote_type", "value": "inspiring"} quote
-    - tell me a [trump](quote_type) quote
-    - [trump](quote_type) quote
-    - [donald trump]{"entity": "quote_type", "value": "trump"} quote
-    - how about a [donald]{"entity": "quote_type", "value": "trump"} quote
-    - let's hear a [trump](quote_type) quote
-    - how about a [trumpism]{"entity": "quote_type", "value": "trump"}
-    - [trumpism]{"entity": "quote_type", "value": "trump"}
-    - president [trump](quote_type) quote
-    - [trump](quote_type)
-- intent: joke
-  examples: |
-    - tell me a joke
-    - how about a joke
-    - jokes are us
-    - me gotta really good joke
-    - you got joke for me
-    - tell me a [Chuck]{"entity": "joke_type", "value": "chuck"} joke
-    - tell me a [Chuck Norris]{"entity": "joke_type", "value": "chuck"} joke
-    - tell me a [chuck norris]{"entity": "joke_type", "value": "chuck"} joke
-    - [chuck](joke_type) joke
-    - [chuck norris]{"entity": "joke_type", "value": "chuck"} joke
-    - something from [chuck norris]{"entity": "joke_type", "value": "chuck"}
-    - i want a [chuck norris]{"entity": "joke_type", "value": "chuck"} joke
-    - how about a [chuck](joke_type) quote
-    - [norris]{"entity": "joke_type", "value": "chuck"} joke
-    - [Norris]{"entity": "joke_type", "value": "chuck"} joke
-    - tell me a [corny](joke_type) joke
-    - [chuck](joke_type)
-    - [norris]{"entity": "joke_type", "value": "chuck"}
-    - [chuck norris]{"entity": "joke_type", "value": "chuck"}
-    - [corny](joke_type) joke
-    - [Corny]{"entity": "joke_type", "value": "corny"} joke
-    - [corny](joke_type) quote
-    - let's hear a [corny](joke_type) quote
-    - tell me a [geek](joke_type) joke
-    - [geek](joke_type) joke
-    - [geeky]{"entity": "joke_type", "value": "geek"} joke
-    - [geeky]{"entity": "joke_type", "value": "geek"}
-    - [geek](joke_type)
-    - [technology]{"entity": "joke_type", "value": "geek"}
-    - how about a [technology]{"entity": "joke_type", "value": "geek"}
-    - [tech]{"entity": "joke_type", "value": "geek"}
-    - how about a [tech]{"entity": "joke_type", "value": "geek"}
-    - tell me a [ron swanson]{"entity": "quote_type", "value": "ron"} joke
-    - [Ron]{"entity": "quote_type", "value": "ron"} joke
-    - [ron swanson]{"entity": "quote_type", "value": "ron"} joke
-    - [parks and recreation]{"entity": "quote_type", "value": "ron"} joke
-    - joke from [parks and rec]{"entity": "quote_type", "value": "ron"}
-    - tell me a [breaking bad]{"entity": "quote_type", "value": "breaking"} joke
-    - [breaking bad]{"entity": "quote_type", "value": "breaking"} joke
-    - [breaking](quote_type) joke
 - intent: feedback
   examples: |
     - The answer the chatbot gave me was [positive](feedback)
@@ -208,35 +195,7 @@ nlu:
     - show confidence
     - intent confidence
     - nlu confidence
-- intent: goodbye
-  examples: |
-    - Goodbye
-    - See you later
-    - so long
-    - bye
-- intent: clear
-  examples: |
-    - clear
-    - reset
-    - reset slots
-    - clear slots
-- intent: show_slots
-  examples: |
-    - slots
-    - show slots
-    - view slots
-    - let's see the slots
-- intent: inform
-  examples: |
-    - my email is [mhaneef@gmail.com](email_addr)
-    - email [tsheikh@gmail.com](email_addr)
-    - email is [greg@mtv.com](email_addr)
-    - my email [lverma@gmail.com](email_addr)
-    - email [greg@hotmail.org](email_addr)
-    - emails are [ssheikh@gmail.com](email_addr) [msuaib@gmail.com](email_addr) [ysai@gmail.com](email_addr) and [uatre@gmail.com](email_addr)
-    - emails are [ssheikh@gmail.com](email_addr) [msuaib@gmail.com](email_addr) [ysai@gmail.com](email_addr) [uatre@gmail.com](email_addr)
-    - emails are [ssheikh@gmail.com](email_addr)  [msuaib@gmail.com](email_addr)  [ysai@gmail.com](email_addr) and [uatre@gmail.com](email_addr)
-- intent: greet
+- intent: faq/greet
   examples: |
     - Hi
     - Hey
@@ -272,6 +231,34 @@ nlu:
     - hi?
     - hey bot!
     - hello friend
+- intent: faq/goodbye
+  examples: |
+    - Goodbye
+    - See you later
+    - so long
+    - bye
+- intent: clear
+  examples: |
+    - clear
+    - reset
+    - reset slots
+    - clear slots
+- intent: show_slots
+  examples: |
+    - slots
+    - show slots
+    - view slots
+    - let's see the slots
+- intent: inform
+  examples: |
+    - my email is [mhaneef@gmail.com](email_addr)
+    - email [tsheikh@gmail.com](email_addr)
+    - email is [greg@mtv.com](email_addr)
+    - my email [lverma@gmail.com](email_addr)
+    - email [greg@hotmail.org](email_addr)
+    - emails are [ssheikh@gmail.com](email_addr) [msuaib@gmail.com](email_addr) [ysai@gmail.com](email_addr) and [uatre@gmail.com](email_addr)
+    - emails are [ssheikh@gmail.com](email_addr) [msuaib@gmail.com](email_addr) [ysai@gmail.com](email_addr) [uatre@gmail.com](email_addr)
+    - emails are [ssheikh@gmail.com](email_addr)  [msuaib@gmail.com](email_addr)  [ysai@gmail.com](email_addr) and [uatre@gmail.com](email_addr)
 - intent: stop
   examples: |
     - ok then you cant help me
@@ -337,37 +324,6 @@ nlu:
     - april 12th should be the start date
     - start at the first of the year
     - starting may 2
-
-- intent: buttons_custom_default
-  examples: |
-    - try buttons custom default
-    - custom default buttons
-    - show me custom default buttons
-
-- intent: buttons_default
-  examples: |
-    - try buttons default
-    - default buttons
-    - show me default buttons
-
-- intent: buttons_inline
-  examples: |
-    - try buttons inline
-    - inline buttons
-    - show me inline buttons
-
-- intent: buttons_vertical
-  examples: |
-    - try buttons vertical
-    - vertical buttons
-    - show me vertical buttons
-
-- intent: buttons_reply
-  examples: |
-    - try buttons reply
-    - reply buttons
-    - show me reply buttons
-
 - synonym: ron
   examples: |
     - ron swanson
@@ -387,6 +343,8 @@ nlu:
     - inspriational
     - inspirational
     - inspire
+    - up lifting
+    - uplifting
 - synonym: trump
   examples: |
     - donald trump
@@ -407,3 +365,9 @@ nlu:
     - geeky
     - technology
     - tech
+- synonym: creed
+  examples: |
+    - Creed
+    - creed bratton
+    - bratton
+    - Bratton
