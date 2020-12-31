@@ -114,6 +114,8 @@ The docker hub images are here:
 
 **Jan 2021:**
 
+- GitHub actions
+  - Build actions docker image
 - Creed quotes
 - Kanye quotes, `https://api.kanye.rest/?format=text`
 - Random jokes, `http://api.icndb.com/jokes/random`
