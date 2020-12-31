@@ -87,7 +87,7 @@ class ActionKanye(Action):
 
     def run(self, dispatcher, tracker, domain):
         with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
-            r = requests.get("https://api.kanye.rest")
+            #r = requests.get("https://api.kanye.rest")
             request = json.loads(requests.get("https://api.kanye.rest").text)
             joke = request["quote"]  # extract a joke from returned json response
             dispatcher.utter_message(joke)  # send the message back to the user
@@ -286,7 +286,8 @@ class ActionVersion(Action):
                 request = json.loads(
                     requests.get("http://rasa-x:5002/api/version").text
                 )
-            except:
+            except requests.exceptions.RequestException as e:
+                logger.error(f"Rasa X version API failure, e: {e}")
                 request = {"rasa-x": "", "rasa": {"production": ""}}
             logger.info(">> rasa x version response: {}".format(request["rasa-x"]))
             logger.info(
@@ -311,77 +312,6 @@ class ActionShowSlots(Action):
                 msg += f" {k} | {v}\n"
             dispatcher.utter_message(msg)
             return []
-
-
-class ActionMailingInfoForm(FormAction):
-    def name(self):
-        return "mailing_info_form"
-
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
-        return ["address_1", "city", "state", "zip"]
-
-    def slot_mappings(self):
-        return {
-            "address_1": self.from_entity(entity="address_1"),
-            "address_2": self.from_entity(entity="address_2"),
-            "city": self.from_entity(entity="city"),
-            "state": self.from_entity(entity="state"),
-            "zip": self.from_entity(entity="zip"),
-            "country": self.from_entity(entity="country"),
-        }
-
-    def validate(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        """Validate extracted requested slot
-            else reject the execution of the form action
-        """
-        # extract other slots that were not requested
-        # but set by corresponding entity
-        slot_values = self.extract_other_slots(dispatcher, tracker, domain)
-        logger.info("validate, slot_values: {}".format(slot_values))
-
-        # extract requested slot
-        slot_to_fill = tracker.get_slot(REQUESTED_SLOT)
-        logger.info("validate, slot_to_fill: {}".format(slot_to_fill))
-        if slot_to_fill:
-            slot_values.update(self.extract_requested_slot(dispatcher, tracker, domain))
-            if not slot_values:
-                dispatcher.utter_message("Sorry, I could not understand your response.")
-
-        return [SlotSet(slot, value) for slot, value in slot_values.items()]
-
-    def submit(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        # utter submit template
-        address_1 = tracker.get_slot("address_1")
-        address_2 = tracker.get_slot("address_2")
-        city = tracker.get_slot("city")
-        state = tracker.get_slot("state")
-        zip = tracker.get_slot("zip")
-        country = tracker.get_slot("country")
-
-        logger.info("dispatch template, address_1: {}".format(address_1))
-
-        dispatcher.utter_template("utter_mailing_info", tracker)
-
-        return [
-            SlotSet("address_1", None),
-            SlotSet("address_2", None),
-            SlotSet("city", None),
-            SlotSet("state", None),
-            SlotSet("zip", None),
-            SlotSet("country", None),
-        ]
-        # return [AllSlotsReset()]
 
 
 class ActionOtherInfoForm(FormAction):
