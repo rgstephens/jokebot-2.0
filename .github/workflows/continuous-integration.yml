@@ -40,6 +40,6 @@ jobs:
           requirements_file: ${{ env.REQUIREMENTS_FILE }}
           docker_registry_login: ${{ env.DOCKERHUB_USERNAME }}
           docker_registry_password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          docker_image_name: ${{ DOCKERHUB_IMAGE }}
+          docker_image_name: ${{ env.DOCKERHUB_IMAGE }}
           docker_image_tag: 'latest'
           rasa_sdk_version: ${{ RASA_SDK_VERS }}
