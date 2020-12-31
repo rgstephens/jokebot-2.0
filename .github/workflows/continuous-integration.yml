@@ -42,4 +42,4 @@ jobs:
           docker_registry_password: ${{ secrets.DOCKERHUB_PASSWORD }}
           docker_image_name: ${{ env.DOCKERHUB_IMAGE }}
           docker_image_tag: 'latest'
-          rasa_sdk_version: ${{ RASA_SDK_VERS }}
+          rasa_sdk_version: ${{ env.RASA_SDK_VERS }}
