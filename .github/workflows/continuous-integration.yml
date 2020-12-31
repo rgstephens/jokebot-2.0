@@ -14,7 +14,7 @@ jobs:
     env:
       RASA_SDK_VERS: 2.1.2
       DOCKERHUB_USERNAME: stephens
-      DOCKERHUB_IMAGE: rgstephens/jokebot
+      DOCKER_IMAGE_NAME: stephens/jokebot
       REQUIREMENTS_FILE: 'actions/requirements.txt'
 
     steps:
@@ -25,14 +25,14 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ env.DOCKERHUB_USERNAME }} --password-stdin || true
 
       - name: Pull latest${{ matrix.image.tag_ext }} Docker image for caching
-        run: docker pull ${{env.DOCKERHUB_IMAGE}}:latest || true
+        run: docker pull ${{env.DOCKER_IMAGE_NAME}}:latest || true
 
       - name: Build latest${{ matrix.image.tag_ext }} Docker image
-        run: docker build . --tag ${{env.DOCKERHUB_IMAGE}}:latest --cache-from ${{env.DOCKERHUB_IMAGE}}:latest
+        run: docker build . --tag ${{env.DOCKER_IMAGE_NAME}}:latest --cache-from ${{env.DOCKER_IMAGE_NAME}}:latest
 
       - name: Push image with latest tag 📦
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: docker push ${{env.DOCKERHUB_IMAGE}}:latest         
+        run: docker push ${{env.DOCKER_IMAGE_NAME}}:latest         
       - name: Build Actions Server Image
         uses: RasaHQ/rasa-action-server-gha@master
         with:
@@ -40,6 +40,6 @@ jobs:
           requirements_file: ${{ env.REQUIREMENTS_FILE }}
           docker_registry_login: ${{ env.DOCKERHUB_USERNAME }}
           docker_registry_password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          docker_image_name: ${{ env.DOCKERHUB_IMAGE }}
+          docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
           docker_image_tag: 'latest'
           rasa_sdk_version: ${{ env.RASA_SDK_VERS }}
