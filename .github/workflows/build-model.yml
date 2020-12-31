@@ -76,14 +76,25 @@ jobs:
         with:
           path: "models/"
           type: ".tgz"
+      - name: Output results
+        run: |
+          echo "Found ${{ steps.path-list-models.outputs.path_count }} file(s) with this extension:"
+          for i in ${{ steps.path-list-models.outputs.paths }}; do
+          echo $i
+          done
       - name: List root tgz files
         id: path-list-root
         uses: Rishabh510/Path-lister-action@master
         with:
           path: "/"
           type: ".tgz"
+      - name: Output results
+        run: |
+          echo "Found ${{ steps.path-list-root.outputs.path_count }} file(s) with this extension:"
+          for i in ${{ steps.path-list-root.outputs.paths }}; do
+          echo $i
+          done
       - name: Upload model path
-        if: github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@master
         with:
           name: model-pretest
@@ -118,7 +129,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Upload model
-        if: github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@master
         with:
           name: model
