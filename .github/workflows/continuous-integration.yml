@@ -1,10 +1,9 @@
 name: Continuous Integration
-on: [push]
-#  push:
-#    branches:
-#    - master
-#    paths:
-#    - 'actions/**'
+#on: [push]
+on:
+  push:
+    paths:
+    - 'actions/**'
 
 jobs:
   docker:

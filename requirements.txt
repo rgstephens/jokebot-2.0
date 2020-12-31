@@ -1,0 +1,2 @@
+-r actions/requirements.txt
+rasa-sdk~=2.1.1

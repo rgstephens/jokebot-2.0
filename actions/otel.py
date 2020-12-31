@@ -2,11 +2,13 @@
 import logging
 from typing import Text
 from rasa.core.utils import EndpointConfig
+
 # OpenTelemetry
 from opentelemetry import trace, propagators
 from opentelemetry.exporter import jaeger
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchExportSpanProcessor
+
 # Jaeger
 from jaeger_client import Config
 from opentracing import Format, UnsupportedFormatException
@@ -16,10 +18,17 @@ logger = logging.getLogger(__name__)
 logging.getLogger("").handlers = []
 logging.basicConfig(format="%(message)s", level=logging.DEBUG)
 
+
 class Tracer(object):
-    def __init__(self, type: Text = None, service_name: Text = "rasa", agent_host_name: Text="localhost", agent_port: int=6831):
+    def __init__(
+        self,
+        type: Text = None,
+        service_name: Text = "rasa",
+        agent_host_name: Text = "localhost",
+        agent_port: int = 6831,
+    ):
         self.type = type
-        if self.type == 'open_telemetry':
+        if self.type == "open_telemetry":
             trace.set_tracer_provider(TracerProvider())
 
             jaeger_exporter = jaeger.JaegerSpanExporter(
@@ -32,17 +41,14 @@ class Tracer(object):
                 BatchExportSpanProcessor(jaeger_exporter)
             )
 
-            #self.tracer = trace.get_tracer(__name__)
+            # self.tracer = trace.get_tracer(__name__)
             self.tracer = trace.get_tracer(__name__)
             logger.debug(f"Tracer - exit init, name: {__name__}")
-        elif self.type == 'jaeger':
+        elif self.type == "jaeger":
             config = Config(
-                config={ # usually read from some yaml config
-                    'sampler': {
-                        'type': 'const',
-                        'param': 1,
-                    },
-                    'logging': True,
+                config={  # usually read from some yaml config
+                    "sampler": {"type": "const", "param": 1,},
+                    "logging": True,
                 },
                 service_name=service_name,
                 validate=True,
@@ -52,11 +58,11 @@ class Tracer(object):
             self.tracer = config.initialize_tracer()
 
     def start_span(self, name, attributes=None):
-        if self.type == 'open_telemetry':
+        if self.type == "open_telemetry":
             span = self.tracer.start_as_current_span(name, attributes=attributes)
             return span
-        elif self.type == 'jaeger':
-            #span = self.tracer.start_span(name)
+        elif self.type == "jaeger":
+            # span = self.tracer.start_span(name)
             span = self.tracer.start_active_span(name)
             if attributes:
                 for k, v in attributes.items():
@@ -64,21 +70,22 @@ class Tracer(object):
             return span
 
     def inject(self, url):
-        if self.type == 'open_telemetry':
+        if self.type == "open_telemetry":
             headers = {}
             propagators.inject(type(headers).__setitem__, headers)
             return headers
-        elif self.type == 'jaeger':
+        elif self.type == "jaeger":
             # https://github.com/yurishkuro/opentracing-tutorial/blob/7ae271badb867635f6697d9dbe5510c798883ff8/python/lesson03/solution/hello.py#L26
             headers = {}
             span = self.tracer.active_span
-            span.set_tag(tags.HTTP_METHOD, 'POST')
+            span.set_tag(tags.HTTP_METHOD, "POST")
             span.set_tag(tags.HTTP_URL, url)
             span.set_tag(tags.SPAN_KIND, tags.SPAN_KIND_RPC_CLIENT)
             self.tracer.inject(span, Format.HTTP_HEADERS, headers)
-            #span_header = self.tracer.inject(span, Format.HTTP_HEADERS, headers)
+            # span_header = self.tracer.inject(span, Format.HTTP_HEADERS, headers)
             # tracer.inject(child_span.context, 'zipkin-span-format', text_carrier)
             return headers
+
 
 # def handle_request(ctx):
 #    extractors = propagation.http_extractors()
@@ -87,6 +94,7 @@ class Tracer(object):
 #            with tracer.start_as_current_span("external-req-span", context=ctx2) as ctx3:
 
 tracer = {}
+
 
 def init_tracer(service_name="action_server"):
     # parms read from `endpoints.yml`
