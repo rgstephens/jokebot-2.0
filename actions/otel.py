@@ -1,7 +1,6 @@
 # https://github.com/open-telemetry/opentelemetry-python/issues/1150
 import logging
 from typing import Text
-from rasa.core.utils import EndpointConfig
 
 # OpenTelemetry
 from opentelemetry import trace, propagators

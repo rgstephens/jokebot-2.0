@@ -39,14 +39,6 @@ vers = "Vers: 0.8.0, Date: Dec 30, 2020"
 tracer = actions.tracing.init_tracer("action_server")
 
 
-def _json_object_hook(d):
-    return namedtuple("X", d.keys())(*d.values())
-
-
-def json2obj(data):
-    return json.loads(data, object_hook=_json_object_hook)
-
-
 def get_last_event_for(
     tracker, event_type: Text, action_names_to_exclude: List[Text] = None, skip: int = 0
 ) -> Optional[Any]:
@@ -212,7 +204,7 @@ class ActionInspiring(Action):
             else:
                 message = (
                     "quote service error (exceeded max free quotes?), error: "
-                    + request.status_code
+                    + str(request.status_code)
                 )
             # dispatcher.utter_message(message) #send the message back to the user
             dispatcher.utter_message(message)  # send the message back to the user
@@ -276,7 +268,7 @@ class ActionCreed(Action):
 
     def run(self, dispatcher, tracker, domain):
         n = random.randint(0, len(self.quotes) - 1)
-        dispatcher.utter_message(quotes[n])  # send the message back to the user
+        dispatcher.utter_message(self.quotes[n])  # send the message back to the user
         return []
 
 
@@ -319,150 +311,6 @@ class ActionShowSlots(Action):
                 msg += f" {k} | {v}\n"
             dispatcher.utter_message(msg)
             return []
-
-
-class ActionContactInfoForm(FormAction):
-    _switch_intent = False
-
-    def name(self):
-        return "contact_info_form"
-
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
-        return ["first_name", "middle_name", "last_name", "email", "phone"]
-
-    def slot_mappings(self):
-        return {
-            "first_name": self.from_entity(
-                entity="first_name", intent=["contact_info", "inform_contact_info"]
-            ),
-            "middle_name": self.from_entity(
-                entity="middle_name", intent=["inform_contact_info"]
-            ),
-            "last_name": self.from_entity(
-                entity="last_name", intent=["contact_info", "inform_contact_info"]
-            ),
-            "email": self.from_entity(entity="email", intent=["inform_contact_info"]),
-            "phone": self.from_entity(entity="phone", intent=["inform_contact_info"]),
-        }
-
-    @staticmethod
-    def proper_noun_slots():
-        # type: () -> List[Text]
-        return ["first_name", "middle_name", "last_name", "email", "phone"]
-
-    def request_next_slot(
-        self,
-        dispatcher,  # type: CollectingDispatcher
-        tracker,  # type: Tracker
-        domain,  # type: Dict[Text, Any]
-    ):
-        # type: (...) -> Optional[List[Dict]]
-        """Request the next slot and utter template if needed,
-            else return None"""
-
-        state = tracker.current_state()
-        intent = state["latest_message"]["intent"]
-        if (
-            intent["name"] != "contact_info"
-            and intent["name"] != "inform_contact_info"
-            and intent["confidence"] > 0.59
-        ):
-            self._switch_intent = True
-            logger.warning("request_next_slot, intent switch, abort this form")
-            self.deactivate()
-        else:
-            self._switch_intent = False
-            for slot in self.required_slots(tracker):
-                if self._should_request_slot(tracker, slot):
-                    logger.debug("Request next slot '{}'".format(slot))
-                    dispatcher.utter_template(
-                        "utter_ask_{}".format(slot),
-                        tracker,
-                        silent_fail=False,
-                        **tracker.slots,
-                    )
-                    return [SlotSet(REQUESTED_SLOT, slot)]
-
-        # no more required slots to fill
-        logger.debug("request_next_slot, No slots left to request")
-        return None
-
-    def validate(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        """Validate extracted requested slot
-            else reject the execution of the form action
-        """
-        # extract other slots that were not requested
-        # but set by corresponding entity
-        slot_values = self.extract_other_slots(dispatcher, tracker, domain)
-        state = tracker.current_state()
-        intent = state["latest_message"]["intent"]
-        logger.info(
-            "validate, slot_values: {}, intent: \n{}".format(slot_values, intent)
-        )
-        # fallback = FallbackPolicy().nlu_threshold
-        # logger.info("fallback: \n{}".format(fallback))
-
-        slot_to_fill = tracker.get_slot(REQUESTED_SLOT)
-        logger.info(
-            "validate, slot_to_fill: {}, user text: {}".format(
-                slot_to_fill, state["latest_message"]["text"]
-            )
-        )
-
-        if slot_to_fill:
-            slot_values.update(self.extract_requested_slot(dispatcher, tracker, domain))
-            if not slot_values:
-                if slot_to_fill in self.proper_noun_slots():
-                    return [SlotSet(slot_to_fill, state["latest_message"]["text"])]
-                else:
-                    dispatcher.utter_message(
-                        "Sorry, I could not understand your response."
-                    )
-
-        logger.info("validate, normal exit for slot {}".format(slot_to_fill))
-        return [SlotSet(slot, value) for slot, value in slot_values.items()]
-
-    def submit(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        # utter submit template
-        first_name = tracker.get_slot("first_name")
-        middle_name = tracker.get_slot("middle_name")
-        last_name = tracker.get_slot("last_name")
-        email = tracker.get_slot("email")
-        phone = tracker.get_slot("phone")
-
-        logger.info("submit, first_name: {}, phone: {}".format(first_name, phone))
-
-        # if penalty_location in relief_dict:
-        #    utterance = relief_dict[penalty_location]
-        # else:
-        #    utterance = "utter_not_sure"
-        # logger.info("utterance: {}".format(utterance))
-        logger.info("self._switch_intent: {}".format(self._switch_intent))
-        if self._switch_intent == True:
-            dispatcher.utter_message("you're switching intents...")
-        else:
-            dispatcher.utter_template("utter_customer_info", tracker)
-        # dispatcher.utter_template('utter_golfballmoved_slots', tracker)
-
-        return [
-            SlotSet("first_name", None),
-            SlotSet("middle_name", None),
-            SlotSet("last_name", None),
-            SlotSet("email", None),
-            SlotSet("phone", None),
-        ]
-        # return [AllSlotsReset()]
 
 
 class ActionMailingInfoForm(FormAction):
