@@ -104,6 +104,7 @@ jobs:
     needs: [test-model]
 
     steps:
+      - uses: actions/checkout@v1
       - name: Upload model
         if: github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@master
