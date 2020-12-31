@@ -11,9 +11,6 @@ jobs:
     name: Code Formatting Tests
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
     - uses: actions/checkout@v1
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
@@ -77,8 +74,8 @@ jobs:
         id: path-list-models
         uses: Rishabh510/Path-lister-action@master
         with:
-          path: "models/"
-          type: ".tgz"
+          path: "."
+          type: ".yml"
       - name: Output results
         run: |
           echo "Found ${{ steps.path-list-models.outputs.path_count }} file(s) with this extension:"
@@ -89,7 +86,7 @@ jobs:
         id: path-list-root
         uses: Rishabh510/Path-lister-action@master
         with:
-          path: "/"
+          path: "."
           type: ".tgz"
       - name: Output results
         run: |
@@ -97,6 +94,8 @@ jobs:
           for i in ${{ steps.path-list-root.outputs.paths }}; do
           echo $i
           done
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
       - name: Upload model path
         uses: actions/upload-artifact@master
         with:
