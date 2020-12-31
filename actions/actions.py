@@ -87,7 +87,7 @@ class ActionKanye(Action):
 
     def run(self, dispatcher, tracker, domain):
         with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
-            #r = requests.get("https://api.kanye.rest")
+            # r = requests.get("https://api.kanye.rest")
             request = json.loads(requests.get("https://api.kanye.rest").text)
             joke = request["quote"]  # extract a joke from returned json response
             dispatcher.utter_message(joke)  # send the message back to the user
@@ -312,127 +312,6 @@ class ActionShowSlots(Action):
                 msg += f" {k} | {v}\n"
             dispatcher.utter_message(msg)
             return []
-
-
-class ActionOtherInfoForm(FormAction):
-    def name(self):
-        return "other_info_form"
-
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
-        return ["gender", "birthdate", "ssn"]
-
-    def slot_mappings(self):
-        return {
-            "gender": self.from_entity(entity="gender"),
-            "birthdate": self.from_entity(entity="birthdate"),
-            "age": self.from_entity(entity="age"),
-            "ssn": self.from_entity(entity="ssn"),
-        }
-
-    def validate(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        """Validate extracted requested slot
-            else reject the execution of the form action
-        """
-        # extract other slots that were not requested
-        # but set by corresponding entity
-        slot_values = self.extract_other_slots(dispatcher, tracker, domain)
-        logger.info("validate, slot_values: {}".format(slot_values))
-
-        # extract requested slot
-        slot_to_fill = tracker.get_slot(REQUESTED_SLOT)
-        logger.info("validate, slot_to_fill: {}".format(slot_to_fill))
-        if slot_to_fill:
-            slot_values.update(self.extract_requested_slot(dispatcher, tracker, domain))
-            if not slot_values:
-                dispatcher.utter_message("Sorry, I could not understand your response.")
-
-        return [SlotSet(slot, value) for slot, value in slot_values.items()]
-
-    def submit(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        # utter submit template
-        gender = tracker.get_slot("gender")
-        birthdate = tracker.get_slot("birthdate")
-        age = tracker.get_slot("age")
-        ssn = tracker.get_slot("ssn")
-
-        logger.info("dispatch template, gender: {}".format(gender))
-
-        # if penalty_location in relief_dict:
-        #    utterance = relief_dict[penalty_location]
-        # else:
-        #    utterance = "utter_not_sure"
-        # logger.info("utterance: {}".format(utterance))
-        dispatcher.utter_template("utter_other_info", tracker)
-        # dispatcher.utter_template('utter_golfballmoved_slots', tracker)
-
-        return [
-            SlotSet("gender", None),
-            SlotSet("birthdate", None),
-            SlotSet("age", None),
-            SlotSet("ssn", None),
-        ]
-        # return [AllSlotsReset()]
-
-
-class JokeForm(FormAction):
-    def name(self):
-        return "joke_form"
-
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
-        return ["joke_type"]
-
-    def slot_mappings(self):
-        return {"joke_type": self.from_entity(entity="joke_type")}
-
-    def validate(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        """Validate extracted requested slot
-            else reject the execution of the form action
-        """
-        # extract other slots that were not requested
-        # but set by corresponding entity
-        slot_values = self.extract_other_slots(dispatcher, tracker, domain)
-        logger.info("validate, slot_values: {}".format(slot_values))
-
-        # extract requested slot
-        slot_to_fill = tracker.get_slot(REQUESTED_SLOT)
-        logger.info("validate, slot_to_fill: {}".format(slot_to_fill))
-        if slot_to_fill:
-            slot_values.update(self.extract_requested_slot(dispatcher, tracker, domain))
-            if not slot_values:
-                dispatcher.utter_message("Sorry, I could not understand your response.")
-
-        return [SlotSet(slot, value) for slot, value in slot_values.items()]
-
-    def submit(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        # utter submit template
-        joke_type = tracker.get_slot("joke_type")
-
-        logger.info("dispatch template, joke_type: {}".format(joke_type))
-
-        # return [SlotSet("joke_type", None)]
-        return []
 
 
 def intentHistoryStr(tracker, skip, past):
