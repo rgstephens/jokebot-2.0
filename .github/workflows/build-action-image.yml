@@ -4,6 +4,7 @@ on:
   push:
     paths:
     - 'actions/**'
+    - '.github/workflows/build-action-image.yml'
 
 jobs:
   docker:
