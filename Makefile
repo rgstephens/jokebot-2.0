@@ -23,6 +23,7 @@ formatter:
 
 lint:
 	flake8 actions
+	which black
 	black --check actions 
 
 types:

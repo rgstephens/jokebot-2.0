@@ -387,7 +387,7 @@ class DynamicForm(FormAction):
         domain: Dict[Text, Any],
     ) -> List[Dict]:
         """Define what the form has to do
-            after all required slots are filled"""
+        after all required slots are filled"""
         survey = tracker.get_slot("survey")
         debug = tracker.get_slot("debug")
         logger.info(
@@ -430,8 +430,12 @@ class TimeForm(FormAction):
         logger.info(f"from_time: {self.from_entity(entity='from_time')}")
         logger.info(f"to_time: {self.from_entity(entity='to_time')}")
         return {
-            "from": [self.from_entity(entity="time"),],
-            "to_time": [self.from_entity(entity="time"),],
+            "from": [
+                self.from_entity(entity="time"),
+            ],
+            "to_time": [
+                self.from_entity(entity="time"),
+            ],
         }
 
     def submit(

@@ -46,7 +46,10 @@ class Tracer(object):
         elif self.type == "jaeger":
             config = Config(
                 config={  # usually read from some yaml config
-                    "sampler": {"type": "const", "param": 1,},
+                    "sampler": {
+                        "type": "const",
+                        "param": 1,
+                    },
                     "logging": True,
                 },
                 service_name=service_name,
