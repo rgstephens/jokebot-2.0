@@ -81,58 +81,8 @@ slots:
 responses:
   utter_version:
   - text: "Dec 30, 2020"
-  utter_faq/greet:
-  - text: Welcome to the Jokebot, you can ask for Geek jokes, Corny jokes. Also, Ron Swanson,
-      Creed, Breaking Bad, Inspiring or Trump quotes.
-
   utter_ask_continue:
   - text: Do you want to continue?
-
-  utter_faq/joke:
-  - text: What type of joke would you like?
-    buttons:
-    - title: Geek
-      payload: '/geek_joke'
-    - title: Corny
-      payload: '/corny_joke'
-  - channel: telegram
-    text: What type of joke would you like?
-#    button_type: vertical
-    buttons:
-    - title: Geek
-      payload: '/geek_joke'
-    - title: Corny
-      payload: '/corny_joke'
-
-  utter_faq/quote:
-  - buttons:
-    - payload: /inspiring_quote
-      title: Inspiring
-    - payload: /breaking_quote
-      title: Breaking Bad
-    - payload: /ron_quote
-      title: Ron Swanson
-    - payload: /creed_quote
-      title: Creed Bratton
-    - payload: /trump_quote
-      title: Trump
-    text: What type of quote would you like?
-  - channel: telegram
-    text: What type of quote would you like?
-#    button_type: reply
-#    button_type: inline
-    buttons:
-    - payload: /inspiring_quote
-      title: Inspiring
-    - payload: /breaking_quote
-      title: Breaking Bad
-    - payload: /ron_quote
-      title: Ron Swanson
-    - payload: /creed_quote
-      title: Creed Bratton
-    - payload: /trump_quote
-      title: Trump
-
   utter_ask_feedback:
   - buttons:
     - payload: /feedback{"feedback":"positive"}
@@ -146,19 +96,11 @@ responses:
     text: Was your question answered?
   utter_feedback_thanks:
   - text: Thanks for your feedback!
-  utter_faq/chitchat:
-  - text: Sorry, I don't recognize that question, want to try again?
   utter_default:
   - text: Sorry, I can't answer that
   - text: Sorry, I don't recognize that question, want to try again?
   utter_slots:
   - text: "no slots to utter"
-  utter_faq/goodbye:
-  - text: Talk to you later!
-  - text: Bye!
-  - text: See ya!
-  - text: Cheers!
-  - text: Ciao!
   utter_clear:
   - text: History cleared
   utter_submit:
