@@ -7,12 +7,13 @@ on:
     - '.github/workflows/build-action-image.yml'
 
 jobs:
-  docker:
+  build-image:
     name: Build Action Server Docker Image
     runs-on: ubuntu-latest
 
     env:
       RASA_SDK_VERS: 2.1.2
+      DOCKER_IMAGE_TAG: latest
       DOCKERHUB_USERNAME: stephens
       DOCKER_IMAGE_NAME: stephens/jokebot
       REQUIREMENTS_FILE: 'actions/requirements.txt'
@@ -41,5 +42,5 @@ jobs:
           docker_registry_login: ${{ env.DOCKERHUB_USERNAME }}
           docker_registry_password: ${{ secrets.DOCKERHUB_PASSWORD }}
           docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
-          docker_image_tag: 'latest'
+          docker_image_tag: ${{ env.DOCKER_IMAGE_TAG }}
           rasa_sdk_version: ${{ env.RASA_SDK_VERS }}
