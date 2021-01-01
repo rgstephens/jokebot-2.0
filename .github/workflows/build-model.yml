@@ -70,6 +70,18 @@ jobs:
           rasa_test: false
           data_validate: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: List models tgz files
+        id: path-list-models
+        uses: Rishabh510/Path-lister-action@master
+        with:
+          path: "."
+          type: ".gz"
+      - name: Output results
+        run: |
+          echo "Found ${{ steps.path-list-models.outputs.path_count }} file(s) with this extension:"
+          for i in ${{ steps.path-list-models.outputs.paths }}; do
+          echo $i
+          done
 
   test-model:
     name: Test Model
@@ -92,22 +104,7 @@ jobs:
           publish_summary: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload model
-        if: github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@master
         with:
           name: model
-          path: models
-
-  upload-model:
-    name: Upload Model
-    runs-on: ubuntu-latest
-    needs: [test-model]
-
-    steps:
-      - uses: actions/checkout@v1
-      - name: Upload model
-        if: github.ref == 'refs/heads/master'
-        uses: actions/upload-artifact@master
-        with:
-          name: model
-          path: models
+          path: models/
