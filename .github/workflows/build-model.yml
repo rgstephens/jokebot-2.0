@@ -3,8 +3,8 @@ name: Train, Test & Deploy Model
 on:
   pull_request:
   push:
-    paths:
-    - '.github/workflows/build-model.yml'
+#    paths:
+#    - '.github/workflows/build-model.yml'
 
 jobs:
   lint-testing:
