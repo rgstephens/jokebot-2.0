@@ -85,7 +85,7 @@ jobs:
 
   test-model:
     name: Test Model
-    if: env.RUN_TRAINING == 'true'
+    if: ${{ env.RUN_TRAINING }} == 'true'
     runs-on: ubuntu-latest
     needs: [training]
 
