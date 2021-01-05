@@ -50,6 +50,7 @@ jobs:
 
     env:
       RASA_VERSION: 2.1.3-spacy-en
+      RUN_TRAINING: false
 
     steps:
       - uses: actions/checkout@v1
