@@ -317,6 +317,8 @@ class ActionShowSlots(Action):
 def intentHistoryStr(tracker, skip, past):
     msg = ""
     prev_user_event = get_last_event_for(tracker, "user", skip=skip)
+    if not prev_user_event:
+        return "No prev msg"
     logger.info(
         "event.text: {}, intent: {}, confidence: {}".format(
             prev_user_event["text"],

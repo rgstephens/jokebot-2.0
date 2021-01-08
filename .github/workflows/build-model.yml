@@ -1,10 +1,15 @@
 
 name: Train, Test & Deploy Model
 on:
+  workflow_dispatch:
+      why:
+        description: 'Why are you running'
+        required: false
+        default: 'Testing Workflow'    
   pull_request:
   push:
-    paths:
-    - '.github/workflows/build-model.yml'
+#    paths:
+#    - '.github/workflows/build-model.yml'
 
 jobs:
   lint-testing:
@@ -50,6 +55,7 @@ jobs:
 
     env:
       RASA_VERSION: 2.1.3-spacy-en
+      RUN_TRAINING: false
 
     steps:
       - uses: actions/checkout@v1
@@ -60,7 +66,6 @@ jobs:
             contains(  steps.files.outputs.all, 'data/' )
             || contains(  steps.files.outputs.all, 'config.yml' )
             || contains(  steps.files.outputs.all, 'domain.yml' )
-            || contains(  steps.files.outputs.all, '.github/workflows/build-model.yml' )
         run: echo "RUN_TRAINING=true" >> $GITHUB_ENV
       - name: Rasa Train
         if: env.RUN_TRAINING == 'true'
@@ -70,18 +75,6 @@ jobs:
           rasa_test: false
           data_validate: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: List models tgz files
-        id: path-list-models
-        uses: Rishabh510/Path-lister-action@master
-        with:
-          path: "."
-          type: ".gz"
-      - name: Output results
-        run: |
-          echo "Found ${{ steps.path-list-models.outputs.path_count }} file(s) with this extension:"
-          for i in ${{ steps.path-list-models.outputs.paths }}; do
-          echo $i
-          done
 
   test-model:
     name: Test Model
@@ -94,6 +87,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Rasa Test
+        if: ${{ env.RUN_TRAINING }} == 'true'
         uses: RasaHQ/rasa-train-test-gha@main
         with:
           rasa_version: ${{ env.RASA_VERSION }}
@@ -104,6 +98,7 @@ jobs:
           publish_summary: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload model
+        if: ${{ env.RUN_TRAINING }} == 'true'
         uses: actions/upload-artifact@master
         with:
           name: model

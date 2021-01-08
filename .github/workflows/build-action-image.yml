@@ -1,10 +1,19 @@
 name: Build Action Image
 #on: [push]
 on:
+  workflow_dispatch:
+      why:
+        description: 'Why are you running'
+        required: false
+        default: 'Testing Workflow'
+      image-tag:
+        description: 'What image tag do you want to use?'
+        required: true
+        default: ''
   push:
     paths:
     - 'actions/**'
-    - '.github/workflows/build-action-image.yml'
+#    - '.github/workflows/build-action-image.yml'
 
 jobs:
   build-image:
@@ -21,19 +30,6 @@ jobs:
     steps:
       - name: Checkout git repository 🕝
         uses: actions/checkout@v2
-
-      - name: Login to DockerHub Registry 🔢
-        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ env.DOCKERHUB_USERNAME }} --password-stdin || true
-
-      - name: Pull latest${{ matrix.image.tag_ext }} Docker image for caching
-        run: docker pull ${{env.DOCKER_IMAGE_NAME}}:latest || true
-
-      - name: Build latest${{ matrix.image.tag_ext }} Docker image
-        run: docker build . --tag ${{env.DOCKER_IMAGE_NAME}}:latest --cache-from ${{env.DOCKER_IMAGE_NAME}}:latest
-
-      - name: Push image with latest tag 📦
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: docker push ${{env.DOCKER_IMAGE_NAME}}:latest         
       - name: Build Actions Server Image
         uses: RasaHQ/rasa-action-server-gha@master
         with:
