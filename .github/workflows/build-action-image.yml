@@ -1,10 +1,19 @@
 name: Build Action Image
 #on: [push]
 on:
+  workflow_dispatch:
+      why:
+        description: 'Why are you running'
+        required: false
+        default: 'Testing Workflow'
+      image-tag:
+        description: 'What image tag do you want to use?'
+        required: true
+        default: ''
   push:
     paths:
     - 'actions/**'
-    - '.github/workflows/build-action-image.yml'
+#    - '.github/workflows/build-action-image.yml'
 
 jobs:
   build-image:

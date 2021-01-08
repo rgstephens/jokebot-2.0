@@ -1,6 +1,11 @@
 
 name: Train, Test & Deploy Model
 on:
+  workflow_dispatch:
+      why:
+        description: 'Why are you running'
+        required: false
+        default: 'Testing Workflow'    
   pull_request:
   push:
 #    paths:
