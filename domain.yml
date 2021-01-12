@@ -1,47 +1,70 @@
-version: "2.0"
-
+version: '2.0'
+config:
+  store_entities_as_slots: true
 session_config:
-  session_expiration_time: 0.0
+  session_expiration_time: 0
   carry_over_slots_to_new_session: true
-
 intents:
-- faq
+- faq:
+    use_entities: true
 - creed_quote:
     triggers: action_creed
+    use_entities: true
 - corny_joke:
     triggers: action_corny
+    use_entities: true
 - geek_joke:
     triggers: action_geek
+    use_entities: true
 - random_joke:
     triggers: action_random
-
+    use_entities: true
 - inspiring_quote:
     triggers: action_inspiring
+    use_entities: true
 - trump_quote:
     triggers: action_trump
+    use_entities: true
 - chuck_quote:
     triggers: action_chuck
+    use_entities: true
 - breaking_quote:
     triggers: action_breaking
+    use_entities: true
 - ron_quote:
     triggers: action_ron
+    use_entities: true
 - kanye_quote:
     triggers: action_kanye
-- debug
-- f1_score
-- stop
-- feedback
-- survey
-- clear
-- version
-- thanks
-- deny
-- affirm
-- show_slots
-- inform
-- time_range
-- time_from
-
+    use_entities: true
+- debug:
+    use_entities: true
+- f1_score:
+    use_entities: true
+- stop:
+    use_entities: true
+- feedback:
+    use_entities: true
+- survey:
+    use_entities: true
+- clear:
+    use_entities: true
+- version:
+    use_entities: true
+- thanks:
+    use_entities: true
+- deny:
+    use_entities: true
+- affirm:
+    use_entities: true
+- show_slots:
+    use_entities: true
+- inform:
+    use_entities: true
+- time_range:
+    use_entities: true
+- time_from:
+    use_entities: true
 entities:
 - email_addr
 - feedback
@@ -53,34 +76,10 @@ entities:
 - time
 - from
 - to
-
-slots:
-  debug:
-    type: bool
-  dynamic_slot:
-    type: any
-  email_addr:
-    type: list
-  feedback:
-    type: any
-  from:
-    type: any
-  from_time:
-    type: any
-  requested_slot:
-    type: any
-  survey:
-    type: bool
-  time:
-    type: any
-  to:
-    type: any
-  to_time:
-    type: any
-
+slots: {}
 responses:
   utter_version:
-  - text: "Dec 30, 2020"
+  - text: Dec 30, 2020
   utter_ask_continue:
   - text: Do you want to continue?
   utter_ask_feedback:
@@ -100,7 +99,7 @@ responses:
   - text: Sorry, I can't answer that
   - text: Sorry, I don't recognize that question, want to try again?
   utter_slots:
-  - text: "no slots to utter"
+  - text: no slots to utter
   utter_clear:
   - text: History cleared
   utter_submit:
@@ -110,7 +109,6 @@ responses:
   utter_not_sure:
   - text: I'm not sure
   - text: I don't know that one
-
 actions:
 - action_chuck
 - action_ron
@@ -137,6 +135,7 @@ actions:
 - utter_ask_feedback
 - utter_slots
 - utter_feedback_thanks
-
-forms:
 - time_form
+forms:
+  time_form: {}
+e2e_actions: []
