@@ -1,13 +1,14 @@
 name: Build Action Image
-#on: [push]
 on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, reopened]
   workflow_dispatch:
-      why:
-        description: 'Why are you running'
-        required: false
-        default: 'Testing Workflow'
+    inputs:
       image-tag:
-        description: 'What image tag do you want to use?'
+        description: 'Image Tag'
         required: true
         default: 'latest'
       sdk-vers:
@@ -34,6 +35,7 @@ jobs:
     steps:
       - name: Checkout git repository 🕝
         uses: actions/checkout@v2
+
       - name: Build Actions Server Image
         uses: RasaHQ/rasa-action-server-gha@master
         with:
@@ -46,7 +48,7 @@ jobs:
           rasa_sdk_version: ${{ env.RASA_SDK_VERS }}
 
   manual-build-image:
-    name: Build Action Server Docker Image
+    name: Manually Build Action Server Docker Image
     if: ${{ github.event.inputs.why }}
     runs-on: ubuntu-latest
 
@@ -54,7 +56,7 @@ jobs:
       RASA_SDK_VERS: ${{ github.event.inputs.sdk-version }}
       DOCKER_IMAGE_TAG: ${{ github.event.inputs.image-tag }}
       DOCKERHUB_USERNAME: stephens
-      DOCKER_IMAGE_NAME: stephens/jokebot
+      DOCKER_IMAGE_NAME: rgstephens/jokebot
       REQUIREMENTS_FILE: 'actions/requirements.txt'
 
     steps:
