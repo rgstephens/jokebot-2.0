@@ -80,7 +80,7 @@ slots:
 
 responses:
   utter_version:
-  - text: "Dec 30, 2020"
+  - text: "Jan 12, 2021"
   utter_ask_continue:
   - text: Do you want to continue?
   utter_ask_feedback:
