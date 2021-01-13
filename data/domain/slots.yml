@@ -1,0 +1,23 @@
+slots:
+  debug:
+    type: bool
+  dynamic_slot:
+    type: any
+  email_addr:
+    type: list
+  feedback:
+    type: any
+  from:
+    type: any
+  from_time:
+    type: any
+  requested_slot:
+    type: any
+  survey:
+    type: bool
+  time:
+    type: any
+  to:
+    type: any
+  to_time:
+    type: any
