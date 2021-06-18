@@ -5,28 +5,18 @@ session_config:
   carry_over_slots_to_new_session: true
 
 intents:
+- greet
 - faq
-- creed_quote:
-    triggers: action_creed
-- corny_joke:
-    triggers: action_corny
-- geek_joke:
-    triggers: action_geek
-- random_joke:
-    triggers: action_random
-
-- inspiring_quote:
-    triggers: action_inspiring
-- trump_quote:
-    triggers: action_trump
-- chuck_quote:
-    triggers: action_chuck
-- breaking_quote:
-    triggers: action_breaking
-- ron_quote:
-    triggers: action_ron
-- kanye_quote:
-    triggers: action_kanye
+- creed_quote
+- corny_joke
+- geek_joke
+- random_joke
+- inspiring_quote
+- trump_quote
+- chuck_quote
+- breaking_quote
+- ron_quote
+- kanye_quote
 - debug
 - f1_score
 - stop
@@ -79,6 +69,14 @@ slots:
     type: any
 
 responses:
+  utter_ask_member:
+  - text: are you a member?
+  utter_ask_join:
+  - text: want to join?
+  utter_greet:
+  - text: Hi
+  utter_goodbye:
+  - text: Bye
   utter_version:
   - text: "Dec 30, 2020"
   utter_ask_continue:
@@ -137,6 +135,10 @@ actions:
 - utter_ask_feedback
 - utter_slots
 - utter_feedback_thanks
+- utter_greet
+- utter_goodbye
+- utter_ask_member
+- utter_ask_join
 
 forms:
 - time_form

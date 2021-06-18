@@ -53,6 +53,7 @@ nlu:
     - give me a breaking quote
     - how about a breaking quote
     - a quote from breaking
+    - breaking bad
 - intent: ron_quote
   examples: |
     - ron quote

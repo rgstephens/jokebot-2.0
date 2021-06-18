@@ -1,27 +1,65 @@
 language: en
 
 pipeline:
-  - name: WhitespaceTokenizer
-  - name: RegexFeaturizer
-  - name: LexicalSyntacticFeaturizer
-  - name: CountVectorsFeaturizer
-  - name: CountVectorsFeaturizer
-    analyzer: "char_wb"
-    min_ngram: 1
-    max_ngram: 4
-  - name: DIETClassifier
-    epochs: 100
-  - name: EntitySynonymMapper
-  - name: DucklingEntityExtractor
-    url: http://localhost:8000
-    dimensions: [ "email", "duration", "time" ]
-  - name: ResponseSelector
-    epochs: 100
-    retrieval_intent: faq
+- name: WhitespaceTokenizer
+  intent_tokenization_flag: True
+  intent_split_symbol: _and_
+  token_pattern: None
+- name: ConveRTFeaturizer
+  model_url: /Users/greg/Dev/rasa/jokebot-ce/conveRT/
+- name: CountVectorsFeaturizer
+- name: DIETClassifier
+#  model_confidence: cosine
+  constrain_similarities: True
+  epochs: 100
+  random_seed: 42
+  dense_dimension:
+    text: 512
+    label: 20
+  concat_dimension:
+    text: 512
+    label: 20
+  entity_recognition: false
+- name: RegexEntityExtractor
+  case_sensitive: False
+  use_lookup_tables: True
+  use_regexes: False
+- name: EntitySynonymMapper
+- name: FallbackClassifier
+  threshold: 0.65
+  ambiguity_threshold: 0.1
+- name: DucklingEntityExtractor
+  url: http://localhost:8000
+  dimensions: [ "email", "duration", "time" ]
+- name: ResponseSelector
+  epochs: 100
+  retrieval_intent: faq
+
+#- name: RegexFeaturizer
+#- name: LexicalSyntacticFeaturizer
+#  - name: CountVectorsFeaturizer
+#  - name: CountVectorsFeaturizer
+#    analyzer: "char_wb"
+#    min_ngram: 1
+#    max_ngram: 4
+#  - name: DIETClassifier
+#    epochs: 100
+#    model_confidence: cosine
+#    constrain_similarities: True
+#  - name: EntitySynonymMapper
 
 policies:
 - name: RulePolicy
-- name: AugmentedMemoizationPolicy
+  core_fallback_threshold: 0.3
+  core_fallback_action_name: action_default_fallback
+  enable_fallback_prediction: true
+  check_for_contradictions: true
+- name: MemoizationPolicy
+#- name: AugmentedMemoizationPolicy
 - name: MappingPolicy
 - name: TEDPolicy
-  epochs: 20
+  batch_size: 32
+  epochs: 100
+  random_seed: 42
+  rnn_size: 32
+  validation_split: 0.1

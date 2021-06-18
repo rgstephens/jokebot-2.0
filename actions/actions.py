@@ -33,7 +33,7 @@ from datetime import datetime, date, time, timedelta
 # from rasa_core.tracker_store import TrackerStore
 
 logger = logging.getLogger(__name__)
-vers = "Vers: 0.8.0, Date: Dec 30, 2020"
+vers = "Vers: 0.9.0, Date: May 12, 2021"
 
 # otel.init_tracer("action_server")
 tracer = actions.tracing.init_tracer("action_server")
@@ -86,7 +86,7 @@ class ActionKanye(Action):
         return "action_kanye"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+        with actions.tracing.extract_start_span(tracer, domain.get("headers"), self.name()):
             # r = requests.get("https://api.kanye.rest")
             request = json.loads(requests.get("https://api.kanye.rest").text)
             joke = request["quote"]  # extract a joke from returned json response
@@ -100,7 +100,7 @@ class ActionRandom(Action):
         return "action_random"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+        with actions.tracing.extract_start_span(tracer, domain.get("headers"), self.name()):
             request = json.loads(requests.get("http://api.icndb.com/jokes/random").text)
             joke = request["value"][
                 "joke"
@@ -115,7 +115,7 @@ class ActionChuck(Action):
         return "action_chuck"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+        with actions.tracing.extract_start_span(tracer, domain.get("headers"), self.name()):
             request = json.loads(
                 requests.get("https://api.chucknorris.io/jokes/random").text
             )  # make an apie call
@@ -130,7 +130,7 @@ class ActionRon(Action):
         return "action_ron"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+        with actions.tracing.extract_start_span(tracer, domain.get("headers"), self.name()):
             # what your action should do
             request = json.loads(
                 requests.get("https://ron-swanson-quotes.herokuapp.com/v2/quotes").text
@@ -148,7 +148,7 @@ class ActionBreakingBad(Action):
         return "action_breaking"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+        with actions.tracing.extract_start_span(tracer, domain.get("headers"), self.name()):
             # what your action should do
             request = json.loads(
                 requests.get("https://breaking-bad-quotes.herokuapp.com/v1/quotes").text
@@ -185,7 +185,7 @@ class ActionInspiring(Action):
         return "action_inspiring"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+        with actions.tracing.extract_start_span(tracer, domain.get("headers"), self.name()):
             # what your action should do
             request = requests.get(
                 "https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json"
@@ -217,7 +217,7 @@ class ActionGeek(Action):
         return "action_geek"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+        with actions.tracing.extract_start_span(tracer, domain.get("headers"), self.name()):
             # what your action should do
             request = json.loads(
                 requests.get("http://quotes.stormconsultancy.co.uk/random.json").text
@@ -279,7 +279,7 @@ class ActionVersion(Action):
         return "action_version"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+        with actions.tracing.extract_start_span(tracer, domain.get("headers"), self.name()):
             # logger.info(">>> responding with version: {}".format(vers))
             # dispatcher.utter_message(vers) #send the message back to the user
             try:
@@ -306,7 +306,7 @@ class ActionShowSlots(Action):
         return "action_show_slots"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+        with actions.tracing.extract_start_span(tracer, domain.get("headers"), self.name()):
             msg = "Slots:\n"
             for k, v in tracker.slots.items():
                 msg += f" {k} | {v}\n"
@@ -356,7 +356,7 @@ class ActionLastIntent(Action):
         return "action_f1_score"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+        with actions.tracing.extract_start_span(tracer, domain.get("headers"), self.name()):
             # what your action should do
             msg = intentHistoryStr(tracker, 1, 4)
             dispatcher.utter_message(msg)  # send the message back to the user
@@ -500,7 +500,7 @@ class ActionDuckingTimeRange(Action):
         return range
 
     def run(self, dispatcher, tracker, domain) -> List[EventType]:
-        with actions.tracing.extract_start_span(tracer, domain["headers"], self.name()):
+        with actions.tracing.extract_start_span(tracer, domain.get("headers"), self.name()):
             # existing slot values
             from_time = tracker.get_slot("from_time")
             to_time = tracker.get_slot("to_time")

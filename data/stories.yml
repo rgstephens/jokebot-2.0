@@ -1,13 +1,24 @@
-version: "2.0"
+#version: "2.0"
+#stories:
 
-stories:
+#- story: time_from
+#  steps:
+#  - intent: time_from
+#  - action: action_time_range
 
-- story: time_from
-  steps:
-  - intent: time_from
-  - action: action_time_range
+#- story: time_range
+#  steps:
+#  - intent: time_range
+#  - action: action_time_range
 
-- story: time_range
-  steps:
-  - intent: time_range
-  - action: action_time_range
+#- story: extras
+#  steps:
+#  - intent: extras
+#  - action: utter_mobile
+
+#- story: extras other
+#  steps:
+#  - slot_was_set:
+#    - phone_number_type: other
+#  - intent: extras
+#  - action: utter_landline
