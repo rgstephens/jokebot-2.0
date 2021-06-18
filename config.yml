@@ -20,10 +20,10 @@ pipeline:
     text: 512
     label: 20
   entity_recognition: false
-- name: RegexEntityExtractor
-  case_sensitive: False
-  use_lookup_tables: True
-  use_regexes: False
+#- name: RegexEntityExtractor
+#  case_sensitive: False
+#  use_lookup_tables: True
+#  use_regexes: False
 - name: EntitySynonymMapper
 - name: FallbackClassifier
   threshold: 0.65

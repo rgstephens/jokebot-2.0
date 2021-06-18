@@ -35,13 +35,13 @@ jobs:
         if: env.RUN_TRAINING == 'true'
         uses: RasaHQ/rasa-train-test-gha@main
         with:
-          rasa_version: ${{ env.RASA_VERSION }}
-          rasa_test: true
-          test_type: all
-          data_validate: true
-          cross_validation: true
-          publish_summary: true
+          #rasa_version: ${{ env.RASA_VERSION }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          #rasa_test: true
+          #test_type: all
+          #data_validate: true
+          cross_validation: true
+          #publish_summary: true
       - name: Upload model
         if: ${{ env.RUN_TRAINING }} == 'true'
         uses: actions/upload-artifact@master
