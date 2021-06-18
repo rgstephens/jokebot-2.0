@@ -36,7 +36,7 @@ jobs:
         uses: RasaHQ/rasa-train-test-gha@main
         with:
           rasa_version: ${{ env.RASA_VERSION }}
-          rasa_test: false
+          rasa_test: true
           test_type: all
           data_validate: true
           cross_validation: true

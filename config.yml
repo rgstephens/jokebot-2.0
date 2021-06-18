@@ -56,7 +56,6 @@ policies:
   check_for_contradictions: true
 - name: MemoizationPolicy
 #- name: AugmentedMemoizationPolicy
-- name: MappingPolicy
 - name: TEDPolicy
   batch_size: 32
   epochs: 100
