@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - id: files
-        uses: jitterbit/get-changed-files@v1
+        uses: Ana06/get-changed-files@v1.2  # https://github.com/jitterbit/get-changed-files/issues/19#issuecomment-854657729
       - name: Did Training Data Change
         if: |
             contains(  steps.files.outputs.all, 'data/' )
