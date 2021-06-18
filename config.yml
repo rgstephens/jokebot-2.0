@@ -6,7 +6,7 @@ pipeline:
   intent_split_symbol: _and_
   token_pattern: None
 - name: ConveRTFeaturizer
-  model_url: /Users/greg/Dev/rasa/jokebot-ce/conveRT/
+  model_url: conveRT/
 - name: CountVectorsFeaturizer
 - name: DIETClassifier
 #  model_confidence: cosine
