@@ -11,10 +11,7 @@ logging.basicConfig(format="%(message)s", level=logging.DEBUG)
 def init_tracer(service):
     config = Config(
         config={  # usually read from some yaml config
-            "sampler": {
-                "type": "const",
-                "param": 1,
-            },
+            "sampler": {"type": "const", "param": 1,},
             "logging": True,
             "reporter_batch_size": 1,
         },
@@ -34,15 +31,22 @@ def start_span(tracer, name, attributes=None):
 
 
 def extract_start_span(tracer, headers, name, attributes=None):
-    span_ctx = tracer.extract(Format.HTTP_HEADERS, headers)
-    span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
-    # span = tracer.start_active_span(name)
-    logger.debug(f"extract_start_span, child_of: {span_ctx}, span_tags: {span_tags}")
-    span = tracer.start_active_span(name, child_of=span_ctx, tags=span_tags)
-    # if attributes:
-    #    for k, v in attributes.items():
-    #        span.span.set_tag(k, v)
-    return span
+    import contextlib
+
+    if headers:
+        span_ctx = tracer.extract(Format.HTTP_HEADERS, headers)
+        span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
+        # span = tracer.start_active_span(name)
+        logger.debug(
+            f"extract_start_span, child_of: {span_ctx}, span_tags: {span_tags}"
+        )
+        span = tracer.start_active_span(name, child_of=span_ctx, tags=span_tags)
+        # if attributes:
+        #    for k, v in attributes.items():
+        #        span.span.set_tag(k, v)
+        return span
+    else:
+        return contextlib.nullcontext()
 
 
 def inject(tracer, url):

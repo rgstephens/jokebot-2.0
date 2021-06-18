@@ -32,3 +32,53 @@ rules:
   steps:
   - intent: show_slots
   - action: action_show_slots
+
+- rule: creed_quote
+  steps:
+  - intent: creed_quote
+  - action: action_creed
+
+- rule: corny_joke
+  steps:
+  - intent: corny_joke
+  - action: action_corny
+
+- rule: geek_joke
+  steps:
+  - intent: geek_joke
+  - action: action_geek
+
+- rule: random_joke
+  steps:
+  - intent: random_joke
+  - action: action_random
+
+- rule: inspiring_quote
+  steps:
+  - intent: inspiring_quote
+  - action: action_inspiring
+
+- rule: trump_quote
+  steps:
+  - intent: trump_quote
+  - action: action_trump
+
+- rule: chuck_quote
+  steps:
+  - intent: chuck_quote
+  - action: action_chuck
+
+- rule: breaking_quote
+  steps:
+  - intent: breaking_quote
+  - action: action_breaking
+
+- rule: ron_quote
+  steps:
+  - intent: ron_quote
+  - action: action_ron
+
+- rule: kanye_quote
+  steps:
+  - intent: kanye_quote
+  - action: action_kanye

@@ -10,8 +10,8 @@ responses:
   - text: Cheers!
   - text: Ciao!
   utter_faq/greet:
-  - text: Welcome to the Jokebot, you can ask for Geek jokes, Corny jokes. Also, Ron Swanson,
-      Creed, Breaking Bad, Inspiring or Trump quotes.
+  - text: Welcome to the Jokebot, you can ask for Geek jokes, Corny jokes. Also, Kanye, Ron Swanson,
+      Creed, Breaking Bad, Inspiring, Trump quotes or a random quote.
   utter_faq/joke:
   - text: What type of joke would you like?
     buttons:
