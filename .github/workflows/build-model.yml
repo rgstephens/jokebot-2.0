@@ -35,32 +35,13 @@ jobs:
         if: env.RUN_TRAINING == 'true'
         uses: RasaHQ/rasa-train-test-gha@main
         with:
-          rasa_version: ${{ env.RASA_VERSION }}
-          rasa_test: false
-          data_validate: true
+          #rasa_version: ${{ env.RASA_VERSION }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-  test-model:
-    name: Test Model
-    runs-on: ubuntu-latest
-    needs: [training]
-
-    env:
-      RASA_VERSION: 2.7.1-spacy-en
-
-    steps:
-      - uses: actions/checkout@v1
-      - name: Rasa Test
-        if: ${{ env.RUN_TRAINING }} == 'true'
-        uses: RasaHQ/rasa-train-test-gha@main
-        with:
-          rasa_version: ${{ env.RASA_VERSION }}
-          rasa_train: false
-          test_type: all
-          data_validate: true
+          #rasa_test: true
+          #test_type: all
+          #data_validate: true
           cross_validation: true
-          publish_summary: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          #publish_summary: true
       - name: Upload model
         if: ${{ env.RUN_TRAINING }} == 'true'
         uses: actions/upload-artifact@master
