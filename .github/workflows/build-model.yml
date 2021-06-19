@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      RASA_VERSION: 2.7.1-spacy-en
+      RASA_VERSION: 2.6.3-full
       RUN_TRAINING: false
 
     steps:
@@ -35,7 +35,7 @@ jobs:
         if: env.RUN_TRAINING == 'true'
         uses: RasaHQ/rasa-train-test-gha@main
         with:
-          #rasa_version: ${{ env.RASA_VERSION }}
+          rasa_version: ${{ env.RASA_VERSION }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           rasa_test: true
           test_type: all
