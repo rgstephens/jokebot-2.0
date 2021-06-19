@@ -37,11 +37,11 @@ jobs:
         with:
           #rasa_version: ${{ env.RASA_VERSION }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          #rasa_test: true
-          #test_type: all
-          #data_validate: true
+          rasa_test: true
+          test_type: all
+          data_validate: true
           cross_validation: true
-          #publish_summary: true
+          publish_summary: true
       - name: Upload model
         if: ${{ env.RUN_TRAINING }} == 'true'
         uses: actions/upload-artifact@v2
