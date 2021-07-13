@@ -160,3 +160,15 @@ curl --location --request POST 'http://rasa-production:5005/webhooks/rest/webhoo
 curl --location --request POST 'http://localhost/webhooks/rest/webhook' --header 'Content-Type: application/x-www-form-urlencoded' --data-raw '{"sender": "postman","message": "hello" }'
 curl --location --request POST 'http://localhost:5005/webhooks/rest/webhook' --header 'Content-Type: application/x-www-form-urlencoded' --data-raw '{"sender": "postman","message": "hello" }'
 ```
+
+## Update Responses in Model
+
+If you have a model named `20210618-172110.tar.gz` and you want to update the responses without re-training, you can do the following:
+
+```
+cd models
+tar xvf 20210618-172110.tar.gz
+mv 20210618-172110 new
+# replace or modify responses in `new/core/domain.yml`
+tar cvzf new.tar.gz -C new .
+```
