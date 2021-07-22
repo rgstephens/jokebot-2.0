@@ -63,7 +63,7 @@ jobs:
     needs: [lint-testing,type-testing]
 
     env:
-      RASA_SDK_VERS: 2.7.0
+      RASA_SDK_VERS: 2.8.1
       DOCKER_IMAGE_TAG: ${{ github.event.inputs.image-tag }}
       DOCKERHUB_USERNAME: stephens
       DOCKER_IMAGE_NAME: stephens/jokebot
