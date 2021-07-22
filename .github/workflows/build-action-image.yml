@@ -64,7 +64,8 @@ jobs:
 
     env:
       RASA_SDK_VERS: 2.8.1
-      DOCKER_IMAGE_TAG: ${{ github.event.inputs.image-tag }}
+      DOCKER_IMAGE_TAG: latest
+      #DOCKER_IMAGE_TAG: ${{ github.event.inputs.image-tag }}
       DOCKERHUB_USERNAME: stephens
       DOCKER_IMAGE_NAME: stephens/jokebot
       REQUIREMENTS_FILE: 'actions/requirements.txt'
