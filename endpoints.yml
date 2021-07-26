@@ -1,5 +1,12 @@
 action_endpoint:
-  url: http://localhost:5055/webhook
-#file_producer:
-#  filename: "/app/tracker_log.json"
-#  format: json
+  url: http://app:5055/webhook
+  #url: http://localhost:5055/webhook
+
+tracing:
+  service_name: rasa
+  agent_host: localhost
+  agent_port: 6831
+#  propagation: b3
+
+prometheus:
+  enable: True

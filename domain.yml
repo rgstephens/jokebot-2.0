@@ -194,5 +194,5 @@ actions:
 - utter_ask_member
 - utter_ask_join
 
-#forms:
-#- time_form
+forms:
+- time_form
