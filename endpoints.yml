@@ -4,9 +4,22 @@ action_endpoint:
 
 tracing:
   service_name: rasa
-  agent_host: localhost
-  agent_port: 6831
-#  propagation: b3
+  log_user_utterance: True
+  exporters:
+    #- console
+    - jaeger:
+      agent_hostname: localhost
+      agent_port: 6831
+    #- otlphttp:
+    #  insecure: true
+    #  endpoint: http://localhost:4317
+    #- datadog:
+    #  agent_url: http://localhost:8126
+    #  service: dd_tracing_example
 
 prometheus:
   enable: True
+
+#jane@udon.org
+#it9bNaK5
+# it9bNaK52

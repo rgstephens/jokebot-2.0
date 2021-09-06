@@ -176,7 +176,7 @@ class ActionCorny(Action):
         # define the name of the action which can then be included in training stories
         return "action_corny"
 
-    def run(self, dispatcher, tracker, domain):
+    def run(self, dispatcher, tracker, domain, **kwargs):
         # what your action should do
         request = json.loads(
             requests.get("https://official-joke-api.appspot.com/random_joke").text

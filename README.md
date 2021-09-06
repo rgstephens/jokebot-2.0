@@ -102,6 +102,7 @@ The docker hub images are here:
 ## ToDo
 
 - Brainy quote, `https://github.com/Hemil96/Brainyquote-API`
+  - https://github.com/Hemil96/Brainyquote-API/blob/master/scrap.py
 - Github Actions pipeline
 - Google Assistant integration
 - NLU test data
