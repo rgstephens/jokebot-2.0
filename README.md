@@ -57,6 +57,29 @@ docker-compose run rasa-x rasa test nlu -u test/test_data.md --model models/$(ls
 docker-compose run rasa-x rasa test core --stories test/test_stories.md
 ```
 
+
+# Websocket Testing
+
+## Inside Rasa Container
+
+```sh
+curl --location --request POST 'http://localhost:5005/webhooks/rest/webhook' --header 'Content-Type: application/json' --data-raw '{ "sender": "postman", "message": "geek quote" }'
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: localhost" -H "Origin: http://gstephens.org" http://localhost:5005/webhooks/socketio
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: localhost" -H "Origin: http://gstephens.org" http://localhost:5005/socket.io
+```
+
+## Remote
+
+```sh
+curl --request POST 'https://gstephens.org/webhooks/rest' --header 'Content-Type: application/json'
+curl --location --request POST 'https://gstephens.org/webhooks/rest/webhook' --header 'Content-Type: application/json' --data-raw '{ "sender": "postman", "message": "geek quote" }'
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: gstephens.org" -H "Origin: https://gstephens.org" https://35.187.75.92:5005/webhooks/socketio
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: gstephens.org" -H "Origin: https://gstephens.org" https://website-demo.rasa.com:5005/webhooks/socketio
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: gstephens.org" -H "Origin: https://gstephens.org" https://gstephens.org/webhooks/socketio
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: gstephens.org" -H "Origin: https://gstephens.org" https://gstephens.org/socket.io
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: gstephens.org" -H "Origin: https://gstephens.org" http://gstephens.org/socket.io
+```
+
 # Rasa Interactive Shell
 
 ```sh

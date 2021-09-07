@@ -7,6 +7,7 @@ SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update -qq && \
   apt-get install -y --no-install-recommends \
+  vim \
   build-essential && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
