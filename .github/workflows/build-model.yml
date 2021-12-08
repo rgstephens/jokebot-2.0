@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      RASA_VERSION: 2.7.1-spacy-en
+      RASA_VERSION: latest-full
       RUN_TRAINING: false
 
     steps:
@@ -35,16 +35,27 @@ jobs:
         if: env.RUN_TRAINING == 'true'
         uses: RasaHQ/rasa-train-test-gha@main
         with:
-          #rasa_version: ${{ env.RASA_VERSION }}
+          rasa_version: ${{ env.RASA_VERSION }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          #rasa_test: true
-          #test_type: all
-          #data_validate: true
+          rasa_test: true
+          test_type: all
+          data_validate: true
           cross_validation: true
-          #publish_summary: true
+          publish_summary: true
       - name: Upload model
         if: ${{ env.RUN_TRAINING }} == 'true'
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: model
           path: models/
+      - name: Upload test results
+        if: ${{ env.RUN_TRAINING }} == 'true'
+        uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results/
+      - name: Commit model
+        uses: EndBug/add-and-commit@v7
+        with:
+          default_author: github_actions
+          add: '*.tar.gz'

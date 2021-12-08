@@ -1,5 +1,34 @@
 action_endpoint:
-  url: http://localhost:5055/webhook
-#file_producer:
-#  filename: "/app/tracker_log.json"
-#  format: json
+  url: http://app:5055/webhook
+  #url: http://localhost:5055/webhook
+
+#tracker_store:
+#  username: psqladminun@sa-dev-rasax-postgres-server.privatelink.postgres.database.azure.com
+#  type: sql
+#  dialect: "postgresql"
+#  url: sa-dev-rasax-postgres-server.privatelink.postgres.database.azure.com
+#  port: 5432
+#  password: qcFwWR8EXyp4xqDQWc
+#  db: postgres
+
+tracing:
+  service_name: rasa
+  log_user_utterance: True
+  exporters:
+    #- console
+    - jaeger:
+      agent_hostname: localhost
+      agent_port: 6831
+    #- otlphttp:
+    #  insecure: true
+    #  endpoint: http://localhost:4317
+    #- datadog:
+    #  agent_url: http://localhost:8126
+    #  service: dd_tracing_example
+
+prometheus:
+  enable: True
+
+#jane@udon.org
+#it9bNaK5
+# it9bNaK52

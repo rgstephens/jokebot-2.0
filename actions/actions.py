@@ -15,7 +15,7 @@ import csv
 import random
 
 # from . import otel
-import actions.tracing
+import tracing
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet, AllSlotsReset, EventType
@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 vers = "Vers: 0.9.0, Date: May 12, 2021"
 
 # otel.init_tracer("action_server")
-tracer = actions.tracing.init_tracer("action_server")
+tracer = tracing.init_tracer("action_server")
 
 
 def get_last_event_for(
@@ -86,7 +86,7 @@ class ActionKanye(Action):
         return "action_kanye"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(
+        with tracing.extract_start_span(
             tracer, domain.get("headers"), self.name()
         ):
             # r = requests.get("https://api.kanye.rest")
@@ -102,7 +102,7 @@ class ActionRandom(Action):
         return "action_random"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(
+        with tracing.extract_start_span(
             tracer, domain.get("headers"), self.name()
         ):
             request = json.loads(requests.get("http://api.icndb.com/jokes/random").text)
@@ -119,7 +119,7 @@ class ActionChuck(Action):
         return "action_chuck"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(
+        with tracing.extract_start_span(
             tracer, domain.get("headers"), self.name()
         ):
             request = json.loads(
@@ -136,7 +136,7 @@ class ActionRon(Action):
         return "action_ron"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(
+        with tracing.extract_start_span(
             tracer, domain.get("headers"), self.name()
         ):
             # what your action should do
@@ -156,7 +156,7 @@ class ActionBreakingBad(Action):
         return "action_breaking"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(
+        with tracing.extract_start_span(
             tracer, domain.get("headers"), self.name()
         ):
             # what your action should do
@@ -176,7 +176,7 @@ class ActionCorny(Action):
         # define the name of the action which can then be included in training stories
         return "action_corny"
 
-    def run(self, dispatcher, tracker, domain):
+    def run(self, dispatcher, tracker, domain, **kwargs):
         # what your action should do
         request = json.loads(
             requests.get("https://official-joke-api.appspot.com/random_joke").text
@@ -195,7 +195,7 @@ class ActionInspiring(Action):
         return "action_inspiring"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(
+        with tracing.extract_start_span(
             tracer, domain.get("headers"), self.name()
         ):
             # what your action should do
@@ -229,7 +229,7 @@ class ActionGeek(Action):
         return "action_geek"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(
+        with tracing.extract_start_span(
             tracer, domain.get("headers"), self.name()
         ):
             # what your action should do
@@ -293,7 +293,7 @@ class ActionVersion(Action):
         return "action_version"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(
+        with tracing.extract_start_span(
             tracer, domain.get("headers"), self.name()
         ):
             # logger.info(">>> responding with version: {}".format(vers))
@@ -322,7 +322,7 @@ class ActionShowSlots(Action):
         return "action_show_slots"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(
+        with tracing.extract_start_span(
             tracer, domain.get("headers"), self.name()
         ):
             msg = "Slots:\n"
@@ -374,7 +374,7 @@ class ActionLastIntent(Action):
         return "action_f1_score"
 
     def run(self, dispatcher, tracker, domain):
-        with actions.tracing.extract_start_span(
+        with tracing.extract_start_span(
             tracer, domain.get("headers"), self.name()
         ):
             # what your action should do
@@ -516,7 +516,7 @@ class ActionDuckingTimeRange(Action):
         return range
 
     def run(self, dispatcher, tracker, domain) -> List[EventType]:
-        with actions.tracing.extract_start_span(
+        with tracing.extract_start_span(
             tracer, domain.get("headers"), self.name()
         ):
             # existing slot values

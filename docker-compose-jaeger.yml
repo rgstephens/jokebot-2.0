@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    ports:
+      - 5775:5775/udp
+      - 6831:6831/udp
+      - 6832:6832/udp
+      - 5778:5778
+      - 16686:16686
+      - 14268:14268
+      - 9411:9411
+    environment:
+      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
+
+  rasa:
+    #image: stephens/rasa-otel:latest
+    image: rasa:localdev-full
+    container_name: rasa
+    command: >
+      run
+      --enable-api
+      --port 5005
+      --model /app/models
+      --debug
+      --cors "*"
+    volumes:
+      - ./models:/app/models
+      - ./credentials.yml:/app/credentials.yml
+      - ./endpoints.yml:/app/endpoints.yml
+      - ./logs:/logs
+      - ./auth:/app/auth
+    ports:
+      - 5005:5005
+
+  app:
+    image: "stephens/jokebot:latest"
+    container_name: app
+    expose:
+    - "5055"
+    depends_on:
+    - rasa

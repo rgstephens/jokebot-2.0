@@ -57,6 +57,29 @@ docker-compose run rasa-x rasa test nlu -u test/test_data.md --model models/$(ls
 docker-compose run rasa-x rasa test core --stories test/test_stories.md
 ```
 
+
+# Websocket Testing
+
+## Inside Rasa Container
+
+```sh
+curl --location --request POST 'http://localhost:5005/webhooks/rest/webhook' --header 'Content-Type: application/json' --data-raw '{ "sender": "postman", "message": "geek quote" }'
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: localhost" -H "Origin: http://gstephens.org" http://localhost:5005/webhooks/socketio
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: localhost" -H "Origin: http://gstephens.org" http://localhost:5005/socket.io
+```
+
+## Remote
+
+```sh
+curl --request POST 'https://gstephens.org/webhooks/rest' --header 'Content-Type: application/json'
+curl --location --request POST 'https://gstephens.org/webhooks/rest/webhook' --header 'Content-Type: application/json' --data-raw '{ "sender": "postman", "message": "geek quote" }'
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: gstephens.org" -H "Origin: https://gstephens.org" https://35.187.75.92:5005/webhooks/socketio
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: gstephens.org" -H "Origin: https://gstephens.org" https://website-demo.rasa.com:5005/webhooks/socketio
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: gstephens.org" -H "Origin: https://gstephens.org" https://gstephens.org/webhooks/socketio
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: gstephens.org" -H "Origin: https://gstephens.org" https://gstephens.org/socket.io
+curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: gstephens.org" -H "Origin: https://gstephens.org" http://gstephens.org/socket.io
+```
+
 # Rasa Interactive Shell
 
 ```sh
@@ -102,6 +125,7 @@ The docker hub images are here:
 ## ToDo
 
 - Brainy quote, `https://github.com/Hemil96/Brainyquote-API`
+  - https://github.com/Hemil96/Brainyquote-API/blob/master/scrap.py
 - Github Actions pipeline
 - Google Assistant integration
 - NLU test data
@@ -159,4 +183,16 @@ curl --location --request POST 'http://localhost:5055/webhook' \
 curl --location --request POST 'http://rasa-production:5005/webhooks/rest/webhook' --header 'Content-Type: application/x-www-form-urlencoded' --data-raw '{"sender": "postman","message": "hello" }'
 curl --location --request POST 'http://localhost/webhooks/rest/webhook' --header 'Content-Type: application/x-www-form-urlencoded' --data-raw '{"sender": "postman","message": "hello" }'
 curl --location --request POST 'http://localhost:5005/webhooks/rest/webhook' --header 'Content-Type: application/x-www-form-urlencoded' --data-raw '{"sender": "postman","message": "hello" }'
+```
+
+## Update Responses in Model
+
+If you have a model named `20210618-172110.tar.gz` and you want to update the responses without re-training, you can do the following:
+
+```
+cd models
+tar xvf 20210618-172110.tar.gz
+mv 20210618-172110 new
+# replace or modify responses in `new/core/domain.yml`
+tar cvzf new.tar.gz -C new .
 ```

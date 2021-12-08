@@ -60,11 +60,12 @@ jobs:
   build-image:
     name: Build Action Server Docker Image
     runs-on: ubuntu-latest
-    needs: [lint-testing,type-testing]
+    #needs: [lint-testing,type-testing]
 
     env:
-      RASA_SDK_VERS: 2.7.0
-      DOCKER_IMAGE_TAG: ${{ github.event.inputs.image-tag }}
+      RASA_SDK_VERS: 2.8.1
+      DOCKER_IMAGE_TAG: 1.0.1
+      #DOCKER_IMAGE_TAG: ${{ github.event.inputs.image-tag }}
       DOCKERHUB_USERNAME: stephens
       DOCKER_IMAGE_NAME: stephens/jokebot
       REQUIREMENTS_FILE: 'actions/requirements.txt'
