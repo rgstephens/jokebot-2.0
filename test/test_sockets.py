@@ -1,4 +1,10 @@
 # rm test.py; cat <<'EOF' >> test.py
+# from another pod:  python test_sockets.py http://rasa.gstephens:5005/socket.io
+# python test_sockets.py https://gstephens.org/socket.io
+# python test_sockets.py https://sara-demo.rasa.com/socket.io/          
+# curl "https://sara-demo.rasa.com/socket.io/?transport=polling&EIO=4"
+# curl "https://gstephens.org/socket.io/?transport=polling&EIO=4"
+# curl "https://sara-demo.rasa.com/socket.io/?transport=polling&EIO=3"
 import socketio
 import asyncio
 import sys

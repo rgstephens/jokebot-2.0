@@ -126,3 +126,11 @@ rasa.*
 events.*
 
 temp*
+
+# gactions
+node_modules
+.firebaserc
+package-lock.json
+yarn.lock
+.firebase
+gactions/

@@ -2,6 +2,15 @@ action_endpoint:
   url: http://app:5055/webhook
   #url: http://localhost:5055/webhook
 
+#tracker_store:
+#  username: psqladminun@sa-dev-rasax-postgres-server.privatelink.postgres.database.azure.com
+#  type: sql
+#  dialect: "postgresql"
+#  url: sa-dev-rasax-postgres-server.privatelink.postgres.database.azure.com
+#  port: 5432
+#  password: qcFwWR8EXyp4xqDQWc
+#  db: postgres
+
 tracing:
   service_name: rasa
   log_user_utterance: True
